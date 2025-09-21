@@ -1,0 +1,24 @@
+@charset "UTF-8";
+
+.sec_access {
+    &_wrap {
+        height: 500px;
+        @include mq(sp){
+            height: 450px;
+        }
+        @include mq(sm){
+            height: 380px;
+        }
+        iframe {
+            width: 100%;
+            height: 500px;
+            filter:grayscale(100%);
+            @include mq(sp){
+                height: 450px;
+            }
+            @include mq(sm){
+                height: 380px;
+            }
+        }
+    }
+}

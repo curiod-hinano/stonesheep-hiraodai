@@ -1,0 +1,33 @@
+@charset "UTF-8";
+
+/*-----------------------------*
+ * パンくず
+ *-----------------------------*/
+.breadcrumbs {
+  @extend .ly_size;
+  display: none;
+  padding: 25px $page_padding_sp;
+  @include mq(md) {
+    padding: 25px $page_padding;
+    display: block;
+  }
+  ol {
+    display: flex;
+    font-weight: map-get($map: $font-weigh, $key: "light");
+    @include mq(md) {
+      column-gap: 48px;
+    }
+    li {
+      @extend .fs_14;
+      @extend .fw_b;
+      position: relative;
+      color: $col_black;
+      &:not(:first-child):before {
+        content: ">";
+        position: absolute;
+        top: 0px;
+        left: -27px;
+      }
+    }
+  }
+}

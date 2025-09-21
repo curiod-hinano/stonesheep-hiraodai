@@ -1,0 +1,17 @@
+.w_100 {
+  width: 100%;
+}
+.w_50 {
+  width: 50%;
+}
+.vw_100 {
+  width: 100vw;
+}
+.w_max {
+  width: max-content;
+}
+@for $i from 1 through 10 {
+  .w_#{$i} {
+    width: #{$i}em;
+  }
+}

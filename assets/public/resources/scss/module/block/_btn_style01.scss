@@ -1,0 +1,32 @@
+.btn_style01 {
+    transition: 0.6s;
+    &_link {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 160px;
+        padding: 12px 3px;
+        line-height: 1em;
+        border-bottom: 1px solid $col_black;
+        transition: 0.6s;
+        span {
+            font-size: max(1.17vw, 16px);
+            color: $col_black;
+        }
+        svg {
+            position: relative;
+            width: 1.75vw;
+            min-width: 24px;
+            transition: 0.3s;
+            left: 0;
+            @include mq(sp) {
+                min-width: 20px;
+            }
+        }
+        &:hover {
+            svg {
+                left: 3px;
+            }
+        }
+    }
+}

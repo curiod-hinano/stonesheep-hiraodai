@@ -1,0 +1,4 @@
+// AOSのfade-upのスピード・距離を変更
+body [data-aos=fade-up] {
+  transform: translate3d(0,25px,0);
+}

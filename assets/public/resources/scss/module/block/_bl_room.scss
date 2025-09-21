@@ -1,0 +1,19 @@
+@charset "UTF-8";
+
+.bl_room {
+    &_wrap {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        column-gap: 7.3vw;
+        row-gap: 30px;
+        @include mq(sm){
+            grid-template-columns: 1fr;
+        }
+    }
+    &_txt {
+        margin-bottom: 30px;
+        @include mq(sp){
+            margin-bottom: unset;
+        }
+    }
+}
