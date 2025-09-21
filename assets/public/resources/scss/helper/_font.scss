@@ -1,0 +1,86 @@
+@each $modifier, $size in $font_sizes {
+  .fs_#{$modifier} {
+    font-size: $size;
+  }
+}
+
+@include mq(md) {
+  @each $modifier, $size in $font_sizes {
+    .fs_#{$modifier}_pc {
+      font-size: $size;
+    }
+  }
+}
+
+// 文字間
+.lt_0 {
+  letter-spacing: 0em;
+}
+.lt_1 {
+  letter-spacing: 0.1em;
+}
+.lt_2 {
+  letter-spacing: 0.2em;
+}
+@include mediaModifire(lt_1) {
+  letter-spacing: 0.1em;
+}
+@include mediaModifire(lt_2) {
+  letter-spacing: 0.2em;
+}
+
+// 文字高さ
+.lh_0 {
+  line-height: 1em;
+}
+@for $i from 1 through 5 {
+  .lh_#{$i} {
+    line-height: calc(1.5em + #{$i * 0.1}em);
+  }
+}
+
+.wb_all {
+  word-break: break-all;
+}
+
+@each $modifier, $size in $font_sizes {
+  @include mediaModifire(fs_#{$modifier}) {
+    font-size: $size;
+  }
+}
+.fw_l {
+  font-weight: map-get($map: $font-weigh, $key: "light");
+}
+.fw_n {
+  font-weight: map-get($map: $font-weigh, $key: "semibold");
+}
+.fw_b {
+  font-weight: map-get($map: $font-weigh, $key: "bold");
+}
+@include mq(md) {
+  .fw_l_pc {
+    font-weight: map-get($map: $font-weigh, $key: "light");
+  }
+  .fw_n_pc {
+    font-weight: map-get($map: $font-weigh, $key: "semibold");
+  }
+  .fw_b_pc {
+    font-weight: map-get($map: $font-weigh, $key: "bold");
+  }
+}
+.wh_line {
+  white-space: pre-line;
+}
+.tx_deco_under {
+  text-decoration: underline;
+}
+.fn_sub {
+  font-family: $sub_font;
+}
+
+.text {
+  line-height: 2;
+  p {
+    line-height: 2;
+  }
+}

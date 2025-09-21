@@ -1,0 +1,12 @@
+@charset "UTF-8";
+
+.sec_footer_links {
+    &_wrap {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        @include mq(sp) {
+            grid-template-columns: 1fr;
+            gap: .5px;
+        }
+    }
+}

@@ -1,0 +1,84 @@
+@charset "UTF-8";
+
+::selection {
+    background-color: $col_theme_main;
+    color: $col_white;
+}
+
+.midashi_link {
+	display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.parallel_wrap {
+    display: flex;
+    gap: 7.3vw;
+}
+
+.sec_page_contents {
+    &_wrap {
+        display: grid;
+        grid-template-columns: 6fr 4fr;
+        gap: 7vw;
+        @include mq(sm){
+            grid-template-columns: 1fr;
+        }
+    }
+}
+
+.parallax_content{
+    min-height: 100vh;
+    width: 100%;
+    background-position: center center;
+    background-repeat: no-repeat;
+    // background-attachment: fixed;
+    background-size: cover;
+    position: relative;
+    z-index: -100;
+  }
+  .parallax_content.img_bg_01{
+    background-image: url(img/top/fv.jpg);
+    background-position: center center;
+    &:before {
+      content: '';
+      background-color: $col_theme_main;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -50;
+      opacity: .4;
+    }
+  }
+  .parallax_content.img_bg_02{
+    background-image: url(img/top/about.jpg);
+    background-size: contain;
+    background-position: right top;
+  }
+  .parallax_content.img_bg_03{
+    background-image: url(img/top/wall.jpg);
+    @include mq(sm){
+        min-height: 300px;
+    }
+  }
+  .parallax_content.img_bg_04{
+    background-image: url(img/top/mojiko_bk.jpg);
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: -2;
+    &:after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: $col_theme_main;
+        opacity: 0.85;
+        z-index: -1;
+    }
+  }
+

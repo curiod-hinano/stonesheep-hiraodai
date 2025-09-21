@@ -1,0 +1,10 @@
+.cursor_pointer {
+  cursor: pointer;
+}
+.hovaciry {
+  transition: 0.3s;
+  cursor: pointer;
+  &:hover {
+    opacity: 0.6;
+  }
+}

@@ -1,0 +1,124 @@
+// TODO for文,fill,bor,ダブル,flex
+/*
+* variable.scss
+*/
+
+/* -- font-size -- */
+$i: 10;
+$font_sizes: ();
+@while $i <= 80 {
+  $font_size: (
+    $i: $i + px,
+  );
+  $font_sizes: map-merge($font_sizes, $font_size);
+  $i: $i + 1;
+}
+
+/* -- font-family -- */
+$main_font: "zen-kaku-gothic-new", sans-serif !default;
+$sub_font: omnium, sans-serif !default;
+// <head>内に<link href="https://fonts.googleapis.com/〜" rel="stylesheet">（使用するフォントライブラリ）追加
+
+/* -- color -- */
+// $col_black: #1B191A !default;
+$col_black: #333333 !default;
+$col_gray: #CAC2BC !default;
+$col_gray_middle: #DEE1E5 !default;
+$col_gray_light: #F9F9FA !default;
+$col_gray2: #C4C4C4 !default;
+$col_gray3: #9ba0a6 !default;
+$col_gray4: #f9f9f9 !default;
+$col_gray5: #d1d3d6 !default;
+$col_gray6: #f8f8f8 !default;
+$col_gray7: #898989 !default;
+$col_white: #fff !default;
+$col_blue: #004094 !default;
+$col_blue2: #0046b7 !default;
+$col_blue3: #0f3675 !default;
+$col_blue4: #001840 !default;
+$col_green: #8cb808 !default;
+$col_green2: #009389 !default;
+$col_green3: #0f7496 !default;
+$col_green4: #30a053 !default;
+$col_theme_main: #344245 !default;
+$col_theme_main_bk: #DFE1E0 !default;
+
+$site_colors: (
+  "black": $col_black,
+  "gray": $col_gray,
+  "gray_middle": $col_gray_middle,
+  "gray_light": $col_gray_light,
+  "gray2": $col_gray2,
+  "gray3": $col_gray3,
+  "gray4": $col_gray4,
+  "gray5": $col_gray5,
+  "gray6": $col_gray6,
+  "gray7": $col_gray7,
+  "white": $col_white,
+  "blue": $col_blue,
+  "blue2": $col_blue2,
+  "blue3": $col_blue3,
+  "blue4": $col_blue4,
+  "green": $col_green,
+  "green2": $col_green2,
+  "green3": $col_green3,
+  "green4": $col_green4,
+  "theme_main": $col_theme_main,
+  "theme_main_bk": $col_theme_main_bk,
+) !default;
+
+/* -- size --*/
+$page_width: 1200px !default;
+$page_max_width: unset !default;
+$page_padding: 30px !default;
+$page_padding_sp: 5% !default;
+
+$column2_main_width: 790px !default;
+$column2_side_width: 350px !default;
+
+/* -- grid_size -- */
+$grid-sizes: (
+  1: 100px,
+  2: 150px,
+  3: 200px,
+  4: 250px,
+  5: 300px,
+) !default;
+
+/* -- font-weigh -- */
+$font-weigh: (
+  "light": 200,
+  "semibold": 500,
+  "bold": 600,
+) !default;
+
+/* -- layer(z-index) -- */
+$layer: (
+  modal: 100,
+  header: 20,
+  tooltip: 10,
+  default: 1,
+) !default;
+
+/* -- media_query -- */
+$breakpoints: (
+  "sm": "screen and (max-width: 768px)",
+  "sp": "screen and (max-width: 999px)",
+  "md": "screen and (min-width: 1000px)",
+  "lg": "screen and (max-width: 1350px)",
+  "xl": "screen and (min-width: 1351px)",
+) !default;
+@mixin mq($breakpoint: md) {
+  @media #{map-get($breakpoints, $breakpoint)} {
+    @content;
+  }
+}
+
+/* -- media modifier -- */
+@mixin mediaModifire($className) {
+  @include mq(md) {
+    .#{$className}_pc {
+      @content;
+    }
+  }
+}
