@@ -1,96 +1,99 @@
 .footer {
-  padding: 60px 0 25px;
-  background-color: $col_theme_main;
-  @include mq(sp){
-    padding: 60px 0 70px;
+  position: relative;
+  display: block;
+  height: 100vh;
+  width: 100%;
+  z-index: 0; /* スタッキング文脈を作る */
+  &:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url(../../assets/public/img/common/footer_bg.jpg) no-repeat center;
+    background-size: cover;
+    z-index: -1;
+    opacity: 1;
+  }
+  &:after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 27vh;
+    min-height: 286px;
+    background: linear-gradient(to bottom, rgba(0,0,0,0) -6%, rgba(0,96,37,.6) 30%, rgba(0,96,37,.9) 100%);
+    background-size: contain;
+    z-index: -1;
+    opacity: 1;
   }
   &_wrap {
+    position: absolute;
+    left: 0;
+    bottom: 75px;
+    width: 100%;
     display: flex;
     justify-content: space-between;
-    @include mq(sp){
-      display: block;
+    padding: 0 4.3vw;
+    &_logo {
+      width: 20vw;
+      min-width: 250px;
     }
-  }
-  &_logo {
-    text-align: center;
-    a {
-      display: block;
-      img {
-        width: 10.98vw;
-        min-width: 150px;
-        @include mq(sp){
-          min-width: 120px;
-        }
-      }
-    }
-  }
-  &_info {
-    @include mq(sp){
-      margin-top: 60px;
-    }
-    &_adress_jp {
-      p {
-        font-size: max(1vw, 14px);
-        color: $col_white;
-        margin-bottom: 20px;
-        line-height: 1.5em;
-        @include mq(sp){
-          font-size: 13px;
-          text-align: center;
-        }
-      }
-    }
-    &_adress_en {
+    &_link {
       display: flex;
-      justify-content: flex-end;
-      @include mq(sp){
-        justify-content: center;
-      }
-      p {
-        text-align: right;
-        font-size: max(.95vw, 13px);
-        color: $col_white;
-        margin-bottom: 30px;
-        line-height: 1.5em;
-        @include mq(sp){
-          font-size: 12px;
-          text-align: center;
-          margin-bottom: 50px;
+      column-gap: 45px;
+      align-items: center;
+      &_page {
+        display: flex;
+        column-gap: 30px;
+        li {
+          a {
+            color: #fff;
+            font-size: .83vw;
+            font-family: $sub_font;
+            letter-spacing: .8px;
+          }
         }
       }
-    }
-    &_sns {
-      display: flex;
-      justify-content: flex-end;
-      gap: 1.46vw;
-      @include mq(sp){
-        justify-content: center;
+      &_sns {
+        display: flex;
         gap: 20px;
-      }
-      a {
-        display: block;
-        svg {
-          height: 1.4vw;
-          width: fit-content;
-          @include mq(sp){
-            height: 19px;
-            min-height: unset;
+        li {
+          a {
+            display: block;
+            svg {
+              height: 1.82vh;
+              min-height: 20px;
+              object-fit: contain;
+            }
+          }
+          button {
+            background-color: unset;
+            border: unset;
+            padding: unset;
+            &:hover {
+              opacity: .6;
+            }
+            svg {
+              height: 1.82vh;
+              min-height: 20px;
+              object-fit: contain;
+            }
           }
         }
       }
     }
   }
   &_copylight {
-    margin-top: 35px;
+    position: absolute;
+    bottom: 37px;
+    right: 4.3vw;
     p {
-      font-size: max(.95vw, 13px);
-      color: $col_white;
-      text-align: right;
-      font-weight: 300;
-      @include mq(sp){
-        font-size: 12px;
-        text-align: center;
-      }
+      font-size: .83vw;
+      color: #fff;
+      font-family: $sub_font;
     }
   }
 }

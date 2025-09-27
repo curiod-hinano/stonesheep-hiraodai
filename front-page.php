@@ -43,7 +43,7 @@ get_header(); ?>
 
     <!-- 特集セクション START -->
 
-    <div id="special1" class="section special_section" data-bg="<?php echo get_template_directory_uri(); ?>/assets/public/img/test/special01.jpg">
+    <div id="special1" class="section special_section" data-bg="<?php echo get_template_directory_uri(); ?>/assets/public/img/test/special01.jpg" data-logo="#1F9DCC" data-news-bg="#1F9DCC" data-news-text="#F3FC85" data-menu-color="#1F9DCC" data-menu-active-color="#ffffff">
         <div class="wrap" style="background:transparent; min-height:100vh;">
             <div class="feature_wrap">
                 <div class="feature_wrap_card type01">
@@ -126,7 +126,7 @@ get_header(); ?>
         </div>
     </div>
 
-    <div id="special2" class="section special_section" special_section data-bg="<?php echo get_template_directory_uri(); ?>/assets/public/img/test/special02.jpg">
+    <div id="special2" class="section special_section" special_section data-bg="<?php echo get_template_directory_uri(); ?>/assets/public/img/test/special02.jpg" data-logo="#03581D" data-news-bg="#03581D" data-news-text="#F3FC85" data-menu-color="#03581D" data-menu-active-color="#ffffff">
         <div class="wrap" style="background:transparent; min-height:100vh;">
             <div class="feature_wrap" style="background-color: white;">
                 <div class="feature_wrap_card type02">
@@ -235,7 +235,7 @@ get_header(); ?>
         </div>
     </div>
 
-    <div id="special3" class="section special_section" data-bg="<?php echo get_template_directory_uri(); ?>/assets/public/img/test/special03.jpg">
+    <div id="special3" class="section special_section" data-bg="<?php echo get_template_directory_uri(); ?>/assets/public/img/test/special03.jpg" data-logo="#03581D" data-news-bg="#03581D" data-news-text="#F3FC85" data-menu-color="#03581D" data-menu-active-color="#ffffff">
         <div class="wrap" style="background:transparent; min-height:100vh;">
             <div class="feature_wrap" style="background-color: white;">
                 <div class="feature_wrap_card type03">
@@ -271,7 +271,7 @@ get_header(); ?>
         </div>
     </div>
 
-    <div id="special4" class="section special_section" data-bg="<?php echo get_template_directory_uri(); ?>/assets/public/img/test/special04.jpg">
+    <div id="special4" class="section special_section" data-bg="<?php echo get_template_directory_uri(); ?>/assets/public/img/test/special04.jpg" data-logo="#1F9DCC" data-news-bg="#1F9DCC" data-news-text="#F3FC85" data-menu-color="#1F9DCC" data-menu-active-color="#ffffff">
         <div class="wrap" style="background:transparent; min-height:100vh;">
             <div class="feature_wrap" style="background-color: white;">
                 <div class="feature_wrap_card type04">
@@ -307,7 +307,7 @@ get_header(); ?>
         </div>
     </div>
 
-    <div id="special5" class="section special_section" data-bg="<?php echo get_template_directory_uri(); ?>/assets/public/img/test/special05.jpg">
+    <div id="special5" class="section special_section" data-bg="<?php echo get_template_directory_uri(); ?>/assets/public/img/test/special05.jpg" data-logo="#ffffff" data-news-bg="#03581D" data-news-text="#F3FC85" data-menu-color="#03581D" data-menu-active-color="#ffffff">
         <div class="wrap" style="background:transparent; min-height:100vh;">
             <div class="feature_wrap" style="background-color: #D99869;">
                 <div class="feature_wrap_card type05">
@@ -350,7 +350,7 @@ get_header(); ?>
         </div>
     </div>
 
-    <div id="special6" class="section special_section" data-bg="<?php echo get_template_directory_uri(); ?>/assets/public/img/test/special06.jpg">
+    <div id="special6" class="section special_section" data-bg="<?php echo get_template_directory_uri(); ?>/assets/public/img/test/special06.jpg" data-logo="#ffffff" data-news-bg="#03581D" data-news-text="#F3FC85" data-menu-color="#03581D" data-menu-active-color="#ffffff">
         <div class="wrap" style="background:transparent; min-height:100vh;">
             <div class="feature_wrap" style="background-color: #076A29;">
                 <div class="feature_wrap_card type06">
@@ -397,7 +397,7 @@ get_header(); ?>
         </div>
     </div>
 
-    <div id="special7" class="section special_section" data-bg="<?php echo get_template_directory_uri(); ?>/assets/public/img/test/special07.jpg">
+    <div id="special7" class="section special_section" data-bg="<?php echo get_template_directory_uri(); ?>/assets/public/img/test/special07.jpg" data-logo="#ffffff" data-news-bg="#005F83" data-news-text="#F3FC85" data-menu-color="#005F83" data-menu-active-color="#ffffff">
         <div class="wrap" style="background:transparent; min-height:100vh;">
             <div class="feature_wrap" style="background-color: #ffffff;">
                 <div class="feature_wrap_card type07">
@@ -444,7 +444,7 @@ get_header(); ?>
         </div>
     </div>
 
-    <div id="special8" class="section special_section" data-bg="<?php echo get_template_directory_uri(); ?>/assets/public/img/test/special08.jpg">
+    <div id="special8" class="section special_section" data-bg="<?php echo get_template_directory_uri(); ?>/assets/public/img/test/special08.jpg" data-logo="#ffffff" data-news-bg="#005F83" data-news-text="#F3FC85" data-menu-color="#005F83" data-menu-active-color="#ffffff">
         <div class="wrap" style="background:transparent; min-height:100vh;">
             <div class="feature_wrap" style="background-color: #1F9DCC;">
                 <div class="feature_wrap_card type08">
@@ -486,7 +486,7 @@ get_header(); ?>
         </div>
     </div>
 
-    <div id="special8" class="section special_section" data-bg="<?php echo get_template_directory_uri(); ?>/assets/public/img/test/special09.jpg">
+    <div id="special8" class="section special_section" data-bg="<?php echo get_template_directory_uri(); ?>/assets/public/img/test/special09.jpg" data-logo="#ffffff" data-news-bg="#005F83" data-news-text="#F3FC85" data-menu-color="#005F83" data-menu-active-color="#ffffff">
         <div class="wrap" style="background:transparent; min-height:100vh;">
             <div class="feature_wrap" style="background-color: #F6FFE5;">
                 <div class="feature_wrap_card type09">
