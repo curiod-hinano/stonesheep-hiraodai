@@ -58,6 +58,7 @@ function init_enqueue()
     wp_enqueue_style( 'remodal-default-theme',get_template_directory_uri().'/assets/public/css/remodal-default-theme.css', array(), filemtime(get_template_directory() . '/assets/public/css/remodal-default-theme.css'));
     wp_enqueue_style( 'swiper-min',get_template_directory_uri().'/assets/public/css/swiper.min.css', array(), filemtime(get_template_directory() . '/assets/public/css/swiper.min.css'));
     wp_enqueue_style( 'swiper-bundle-min',get_template_directory_uri().'/assets/public/css/swiper-bundle.min.css', array(), filemtime(get_template_directory() . '/assets/public/css/swiper-bundle.min.css'));
+    wp_enqueue_style( 'modal-video-min',get_template_directory_uri().'/assets/public/css/modal-video.min.css', array(), filemtime(get_template_directory() . '/assets/public/css/modal-video.min.css'));
     wp_enqueue_style( 'css',get_template_directory_uri().'/assets/public/app.css', array(), filemtime(get_template_directory() . '/assets/public/app.css'));
    
     //script読み込み
@@ -66,6 +67,7 @@ function init_enqueue()
     wp_enqueue_script( 'fullpage-min', get_template_directory_uri() . '/assets/public/js/jquery.fullpage.min.js', array('jquery-min'), '1.0.0', true );
     wp_enqueue_script( 'remodal-min', get_template_directory_uri() . '/assets/public/js/remodal.min.js', array('jquery-min'), '1.0.0', true );
     wp_enqueue_script( 'swiper-bundle-min', get_template_directory_uri() . '/assets/public/js/swiper-bundle.min.js', array('jquery-min'), '1.0.0', true );
+    wp_enqueue_script( 'jquery-modal-video-min', get_template_directory_uri() . '/assets/public/js/jquery-modal-video.min.js', array('jquery-min'), '1.0.0', true );
     wp_enqueue_script( 'main', get_template_directory_uri() . '/assets/public/js/main.js', array('jquery-min'), '1.0.0', true );
     if ( is_front_page() ) {
       wp_enqueue_script( 'top', get_template_directory_uri() . '/assets/public/js/top.js', array('jquery-min'), '1.0.0', true );
@@ -265,6 +267,44 @@ function create_post_type01() {
   //カスタムタクソノミー
   register_taxonomy(
     'spot-cat',
+    // 'trends',
+    array(
+      'hierarchical' => true,  //階層構造の有無。falseでタグ形式
+      'label' => 'カテゴリー',  //タクソノミーのラベル
+      'singular_label' => 'カテゴリー', //タクソノミーのラベル
+      'public' => true,  //検索可能にするかどうか　trueで可能
+      'show_in_rest' => true,
+      'show_ui' => true,  //タームを管理するためにデフォルトのUIを用意
+      // 'rewrite' => 'trends',
+    )
+  );
+}
+
+//「風景に出会う」カスタム投稿タイプ
+add_action( 'init', 'create_post_type02' );
+function create_post_type02() {
+  register_post_type( 'landscape', //カスタム投稿名
+    array(
+      'labels' => array(
+        'name' => __( '風景に出会う' ), //カスタム投稿のラベル
+        'singular_name' => __( '風景に出会う' ),
+        'add_new_item' => __('風景に出会うを追加'),
+        'edit_item' => __('風景に出会うを編集'),
+        'new_item' => __('風景に出会うを追加')
+      ),
+      'public' => true, //投稿の公開
+      'supports' => array('title','editor','thumbnail'),  //タイトルと本文を有効化
+      'menu_position' =>7,  //メニューの位置
+      'show_ui' => true,  //カスタム投稿タイプを表示するかどうか
+      'has_archive' => true,  //アーカイブの生成
+      'hierarchical' => false,  //階層構造の有無
+      'show_in_rest' => true,   //Gutenberg(ブロックエディタ)に対応
+      'rewrite' => array('width_front' => false), //パーマリンクの設定
+    )
+  );
+  //カスタムタクソノミー
+  register_taxonomy(
+    'landscape-cat',
     // 'trends',
     array(
       'hierarchical' => true,  //階層構造の有無。falseでタグ形式

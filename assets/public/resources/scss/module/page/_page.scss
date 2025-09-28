@@ -747,8 +747,7 @@
                         .contact-btn-wrap {
                             &.submit-wrap {
                                 position: relative;
-                                margin-top: 3px;
-                                margin-bottom: 6px;
+                                margin-bottom: 3px;
                                 transition: all 0.3s ease;
                                 &:before {
                                     content: '';
@@ -776,6 +775,9 @@
                                     margin-left: 3px;
                                     margin-top: 3px;
                                     margin-bottom: unset;
+                                    input.sub-btn {
+                                        background: #F3FC85;
+                                    }
                                     &::before {
                                         content: "";
                                         position: absolute;
@@ -801,8 +803,7 @@
                                     background: #fff;
                                     transition: all 0.3s ease;
                                     &:hover {
-                                        background-color: #03581D;
-                                        color: #fff;
+                                        background-color: #F3FC85;
                                     }
                                 }
                             }
@@ -818,6 +819,33 @@
                         padding: unset;
                     }
 
+                }
+            }
+        }
+        p {
+            color: #03581D;
+            font-size: 0.83vw;
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+        &_btn {
+            margin-top: 30px;
+            display: flex;
+            justify-content: center;
+            a {
+                border: 1px solid #03581D;
+                padding: 7px 2.6vw;
+                border-radius: 30px;
+                color: #03581D;
+                font-size: 0.83vw;
+                font-weight: 600;
+                letter-spacing: .8px;
+                z-index: 1000;
+                background: #fff;
+                transition: all 0.3s ease;
+                &:hover {
+                    background-color: #F3FC85;
+                    opacity: 1;
                 }
             }
         }
