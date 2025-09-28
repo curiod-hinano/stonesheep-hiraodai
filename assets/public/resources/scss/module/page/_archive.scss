@@ -1,0 +1,85 @@
+.page_body_content_archive {
+    padding: 75px 1.875vw 0;
+    background-color: #fff;
+    h2 {
+        font-size: 1.25vw;
+        letter-spacing: 1.1px;
+        font-weight: 500;
+        color: #03581D;
+        font-family: $sub_font;
+        line-height: 1;
+        span {
+            font-family: $main_font;
+            font-size: .93vw;
+            display: block;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+    }
+}
+.page_body_content.spot {
+    .page_body_content_txt {
+        &.archive {
+            .page_body_content_spot_wrap {
+                padding-top:0;
+                .spot_bl_txt {
+                    p.date {
+                        font-family: $sub_font;
+                        line-height: 1;
+                        margin-top: 4px;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.page_body_content_feature {
+    padding: 75px 3.9vw 0;
+    background-color: #fff;
+    h2 {
+        font-size: 1.25vw;
+        letter-spacing: 1.1px;
+        font-weight: 500;
+        color: #03581D;
+        font-family: $sub_font;
+        line-height: 1;
+        margin-bottom: 55px;
+        span {
+            font-family: $main_font;
+            font-size: .93vw;
+            display: block;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+    }
+    &_wrap {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        column-gap: 1.1vw;
+        row-gap: 4.6vh;
+        .feature_bl {
+            &_img {
+                margin-bottom: 12px;
+                img {
+                    border-radius: 10px;
+                }
+            }
+            &_txt {
+                h3 {
+                    font-size: .83vw;
+                    display: block;
+                    line-height: 1.4;
+                    color: #03581D;
+                    margin-bottom: 6px;
+                }
+                p {
+                    font-size: .625vw;
+                    display: block;
+                    line-height: 1.2;
+                    color: #03581D;
+                }
+            }
+        }
+    }
+}

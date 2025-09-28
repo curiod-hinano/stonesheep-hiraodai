@@ -355,7 +355,7 @@
                                 </svg>
                             </li>
                             <li>
-                                <a href="<?php echo home_url(); ?>/back-number" style="<?php echo $colorLogo; ?>">BACK NUNBER</a>
+                                <a href="<?php echo home_url(); ?>/feature" style="<?php echo $colorLogo; ?>">BACK NUNBER</a>
                                 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="132.459" height="1.975" viewBox="0 0 132.459 1.975">
                                     <defs>
                                         <clipPath id="clip-path">

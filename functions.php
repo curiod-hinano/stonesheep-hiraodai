@@ -166,15 +166,15 @@ function echo_srcset($name, $size='medium_large', $srcsize='medium_large', $id='
 }
 
 // 投稿のアーカイブページを作成する
-// function post_has_archive($args, $post_type)
-// {
-//   if ('post' == $post_type) {
-//       $args['rewrite'] = true; // リライトを有効にする
-//       $args['has_archive'] = 'news'; // 任意のスラッグ名
-//   }
-//   return $args;
-// }
-// add_filter('register_post_type_args', 'post_has_archive', 10, 2);
+function post_has_archive($args, $post_type)
+{
+  if ('post' == $post_type) {
+      $args['rewrite'] = true; // リライトを有効にする
+      $args['has_archive'] = 'news'; // 任意のスラッグ名
+  }
+  return $args;
+}
+add_filter('register_post_type_args', 'post_has_archive', 10, 2);
 
 // // ページネーション
 function pagination_archive( $pages, $paged, $range = 2, $show_only = false ) {
@@ -200,4 +200,80 @@ function pagination_archive( $pages, $paged, $range = 2, $show_only = false ) {
     }
     echo '</div></div>';
   }
+}
+
+//「特集」カスタム投稿タイプ
+add_action( 'init', 'create_post_type00' );
+function create_post_type00() {
+  register_post_type( 'feature', //カスタム投稿名
+    array(
+      'labels' => array(
+        'name' => __( '特集' ), //カスタム投稿のラベル
+        'singular_name' => __( '特集' ),
+        'add_new_item' => __('特集を追加'),
+        'edit_item' => __('特集を編集'),
+        'new_item' => __('特集を追加')
+      ),
+      'public' => true, //投稿の公開
+      'supports' => array('title','editor','thumbnail','excerpt'),  //タイトルと本文を有効化
+      'menu_position' =>5,  //メニューの位置
+      'show_ui' => true,  //カスタム投稿タイプを表示するかどうか
+      'has_archive' => true,  //アーカイブの生成
+      'hierarchical' => false,  //階層構造の有無
+      'show_in_rest' => true,   //Gutenberg(ブロックエディタ)に対応
+      'rewrite' => array('width_front' => false), //パーマリンクの設定
+    )
+  );
+  //カスタムタクソノミー
+  register_taxonomy(
+    'feature-cat',
+    // 'trends',
+    array(
+      'hierarchical' => true,  //階層構造の有無。falseでタグ形式
+      'label' => 'カテゴリー',  //タクソノミーのラベル
+      'singular_label' => 'カテゴリー', //タクソノミーのラベル
+      'public' => true,  //検索可能にするかどうか　trueで可能
+      'show_in_rest' => true,
+      'show_ui' => true,  //タームを管理するためにデフォルトのUIを用意
+      // 'rewrite' => 'trends',
+    )
+  );
+}
+
+//「HIRAODAI SPOT」カスタム投稿タイプ
+add_action( 'init', 'create_post_type01' );
+function create_post_type01() {
+  register_post_type( 'spot', //カスタム投稿名
+    array(
+      'labels' => array(
+        'name' => __( '平尾台スポット' ), //カスタム投稿のラベル
+        'singular_name' => __( '平尾台スポット' ),
+        'add_new_item' => __('平尾台スポットを追加'),
+        'edit_item' => __('平尾台スポットを編集'),
+        'new_item' => __('平尾台スポットを追加')
+      ),
+      'public' => true, //投稿の公開
+      'supports' => array('title','editor','thumbnail'),  //タイトルと本文を有効化
+      'menu_position' =>6,  //メニューの位置
+      'show_ui' => true,  //カスタム投稿タイプを表示するかどうか
+      'has_archive' => true,  //アーカイブの生成
+      'hierarchical' => false,  //階層構造の有無
+      'show_in_rest' => true,   //Gutenberg(ブロックエディタ)に対応
+      'rewrite' => array('width_front' => false), //パーマリンクの設定
+    )
+  );
+  //カスタムタクソノミー
+  register_taxonomy(
+    'spot-cat',
+    // 'trends',
+    array(
+      'hierarchical' => true,  //階層構造の有無。falseでタグ形式
+      'label' => 'カテゴリー',  //タクソノミーのラベル
+      'singular_label' => 'カテゴリー', //タクソノミーのラベル
+      'public' => true,  //検索可能にするかどうか　trueで可能
+      'show_in_rest' => true,
+      'show_ui' => true,  //タームを管理するためにデフォルトのUIを用意
+      // 'rewrite' => 'trends',
+    )
+  );
 }
