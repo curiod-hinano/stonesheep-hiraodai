@@ -8,8 +8,8 @@ get_header(); ?>
     <div class="page_body_content me">
         <div class="page_body_content_head">
             <div class="page_body_content_head_ttl">
-                <h2>わたしに出会う</h2>
-                <p>
+                <h2 class="tategaki">わたしに出会う</h2>
+                <p class="tategaki">
                     火と、水と、風と、土。<br>
                     実際に平尾台を訪れ、<br>
                     この土地の力を、あなたの心と体で直接感じるための、<br>
@@ -82,9 +82,9 @@ get_header(); ?>
             </div>
         </div>
         <?php 
-            get_template_part('blocks/bl_lovers');
-            get_template_part('blocks/bl_share');
-            get_template_part('blocks/bl_popular');
+            get_template_part('sections/sec_lovers');
+            get_template_part('sections/sec_share');
+            get_template_part('sections/sec_popular');
         ?>
     </div>
 </div>

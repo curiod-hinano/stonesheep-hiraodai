@@ -1,6 +1,6 @@
 
 </main>
-
+        <?php if(!is_front_page()): ?>
         <footer id="footer" class="footer" role="contentinfo">
                 <div class="footer_wrap">
                     <div class="footer_wrap_logo">
@@ -45,9 +45,11 @@
                     <p>© 2025 TETO.</p>
                 </div>
         </footer>
-
+    <?php endif; ?>
+    
     </div>
     <?php wp_footer(); ?>
     
 </body>
+
 </html>

@@ -40,214 +40,214 @@ jQuery(function ($) {
 });
 
 // TOP [背景画像固定フェード変更]
-// (function(){
-//   'use strict';
+(function(){
+  'use strict';
 
-//     // DOMReady（取りこぼし無し）
-//     const onReady = (cb) => {
-//         if (document.readyState === 'loading') {
-//         document.addEventListener('DOMContentLoaded', cb, { once: true });
-//         } else {
-//         cb();
-//         }
-//     };
+    // DOMReady（取りこぼし無し）
+    const onReady = (cb) => {
+        if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', cb, { once: true });
+        } else {
+        cb();
+        }
+    };
 
-//     onReady(function(){
-//         // ===== 設定 =====
-//         const SLOT_COUNT    = 3;     // 背景スロット数（2でもOK）
-//         const DATA_ATTR     = 'data-bg';
-//         const STEP_COOLDOWN = 600;   // 切替後の最小インターバル(ms)
-//         const HYSTERESIS    = 40;    // 中心線のヒステリシス(px)
+    onReady(function(){
+        // ===== 設定 =====
+        const SLOT_COUNT    = 3;     // 背景スロット数（2でもOK）
+        const DATA_ATTR     = 'data-bg';
+        const STEP_COOLDOWN = 600;   // 切替後の最小インターバル(ms)
+        const HYSTERESIS    = 40;    // 中心線のヒステリシス(px)
 
-//         // ===== 背景コンテナ（無ければ生成） =====
-//         let container = document.getElementById('bg-fixed');
-//         if (!container) {
-//         container = document.createElement('div');
-//         container.id = 'bg-fixed';
-//         document.body.prepend(container);
-//         }
+        // ===== 背景コンテナ（無ければ生成） =====
+        let container = document.getElementById('bg-fixed');
+        if (!container) {
+        container = document.createElement('div');
+        container.id = 'bg-fixed';
+        document.body.prepend(container);
+        }
 
-//         // スロット生成
-//         const slots = Array.from({ length: SLOT_COUNT }, (_, i) => {
-//         const d = document.createElement('div');
-//         d.className = 'bg-slot slot-' + i;
-//         container.appendChild(d);
-//         return d;
-//         });
+        // スロット生成
+        const slots = Array.from({ length: SLOT_COUNT }, (_, i) => {
+        const d = document.createElement('div');
+        d.className = 'bg-slot slot-' + i;
+        container.appendChild(d);
+        return d;
+        });
 
-//         let showing    = 0;      // 現在表示中スロット
-//         let lastUrl    = '';     // 直前のURL（同一ならスキップ）
-//         let cooldownTo = 0;      // クールダウン終了時刻
+        let showing    = 0;      // 現在表示中スロット
+        let lastUrl    = '';     // 直前のURL（同一ならスキップ）
+        let cooldownTo = 0;      // クールダウン終了時刻
 
-//         // 画像プリロード（失敗しても続行）
-//         const preload = (url) => new Promise((res, rej) => {
-//         const img = new Image();
-//         img.onload = () => res(url);
-//         img.onerror = rej;
-//         img.src = url;
-//         });
+        // 画像プリロード（失敗しても続行）
+        const preload = (url) => new Promise((res, rej) => {
+        const img = new Image();
+        img.onload = () => res(url);
+        img.onerror = rej;
+        img.src = url;
+        });
 
-//         async function swapBg(url){
-//         if (!url) return;
-//         const now = Date.now();
-//         if (url === lastUrl && slots[showing].classList.contains('is-show')) return;
-//         if (now < cooldownTo) return; // クールダウン中
-//         cooldownTo = now + STEP_COOLDOWN;
-//         lastUrl = url;
+        async function swapBg(url){
+        if (!url) return;
+        const now = Date.now();
+        if (url === lastUrl && slots[showing].classList.contains('is-show')) return;
+        if (now < cooldownTo) return; // クールダウン中
+        cooldownTo = now + STEP_COOLDOWN;
+        lastUrl = url;
 
-//         const nextIdx = (showing + 1) % slots.length;
-//         const nextEl  = slots[nextIdx];
-//         const currEl  = slots[showing];
+        const nextIdx = (showing + 1) % slots.length;
+        const nextEl  = slots[nextIdx];
+        const currEl  = slots[showing];
 
-//         // 先にセット → 短いプリロード → フェード
-//         nextEl.style.backgroundImage = `url("${url}")`;
-//         try { await Promise.race([preload(url), new Promise(r=>setTimeout(r,300))]); } catch(_){}
+        // 先にセット → 短いプリロード → フェード
+        nextEl.style.backgroundImage = `url("${url}")`;
+        try { await Promise.race([preload(url), new Promise(r=>setTimeout(r,300))]); } catch(_){}
 
-//         nextEl.offsetWidth;               // reflow
-//         nextEl.classList.add('is-show');  // in
-//         currEl.classList.remove('is-show'); // out
-//         showing = nextIdx;
-//         }
+        nextEl.offsetWidth;               // reflow
+        nextEl.classList.add('is-show');  // in
+        currEl.classList.remove('is-show'); // out
+        showing = nextIdx;
+        }
 
-//         // ===== セクション収集（#fv を含む全部 & 画像セクションだけ） =====
-//         const allSections  = Array.from(document.querySelectorAll('.section'));               // #fv含む
-//         const imgSections  = allSections.filter(s => s.hasAttribute(DATA_ATTR));             // data-bg持ち
-//         const fvSection    = document.getElementById('fv');
+        // ===== セクション収集（#fv を含む全部 & 画像セクションだけ） =====
+        const allSections  = Array.from(document.querySelectorAll('.section'));               // #fv含む
+        const imgSections  = allSections.filter(s => s.hasAttribute(DATA_ATTR));             // data-bg持ち
+        const fvSection    = document.getElementById('fv');
 
-//         if (!imgSections.length) {
-//         console.warn('[bg] data-bg を持つ .section がありません');
-//         return;
-//         }
+        if (!imgSections.length) {
+        console.warn('[bg] data-bg を持つ .section がありません');
+        return;
+        }
 
-//         // 初期：最初の画像を裏で準備（表示はまだしない）
-//         const firstImgUrl = imgSections[0].getAttribute(DATA_ATTR);
-//         if (firstImgUrl) {
-//         slots[0].style.backgroundImage = `url("${firstImgUrl}")`;
-//         // is-showは付けない（最初は動画や素の状態を見せたい前提）
-//         }
+        // 初期：最初の画像を裏で準備（表示はまだしない）
+        const firstImgUrl = imgSections[0].getAttribute(DATA_ATTR);
+        if (firstImgUrl) {
+        slots[0].style.backgroundImage = `url("${firstImgUrl}")`;
+        // is-showは付けない（最初は動画や素の状態を見せたい前提）
+        }
 
-//         // #fv の動画フェード制御（CSS: body.is-bg-mode で .main_bg_movies を隠す想定）
-//         function enterImageMode(url){
-//         document.body.classList.add('is-bg-mode'); // 動画フェードアウト
-//         swapBg(url);                               // 背景画像フェードイン
-//         }
-//         function enterVideoMode(){
-//         document.body.classList.remove('is-bg-mode'); // 動画フェードイン
-//         // 背景は背面に残してOK（完全に消したいなら slots.forEach(s=>s.classList.remove('is-show'))）
-//         }
+        // #fv の動画フェード制御（CSS: body.is-bg-mode で .main_bg_movies を隠す想定）
+        function enterImageMode(url){
+        document.body.classList.add('is-bg-mode'); // 動画フェードアウト
+        swapBg(url);                               // 背景画像フェードイン
+        }
+        function enterVideoMode(){
+        document.body.classList.remove('is-bg-mode'); // 動画フェードイン
+        // 背景は背面に残してOK（完全に消したいなら slots.forEach(s=>s.classList.remove('is-show'))）
+        }
 
-//         // ===== ステップ式切替：隣セクションへ ±1 ずつ =====
-//         let activeIdx = 0;               // allSections の現在インデックス（0=先頭）
-//         let lastY     = window.scrollY;
-//         let rafId     = 0;
+        // ===== ステップ式切替：隣セクションへ ±1 ずつ =====
+        let activeIdx = 0;               // allSections の現在インデックス（0=先頭）
+        let lastY     = window.scrollY;
+        let rafId     = 0;
 
-//         function stepByMidline(){
-//         rafId = 0;
-//         const mid = window.innerHeight / 2;
-//         const dir = (window.scrollY > lastY) ? 1 : (window.scrollY < lastY ? -1 : 0);
-//         lastY = window.scrollY;
+        function stepByMidline(){
+        rafId = 0;
+        const mid = window.innerHeight / 2;
+        const dir = (window.scrollY > lastY) ? 1 : (window.scrollY < lastY ? -1 : 0);
+        lastY = window.scrollY;
 
-//         if (dir > 0) { // 下方向
-//             const next = allSections[activeIdx + 1];
-//             if (next) {
-//             const r = next.getBoundingClientRect();
-//             if (r.top <= (mid - HYSTERESIS)) {
-//                 activeIdx++;
-//                 if (next === fvSection) {
-//                 enterVideoMode();
-//                 } else {
-//                 const url = next.getAttribute(DATA_ATTR);
-//                 enterImageMode(url);
-//                 }
-//             }
-//             }
-//         } else if (dir < 0) { // 上方向
-//             const prev = allSections[activeIdx - 1];
-//             if (prev) {
-//             const r = prev.getBoundingClientRect();
-//             if (r.bottom >= (mid + HYSTERESIS)) {
-//                 activeIdx--;
-//                 const cur = allSections[activeIdx];
-//                 if (cur === fvSection) {
-//                 enterVideoMode();
-//                 } else {
-//                 const url = cur.getAttribute(DATA_ATTR);
-//                 enterImageMode(url);
-//                 }
-//             }
-//             }
-//         }
-//         }
+        if (dir > 0) { // 下方向
+            const next = allSections[activeIdx + 1];
+            if (next) {
+            const r = next.getBoundingClientRect();
+            if (r.top <= (mid - HYSTERESIS)) {
+                activeIdx++;
+                if (next === fvSection) {
+                enterVideoMode();
+                } else {
+                const url = next.getAttribute(DATA_ATTR);
+                enterImageMode(url);
+                }
+            }
+            }
+        } else if (dir < 0) { // 上方向
+            const prev = allSections[activeIdx - 1];
+            if (prev) {
+            const r = prev.getBoundingClientRect();
+            if (r.bottom >= (mid + HYSTERESIS)) {
+                activeIdx--;
+                const cur = allSections[activeIdx];
+                if (cur === fvSection) {
+                enterVideoMode();
+                } else {
+                const url = cur.getAttribute(DATA_ATTR);
+                enterImageMode(url);
+                }
+            }
+            }
+        }
+        }
 
-//         function onScrollOrResize(){
-//         if (rafId) return;
-//         rafId = requestAnimationFrame(stepByMidline);
-//         }
+        function onScrollOrResize(){
+        if (rafId) return;
+        rafId = requestAnimationFrame(stepByMidline);
+        }
 
-//         window.addEventListener('scroll', onScrollOrResize, { passive:true });
-//         window.addEventListener('resize', onScrollOrResize);
-//         stepByMidline(); // 初期判定
+        window.addEventListener('scroll', onScrollOrResize, { passive:true });
+        window.addEventListener('resize', onScrollOrResize);
+        stepByMidline(); // 初期判定
 
-//         (function(){
-//         // 条件：ページ最上部付近 & まだ画像モードに入っていない
-//         let primed = false;      // 1回だけ発火
-//         let touchStartY = 0;
+        (function(){
+        // 条件：ページ最上部付近 & まだ画像モードに入っていない
+        let primed = false;      // 1回だけ発火
+        let touchStartY = 0;
 
-//         // 「special1（最初の data-bg セクション）」のURLを取得
-//         const firstImgSection = document.querySelector('.section[data-bg]');
-//         const firstImgUrl = firstImgSection ? firstImgSection.getAttribute('data-bg') : '';
+        // 「special1（最初の data-bg セクション）」のURLを取得
+        const firstImgSection = document.querySelector('.section[data-bg]');
+        const firstImgUrl = firstImgSection ? firstImgSection.getAttribute('data-bg') : '';
 
-//         // フェードだけ実行（スクロールはさせない）
-//         function primeFadeOnly(){
-//             if (primed) return;
-//             primed = true;
+        // フェードだけ実行（スクロールはさせない）
+        function primeFadeOnly(){
+            if (primed) return;
+            primed = true;
 
-//             // #fv の動画を消して、背景レイヤーの画像を表示（あなたの既存コードに合わせて）
-//             document.body.classList.add('is-bg-mode');  // CSSで #fv 動画をフェードアウト
-//             if (typeof swapBg === 'function') {
-//             swapBg(firstImgUrl);                      // 背景レイヤーを special1 の画像へ
-//             }
+            // #fv の動画を消して、背景レイヤーの画像を表示（あなたの既存コードに合わせて）
+            document.body.classList.add('is-bg-mode');  // CSSで #fv 動画をフェードアウト
+            if (typeof swapBg === 'function') {
+            swapBg(firstImgUrl);                      // 背景レイヤーを special1 の画像へ
+            }
 
-//             // 軽い連打対策のため、わずかにクールダウン
-//             setTimeout(() => { /* 空処理 */ }, 350);
-//         }
+            // 軽い連打対策のため、わずかにクールダウン
+            setTimeout(() => { /* 空処理 */ }, 350);
+        }
 
-//         // いま #fv か？の簡易判定（中央線ベース）
-//         function isAtFv(){
-//             const fv = document.getElementById('fv');
-//             if (!fv) return false;
-//             const r = fv.getBoundingClientRect();
-//             const mid = window.innerHeight / 2;
-//             return r.top < mid && r.bottom > mid; // 中心線が #fv 内にある
-//         }
-//         // wheel（マウス/トラックパッド）
-//         const onWheel = (e) => {
-//             if (primed) return;
-//             if (e.deltaY > 0 && window.scrollY <= 4 && isAtFv()) {
-//             e.preventDefault();      // スクロールさせない
-//             primeFadeOnly();         // フェードだけ
-//             }
-//         };
-//         // touch（スマホ）
-//         const onTouchStart = (e) => { touchStartY = e.touches?.[0]?.clientY ?? 0; };
-//         const onTouchMove  = (e) => {
-//             if (primed) return;
-//             const y = e.touches?.[0]?.clientY ?? 0;
-//             const dy = touchStartY - y;           // 下方向のスワイプ = 正
-//             if (dy > 10 && window.scrollY <= 4 && isAtFv()) {
-//             e.preventDefault();                 // スクロールさせない
-//             primeFadeOnly();                    // フェードだけ
-//             }
-//         };
-//         // パッシブを false にしないと preventDefault が効かない
-//         window.addEventListener('wheel', onWheel, { passive: false });
-//         window.addEventListener('touchstart', onTouchStart, { passive: true });
-//         window.addEventListener('touchmove', onTouchMove, { passive: false });
-//         })();
-//     });
-// })();
+        // いま #fv か？の簡易判定（中央線ベース）
+        function isAtFv(){
+            const fv = document.getElementById('fv');
+            if (!fv) return false;
+            const r = fv.getBoundingClientRect();
+            const mid = window.innerHeight / 2;
+            return r.top < mid && r.bottom > mid; // 中心線が #fv 内にある
+        }
+        // wheel（マウス/トラックパッド）
+        const onWheel = (e) => {
+            if (primed) return;
+            if (e.deltaY > 0 && window.scrollY <= 4 && isAtFv()) {
+            e.preventDefault();      // スクロールさせない
+            primeFadeOnly();         // フェードだけ
+            }
+        };
+        // touch（スマホ）
+        const onTouchStart = (e) => { touchStartY = e.touches?.[0]?.clientY ?? 0; };
+        const onTouchMove  = (e) => {
+            if (primed) return;
+            const y = e.touches?.[0]?.clientY ?? 0;
+            const dy = touchStartY - y;           // 下方向のスワイプ = 正
+            if (dy > 10 && window.scrollY <= 4 && isAtFv()) {
+            e.preventDefault();                 // スクロールさせない
+            primeFadeOnly();                    // フェードだけ
+            }
+        };
+        // パッシブを false にしないと preventDefault が効かない
+        window.addEventListener('wheel', onWheel, { passive: false });
+        window.addEventListener('touchstart', onTouchStart, { passive: true });
+        window.addEventListener('touchmove', onTouchMove, { passive: false });
+        })();
+    });
+})();
 
-// TOP [背景画像固定フェード変更]
+//TOP [背景画像固定フェード変更]
 (function(){
   'use strict';
 
@@ -533,6 +533,475 @@ jQuery(function ($) {
     });
   });
 })();
+
+TOP 背景固定＋通常スクロール切り替え（ノーフェード）
+(function(){
+  'use strict';
+
+  // DOM Ready
+  const onReady = (cb) =>
+    document.readyState === 'loading'
+      ? document.addEventListener('DOMContentLoaded', cb, { once: true })
+      : cb();
+
+  onReady(function(){
+    /* =========================
+       設定
+    ========================== */
+    const DATA_ATTR        = 'data-bg'; // 背景URL属性
+    const SWITCH_ANCHOR    = 0.50;      // どの高さで現在判定するか(0..1) 例: 0.5=中央
+    const RETURN_TO_FV_TOP = 2;         // 先頭（fv）判定の許容px
+    const HEADER_OFFSET    = 0;         // 固定ヘッダー分ずらすなら高さ(px)
+
+    /* =========================
+       背景レイヤ（固定・1枚＝フェードなし）
+    ========================== */
+    let container = document.getElementById('bg-fixed');
+    if (!container){
+      container = document.createElement('div');
+      container.id = 'bg-fixed';
+      document.body.prepend(container);
+    }
+    const slot = document.createElement('div');
+    slot.className = 'bg-slot slot-0';
+    // 念のためフェードを無効化
+    slot.style.transition = 'none';
+    slot.style.opacity = '1';
+    slot.style.backgroundRepeat = 'no-repeat';
+    slot.style.backgroundPosition = 'center';
+    slot.style.backgroundSize = 'cover';
+    container.appendChild(slot);
+
+    const setBg = (url)=>{
+      if (!url) return;
+      if (slot.dataset.bgLast === url) return;
+      slot.style.backgroundImage = `url("${url}")`;
+      slot.dataset.bgLast = url;
+    };
+
+    /* =========================
+       対象セクションの収集
+    ========================== */
+    const specials = Array.from(document.querySelectorAll('.special_section'));
+
+    /* =========================
+       状態管理
+       idx = -1（fv/通常ゾーン）, 0..N-1（special）
+    ========================== */
+    let idx = -1;
+    function setActive(newIdx){
+      if (newIdx < -1 || newIdx > specials.length - 1) return;
+      if (idx === newIdx) return;
+      idx = newIdx;
+
+      if (idx === -1){
+        document.body.classList.remove('is-special', 'is-bg-mode');
+        specials.forEach(s => s.classList.remove('is-active'));
+        // fv中は背景を消したければ以下を有効化
+        // slot.style.backgroundImage = 'none';
+      } else {
+        document.body.classList.add('is-special', 'is-bg-mode');
+        specials.forEach((s,i)=> s.classList.toggle('is-active', i === idx));
+        setBg(specials[idx].getAttribute(DATA_ATTR));
+      }
+
+      // 既存のヘッダー配色変更イベントを踏襲
+      const detail = (idx === -1)
+        ? { mode: 'fv' }
+        : {
+            mode: 'special',
+            index: idx,
+            sectionId: specials[idx].id,
+            logo: specials[idx].dataset.logo,
+            newsBg: specials[idx].dataset.newsBg,
+            newsTx: specials[idx].dataset.newsText
+          };
+      document.dispatchEvent(new CustomEvent('special:activate', { detail }));
+    }
+
+    // 初期は fv 扱い（背景は当てない）
+    setActive(-1);
+
+    /* =========================
+       現在セクションの判定（通常スクロールを監視）
+       ルール：基準線(anchorY)が「どの .special_section の範囲内」にあるか
+               → そのセクションを現在扱い
+    ========================== */
+    function pickIndexByViewport(){
+      if (!specials.length){
+        setActive(-1);
+        return;
+      }
+
+      const anchorY = (window.innerHeight * SWITCH_ANCHOR) + HEADER_OFFSET;
+      const docTop  = document.scrollingElement?.scrollTop || window.scrollY || 0;
+
+      // 先頭近辺は fv
+      if (docTop <= RETURN_TO_FV_TOP){
+        setActive(-1);
+        return;
+      }
+
+      // 最初の special に“入る前”なら fv
+      const firstRect = specials[0].getBoundingClientRect();
+      if (firstRect.top > anchorY){
+        setActive(-1);
+        return;
+      }
+
+      // anchorY が含まれているセクションを現在扱いに
+      let currentIdx = -1;
+      for (let i = 0; i < specials.length; i++){
+        const r = specials[i].getBoundingClientRect();
+        if (r.top <= anchorY && anchorY < r.bottom){
+          currentIdx = i;
+          break;
+        }
+        // 予備：完全に上を通過したものを候補にしておく
+        if (r.bottom <= anchorY) currentIdx = i;
+      }
+
+      if (currentIdx === -1){
+        // すべてより下の場合は最後
+        currentIdx = specials.length - 1;
+      }
+
+      setActive(currentIdx);
+    }
+
+    // スクロール/リサイズ監視（rAFで間引き）
+    (function attachNaturalScroll(){
+      let ticking = false;
+      const onScroll = () => {
+        if (!ticking){
+          ticking = true;
+          requestAnimationFrame(() => {
+            pickIndexByViewport();
+            ticking = false;
+          });
+        }
+      };
+      window.addEventListener('scroll', onScroll,  { passive: true });
+      window.addEventListener('resize', onScroll,  { passive: true });
+      window.addEventListener('orientationchange', onScroll, { passive: true });
+      // 初期判定
+      pickIndexByViewport();
+    })();
+
+    /* =========================
+       キーボードでのナビ（任意）
+       ※ 通常スクロールは阻害しません
+    ========================== */
+    const isEditable = (t)=>{
+      const tag = (t && t.tagName) ? t.tagName.toUpperCase() : '';
+      return tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT' || (t && t.isContentEditable);
+    };
+    const scrollToSection = (i)=>{
+      if (i < 0){
+        window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+        return;
+      }
+      const sec = specials[i];
+      if (!sec) return;
+      const y = window.scrollY + sec.getBoundingClientRect().top;
+      window.scrollTo({ top: y, left: 0, behavior: 'smooth' });
+    };
+
+    window.addEventListener('keydown', (e)=>{
+      if (isEditable(e.target)) return;
+
+      if (e.key === 'ArrowDown' || e.key === 'PageDown'){
+        e.preventDefault();
+        const next = (idx < 0) ? 0 : Math.min(idx + 1, specials.length - 1);
+        scrollToSection(next);
+      }
+      if (e.key === 'ArrowUp' || e.key === 'PageUp'){
+        e.preventDefault();
+        const prev = (idx <= 0) ? -1 : idx - 1;
+        scrollToSection(prev);
+      }
+      if (e.key === 'Home'){ e.preventDefault(); scrollToSection(-1); }
+      if (e.key === 'End'){  e.preventDefault(); scrollToSection(specials.length - 1); }
+    });
+
+    /* =========================
+       「トップへ戻る」など（任意）
+    ========================== */
+    document.addEventListener('click', (e)=>{
+      const a = e.target.closest('.feature_wrap_card_topBtn, .page_top');
+      if (!a) return;
+      e.preventDefault();
+      scrollToSection(-1);
+    });
+
+    /* =========================
+       重要：
+       - wheel/touch での preventDefault は一切しない
+       - step/lock 等の“段送り”は使わない
+       → コンテンツ（feature_wrap）はふつうにスクロール可
+       → 背景は is-bg-mode 中は固定で切替
+    ========================== */
+  });
+})();
+
+// TOP 背景固定 + 通常スクロール + クロスフェード切替
+// (function () {
+//   'use strict';
+
+//   const onReady = (cb) =>
+//     document.readyState === 'loading'
+//       ? document.addEventListener('DOMContentLoaded', cb, { once: true })
+//       : cb();
+
+//   onReady(function () {
+//     /* ===== 設定 ===== */
+//     const DATA_ATTR        = 'data-bg';  // .special_section が持つ背景URL
+//     const SWITCH_ANCHOR    = 0.50;       // どの高さ(0..1)で現在セクション判定
+//     const RETURN_TO_FV_TOP = 2;          // 先頭（fv）判定px
+//     const HEADER_OFFSET    = 0;          // 固定ヘッダー高があれば設定(px)
+//     const PRELOAD_TIMEOUT  = 800;        // プリロード待ちタイムアウト(ms)
+
+//     /* ===== 背景レイヤ（固定・2枚スロットでフェード） ===== */
+//     let container = document.getElementById('bg-fixed');
+//     if (!container) {
+//       container = document.createElement('div');
+//       container.id = 'bg-fixed';
+//       document.body.prepend(container);
+//     }
+//     // スロット2枚
+//     const slots = [0,1].map(i=>{
+//       const d = document.createElement('div');
+//       d.className = 'bg-slot slot-' + i;
+//       container.appendChild(d);
+//       return d;
+//     });
+//     let showing = 0;     // 現在表示中スロットのindex
+//     let lastUrl = '';    // 直近で適用したURL
+
+//     const preload = (url)=> new Promise((resolve, reject)=>{
+//       const img = new Image();
+//       img.onload  = ()=> resolve(url);
+//       img.onerror = ()=> reject(url);
+//       img.decoding = 'async';
+//       img.src = url;
+//     });
+
+//     // async function fadeTo(url){
+//     //   if (!url || url === lastUrl) return;
+
+//     //   const nextIdx = (showing ^ 1); // 0⇄1切り替え
+//     //   const nextEl  = slots[nextIdx];
+//     //   const currEl  = slots[showing];
+
+//     //   // 背景適用（先に裏面へ）
+//     //   nextEl.style.backgroundImage = `url("${url}")`;
+
+//     //   // 画像準備（ロード完了 or タイムアウトの早い方）
+//     //   try {
+//     //     await Promise.race([preload(url), new Promise(r=>setTimeout(r, PRELOAD_TIMEOUT))]);
+//     //   } catch(_){ /* 失敗時もタイムアウトで続行 */ }
+
+//     //   // リフローしてからフェード開始
+//     //   // eslint-disable-next-line no-unused-expressions
+//     //   nextEl.offsetWidth;
+
+//     //   nextEl.classList.add('is-show');   // 次をフェードイン
+//     //   currEl.classList.remove('is-show'); // 現在をフェードアウト
+
+//     //   showing = nextIdx;
+//     //   lastUrl = url;
+//     // }
+
+//     // ふわっと（入ってくる面だけ下→上）にする fadeTo
+//   const running = new WeakMap();
+// async function fadeTo(url){
+//   if (!url || url === lastUrl) return;
+
+//   const nextIdx = (showing ^ 1);
+//   const nextEl  = slots[nextIdx];
+//   const currEl  = slots[showing];
+
+//   // 画像のデコードを待ってから適用（白チラ防止）
+//   try {
+//     const img = new Image();
+//     img.decoding = 'async';
+//     img.src = url;
+//     // decode() は対応ブラウザでjankが少ない
+//     if (img.decode) { await img.decode(); }
+//     else { await new Promise((res, rej)=>{ img.onload=res; img.onerror=res; }); }
+//   } catch(_) {}
+
+//   nextEl.style.backgroundImage = `url("${url}")`;
+
+//   // 既存アニメがあれば止める
+//   running.get(nextEl)?.cancel?.();
+//   running.get(currEl)?.cancel?.();
+
+//   // 入口：下から＆フェードイン（合成: replace）
+//   const enterAnim = nextEl.animate(
+//     [
+//       { opacity: 0, transform: `translate3d(0, var(--enter-distance), 0)` },
+//       { opacity: 1, transform: 'translate3d(0, 0, 0)' }
+//     ],
+//     {
+//       duration: parseFloat(getComputedStyle(document.documentElement)
+//                  .getPropertyValue('--move-duration')) || 720,
+//       easing: getComputedStyle(document.documentElement)
+//                 .getPropertyValue('--move-ease').trim() || 'cubic-bezier(.22,.72,.1,1)',
+//       fill: 'forwards',
+//       composite: 'replace'
+//     }
+//   );
+
+//   // 退出：その場でフェードアウト（位置は動かさない）
+//   const exitAnim = currEl.animate(
+//     [
+//       { opacity: 1, transform: 'translate3d(0,0,0)' },
+//       { opacity: 0, transform: 'translate3d(0,0,0)' }
+//     ],
+//     {
+//       duration: parseFloat(getComputedStyle(document.documentElement)
+//                  .getPropertyValue('--fade-duration')) || 420,
+//       easing: getComputedStyle(document.documentElement)
+//                 .getPropertyValue('--fade-ease').trim() || 'linear',
+//       fill: 'forwards',
+//       composite: 'replace'
+//     }
+//   );
+
+//   // ハンドル保持（次の呼び出しで cancel 可能）
+//   running.set(nextEl, enterAnim);
+//   running.set(currEl, exitAnim);
+
+//   showing = nextIdx;
+//   lastUrl = url;
+
+//   // 終了後の軽いクリーンアップ（任意）
+//   Promise.allSettled([enterAnim.finished, exitAnim.finished]).then(()=>{
+//     // Safariのちらつき対策：最終姿勢をCSSに反映しておく
+//     nextEl.style.opacity = '1';
+//     nextEl.style.transform = 'translate3d(0,0,0)';
+//     currEl.style.opacity = '0';
+//   });
+// }
+
+//     /* ===== ターゲット収集 ===== */
+//     const specials = Array.from(document.querySelectorAll('.special_section'));
+
+//     /* ===== 状態管理 =====
+//        idx = -1（fv/通常ゾーン）, 0..N-1（special）
+//     */
+//     let idx = -1;
+//     function setActive(newIdx) {
+//   if (newIdx < -1 || newIdx > specials.length - 1) return;
+//   if (idx === newIdx) return;
+//   idx = newIdx;
+
+//   // ▼配色フック用にクラスは付けるが、スクロールは殺さない方針
+//   document.body.classList.toggle('is-special', idx !== -1);
+//   document.body.classList.toggle('is-bg-mode', idx !== -1);
+
+//   if (idx === -1) {
+//     container.classList.remove('is-on');          // fvでは背景非表示（常時出したいなら消す）
+//     specials.forEach(s => s.classList.remove('is-active'));
+//   } else {
+//     container.classList.add('is-on');
+//     specials.forEach((s,i)=> s.classList.toggle('is-active', i === idx));
+//     const url = specials[idx].getAttribute(DATA_ATTR);
+//     fadeTo(url);                                   // ← フェードで切替
+//   }
+
+//   // ヘッダー配色イベント（既存スクリプトが使っている前提）
+//   const detail = (idx === -1)
+//     ? { mode: 'fv' }
+//     : {
+//         mode: 'special',
+//         index: idx,
+//         sectionId: specials[idx].id,
+//         logo: specials[idx].dataset.logo,
+//         newsBg: specials[idx].dataset.newsBg,
+//         newsTx: specials[idx].dataset.newsText
+//       };
+//   document.dispatchEvent(new CustomEvent('special:activate', { detail }));
+// }
+
+//     // 初期は fv 扱い
+//     setActive(-1);
+
+//     /* ===== 現在セクション判定（通常スクロール監視） ===== */
+//     function pickIndexByViewport() {
+//       if (!specials.length) { setActive(-1); return; }
+
+//       const anchorY = window.innerHeight * SWITCH_ANCHOR + HEADER_OFFSET;
+//       const docTop  = document.scrollingElement?.scrollTop || window.scrollY || 0;
+
+//       if (docTop <= RETURN_TO_FV_TOP) { setActive(-1); return; }
+
+//       const firstRect = specials[0].getBoundingClientRect();
+//       if (firstRect.top > anchorY) { setActive(-1); return; }
+
+//       // anchorY を含むセクションを現在扱い
+//       let currentIdx = -1;
+//       for (let i = 0; i < specials.length; i++) {
+//         const r = specials[i].getBoundingClientRect();
+//         if (r.top <= anchorY && anchorY < r.bottom) { currentIdx = i; break; }
+//         if (r.bottom <= anchorY) currentIdx = i;
+//       }
+//       if (currentIdx === -1) currentIdx = specials.length - 1;
+
+//       setActive(currentIdx);
+//     }
+
+//     // rAF間引きで監視
+//     (function attachNaturalScroll(){
+//       let ticking = false;
+//       const onScroll = () => {
+//         if (!ticking) {
+//           ticking = true;
+//           requestAnimationFrame(() => {
+//             pickIndexByViewport();
+//             ticking = false;
+//           });
+//         }
+//       };
+//       window.addEventListener('scroll', onScroll, { passive: true });
+//       window.addEventListener('resize', onScroll, { passive: true });
+//       window.addEventListener('orientationchange', onScroll, { passive: true });
+//       pickIndexByViewport();
+//     })();
+
+//     /* ===== キーボードナビ（任意） ===== */
+//     const isEditable = (t)=>{
+//       const tag = (t && t.tagName) ? t.tagName.toUpperCase() : '';
+//       return tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT' || (t && t.isContentEditable);
+//     };
+//     const scrollToSection = (i)=>{
+//       if (i < 0) { window.scrollTo({ top: 0, left: 0, behavior: 'smooth' }); return; }
+//       const sec = specials[i]; if (!sec) return;
+//       const y = window.scrollY + sec.getBoundingClientRect().top;
+//       window.scrollTo({ top: y, left: 0, behavior: 'smooth' });
+//     };
+//     window.addEventListener('keydown', (e)=>{
+//       if (isEditable(e.target)) return;
+//       if (e.key === 'ArrowDown' || e.key === 'PageDown'){ e.preventDefault(); scrollToSection(idx < 0 ? 0 : Math.min(idx + 1, specials.length - 1)); }
+//       if (e.key === 'ArrowUp'   || e.key === 'PageUp')  { e.preventDefault(); scrollToSection(idx <= 0 ? -1 : idx - 1); }
+//       if (e.key === 'Home')     { e.preventDefault(); scrollToSection(-1); }
+//       if (e.key === 'End')      { e.preventDefault(); scrollToSection(specials.length - 1); }
+//     });
+
+//     /* ===== 「トップへ戻る」など（任意） ===== */
+//     document.addEventListener('click', (e)=>{
+//       const a = e.target.closest('.feature_wrap_card_topBtn, .page_top');
+//       if (!a) return;
+//       e.preventDefault();
+//       scrollToSection(-1);
+//     });
+//   });
+// })();
+
+
+
+
 
 
 // トップ「特集」高さ割り出し① type02対応
@@ -998,6 +1467,217 @@ jQuery(function ($) {
 })();
 /* === ▲▲ ここまで ▲▲ */
 
-
   });
 })();
+
+// トップ動画背景（YouTube埋め込み）
+(function(){
+  'use strict';
+  const el = document.getElementById('yt-bg-player');
+  if (!el) return;
+  const VIDEO_ID = el.getAttribute('data-video');
+  let player, lastKick = 0;
+
+  window.onYouTubeIframeAPIReady = function(){
+    player = new YT.Player('yt-bg-player', {
+      videoId: VIDEO_ID,
+      playerVars: {
+        // ------- UI/表示系の最適化 -------
+        controls: 0,            // コントロール非表示
+        modestbranding: 1,      // ロゴ最小化
+        rel: 0,                 // 関連は同チャンネルのみ
+        iv_load_policy: 3,      // 注釈非表示
+        fs: 0,                  // 全画面ボタン無効
+        disablekb: 1,           // キーボード操作無効
+        cc_load_policy: 0,      // 字幕自動表示しない
+        // ------- 再生系 -------
+        autoplay: 1,
+        mute: 1,
+        playsinline: 1,
+        loop: 1,
+        playlist: VIDEO_ID,     // ループに必須
+        enablejsapi: 1,
+        origin: location.origin
+      },
+      events: {
+        onReady: (e) => {
+          try { e.target.mute(); } catch(_){}
+          kickPlay();
+          // 初期チラつき防止：準備できたらフェードイン
+          requestAnimationFrame(()=> {
+            document.getElementById('bg-video')?.classList.add('is-ready');
+          });
+
+           // ▼ ここが追加：グローバル参照＋準備完了イベント
+          window.YT_BG = e.target;
+          document.dispatchEvent(new CustomEvent('ytbg:ready'));
+        },
+        onStateChange: (e) => {
+          if (e.data === YT.PlayerState.ENDED) {
+            try { e.target.seekTo(0, true); } catch(_){}
+            kickPlay();
+          }
+          if (e.data === YT.PlayerState.PAUSED || e.data === YT.PlayerState.CUED) {
+            kickPlay();
+          }
+        }
+      },
+      host: 'https://www.youtube-nocookie.com' // ← これが重要
+    });
+  };
+
+  function kickPlay(){
+    if (!player || typeof player.playVideo !== 'function') return;
+    const now = Date.now();
+    if (now - lastKick < 300) return; // 連打しない
+    lastKick = now;
+    try { player.playVideo(); } catch(_){}
+  }
+
+  const rekick = () => kickPlay();
+  document.addEventListener('visibilitychange', rekick, {passive:true});
+  window.addEventListener('focus', rekick, {passive:true});
+  window.addEventListener('scroll', rekick, {passive:true});
+  window.addEventListener('touchmove', rekick, {passive:true});
+
+  try{
+    const io = new IntersectionObserver((ents)=>{
+      if (ents[0]?.isIntersecting) kickPlay();
+    }, {threshold: 0.01});
+    io.observe(document.getElementById('bg-video'));
+  }catch(_){}
+})();
+
+// ボタン制御 JS（ミュート切替）
+// (function(){
+//   'use strict';
+//   const btn = document.getElementById('yt-audio-toggle');
+//   if (!btn) return;
+
+//   // プレイヤー準備を待ってから初期状態を反映
+//   function initWithPlayer(){
+//     if (!window.YT_BG || typeof window.YT_BG.isMuted !== 'function') return;
+//     const muted = window.YT_BG.isMuted();
+//     setBtnState(muted ? 'off' : 'on');
+//   }
+
+//   function setBtnState(state){ // 'on' = 音あり, 'off' = ミュート
+//     const on = (state === 'on');
+//     btn.classList.toggle('on', on);
+//     btn.classList.toggle('off', !on);
+//     btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+//     btn.setAttribute('aria-label', on ? 'サウンドをオフ' : 'サウンドをオン');
+//   }
+
+//   function toggleAudio(){
+//     if (!window.YT_BG) return;
+//     try {
+//       if (window.YT_BG.isMuted()){
+//         window.YT_BG.unMute();
+//         window.YT_BG.setVolume(100); // 必要なら調整
+//         window.YT_BG.playVideo();    // gesture後の再生を安定化
+//         setBtnState('on');
+//       } else {
+//         window.YT_BG.mute();
+//         setBtnState('off');
+//       }
+//     } catch(e){}
+//   }
+
+//   // クリックでトグル
+//   btn.addEventListener('click', (e)=>{
+//     e.preventDefault();
+//     e.stopPropagation();
+//     toggleAudio();
+//   });
+
+//   // プレイヤー準備イベントで初期化
+//   document.addEventListener('ytbg:ready', initWithPlayer, {once:true});
+//   // 既に準備済みだった場合
+//   if (window.YT_BG) initWithPlayer();
+// })();
+document.addEventListener("DOMContentLoaded", () => {
+  const buttons = document.querySelectorAll(".js-video-button");
+
+  function setState(btn, on){
+    btn.classList.toggle("on",  on);
+    btn.classList.toggle("off", !on);
+    btn.setAttribute("aria-pressed", on ? "true" : "false");
+    btn.setAttribute("aria-label",   on ? "サウンドをオフ" : "サウンドをオン");
+    const st = btn.querySelector(".status-text");
+    if (st) st.textContent = on ? "ON" : "OFF";
+  }
+
+  // --- 初期同期（YouTube > <video> > 見た目のみ）
+  function syncInitial(){
+    const hasYT = !!(window.YT_BG && typeof window.YT_BG.isMuted === "function");
+    if (hasYT){
+      const on = !window.YT_BG.isMuted();
+      buttons.forEach(b => setState(b, on));
+      return;
+    }
+    const video = document.querySelector(".js-video");
+    if (video){
+      buttons.forEach(b => setState(b, !video.muted));
+    } else {
+      // デフォはOFF（必要なら true に）
+      buttons.forEach(b => setState(b, false));
+    }
+  }
+  syncInitial();
+
+  // YouTube 側があとから ready になる場合
+  document.addEventListener("ytbg:ready", () => {
+    if (window.YT_BG && typeof window.YT_BG.isMuted === "function"){
+      const on = !window.YT_BG.isMuted();
+      buttons.forEach(b => setState(b, on));
+    }
+  }, { once:true });
+
+  // --- クリックで切替
+  buttons.forEach(btn => {
+    btn.addEventListener("click", (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+
+      // 1) YouTube IFrame API を使っている場合
+      if (window.YT_BG && typeof window.YT_BG.isMuted === "function"){
+        try{
+          if (window.YT_BG.isMuted()){
+            window.YT_BG.unMute();
+            window.YT_BG.setVolume?.(100);
+            window.YT_BG.playVideo?.();
+            setState(btn, true);
+          } else {
+            window.YT_BG.mute();
+            setState(btn, false);
+          }
+        } catch(_){}
+        return;
+      }
+
+      // 2) <video class="js-video"> がある場合
+      const video = document.querySelector(".js-video");
+      if (video){
+        video.muted = !video.muted;
+        if (!video.muted) video.play?.();
+        setState(btn, !video.muted);
+        return;
+      }
+
+      // 3) 連動先が無い場合は見た目だけトグル
+      setState(btn, !btn.classList.contains("on"));
+    });
+  });
+
+  // --- スクロールでボタンを隠す（あなたの元コード踏襲）
+  const hiddenBtn = document.querySelectorAll(".movie__btn");
+  const toggleStoppedClass = () => {
+    hiddenBtn.forEach(el => {
+      if (window.scrollY > 50) el.classList.add("hidden");
+      else el.classList.remove("hidden");
+    });
+  };
+  toggleStoppedClass();
+  window.addEventListener("scroll", toggleStoppedClass);
+});

@@ -95,19 +95,15 @@
             display: flex;
             flex-direction: row-reverse;
             h2 {
-                -ms-writing-mode: tb-rl;
-                writing-mode: vertical-rl;
-                letter-spacing: -0.25em;
-                font-size: 1.25vw;
+                letter-spacing: 1.1px;
+                font-size: 18px;
                 color: #03581D;
                 font-weight: 600;
                 line-height: 1.2;
             }
             p {
-                -ms-writing-mode: tb-rl;
-                writing-mode: vertical-rl;
-                letter-spacing: -0.25em;
-                font-size: 1.25vw;
+                letter-spacing: 1.1px;
+                font-size: 18px;
                 color: #03581D;
                 font-weight: 600;
                 line-height: 2.2;
@@ -116,19 +112,17 @@
                     font-family: $sub_font;
                     font-size: 0.93vw;
                     display: block;
-                    margin-top: 6px;
+                    margin-top: 3px;
                     line-height: 1.2;
                     letter-spacing: 1.3px;
+                    text-orientation: sideways;
                 }
             }
         }
         &_txt {
             p {
-                -ms-writing-mode: tb-rl;
-                -webkit-writing-mode: vertical-rl;
-                writing-mode: vertical-rl;
-                letter-spacing: -0.25em;
-                font-size: .83vw;
+                font-size: 13px;
+                letter-spacing: 1px;
                 color: #03581D;
                 font-weight: 500;
                 margin-top: 2px;
@@ -173,6 +167,7 @@
                     position: relative;
                     img {
                         border-radius: 10px;
+                        aspect-ratio: 3 / 2;
                     }
                 }
                 &_txt {
@@ -256,6 +251,9 @@
                         left: 0;
                         top: 0;
                     }
+                    &::after {
+                        background-color: #F3FC85;
+                    }
                 }
             }
             .archive_btn_close {
@@ -264,3 +262,33 @@
         }
     }
 }
+
+
+
+
+/* modal-video の黒幕より高く（多くのテーマで 9999〜99999） */
+.imgmodal { position: fixed; inset: 0; display: none; z-index: 100000; }
+.imgmodal.is-open { display: flex; align-items: center; justify-content: center; }
+
+.imgmodal__backdrop { position:absolute; inset:0; background:rgba(0,0,0,.65); }
+
+.imgmodal__dialog {
+  position:relative;
+  width:min(92vw, 1100px);
+  max-height:90vh;
+}
+
+.imgmodal__body { position:relative; }
+.imgmodal__body img {
+  display:block; width:100%; height:auto;
+  max-height:90vh; object-fit:contain;
+}
+
+.imgmodal__close{
+  position:absolute; top:8px; right:8px;
+  width:36px; height:36px; border-radius:50%;
+  border:0; background:#000; color:#fff; cursor:pointer;
+  display:flex; align-items:center; justify-content:center;
+  opacity:.9;
+}
+.imgmodal__close:hover{ opacity:1; }

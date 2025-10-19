@@ -8,7 +8,7 @@
                 <div class="comment">
                     <p>石のひつじと、すごす時間平尾台で過ごす時間</p>
                 </div>
-                <img src="<?php echo get_template_directory_uri(); ?>/assets/public/img/test/test_lovers01.png" alt="名前名前" />
+                <img src="<?php echo get_template_directory_uri(); ?>/assets/public/img/test/lovers01.png" alt="名前名前" />
                 <div class="person">
                     <p class="position">肩書き</p>
                     <p class="name">名前 なまえ</p>
@@ -18,7 +18,7 @@
                 <div class="comment">
                     <p>石のひつじと、すごす時間平尾台で過ごす時間</p>
                 </div>
-                <img src="<?php echo get_template_directory_uri(); ?>/assets/public/img/test/test_lovers02.png" alt="名前名前" />
+                <img src="<?php echo get_template_directory_uri(); ?>/assets/public/img/test/lovers02.png" alt="名前名前" />
                 <div class="person">
                     <p class="position">肩書き</p>
                     <p class="name">名前 なまえ</p>
@@ -28,7 +28,7 @@
                 <div class="comment">
                     <p>石のひつじと、すごす時間平尾台で過ごす時間</p>
                 </div>
-                <img src="<?php echo get_template_directory_uri(); ?>/assets/public/img/test/test_lovers03.png" alt="名前名前" />
+                <img src="<?php echo get_template_directory_uri(); ?>/assets/public/img/test/lovers03.png" alt="名前名前" />
                 <div class="person">
                     <p class="position">肩書き</p>
                     <p class="name">名前 なまえ</p>
@@ -38,7 +38,7 @@
                 <div class="comment">
                     <p>石のひつじと、すごす時間平尾台で過ごす時間</p>
                 </div>
-                <img src="<?php echo get_template_directory_uri(); ?>/assets/public/img/test/test_lovers04.png" alt="名前名前" />
+                <img src="<?php echo get_template_directory_uri(); ?>/assets/public/img/test/lovers04.png" alt="名前名前" />
                 <div class="person">
                     <p class="position">肩書き</p>
                     <p class="name">名前 なまえ</p>
@@ -48,7 +48,7 @@
                 <div class="comment">
                     <p>石のひつじと、すごす時間平尾台で過ごす時間</p>
                 </div>
-                <img src="<?php echo get_template_directory_uri(); ?>/assets/public/img/test/test_lovers01.png" alt="名前名前" />
+                <img src="<?php echo get_template_directory_uri(); ?>/assets/public/img/test/lovers05.png" alt="名前名前" />
                 <div class="person">
                     <p class="position">肩書き</p>
                     <p class="name">名前 なまえ</p>
@@ -58,27 +58,7 @@
                 <div class="comment">
                     <p>石のひつじと、すごす時間平尾台で過ごす時間</p>
                 </div>
-                <img src="<?php echo get_template_directory_uri(); ?>/assets/public/img/test/test_lovers02.png" alt="名前名前" />
-                <div class="person">
-                    <p class="position">肩書き</p>
-                    <p class="name">名前 なまえ</p>
-                </div>  
-            </div>
-            <div class="swiper-slide page_body_content_lovers_swiper_wrapper_bl">
-                <div class="comment">
-                    <p>石のひつじと、すごす時間平尾台で過ごす時間</p>
-                </div>
-                <img src="<?php echo get_template_directory_uri(); ?>/assets/public/img/test/test_lovers03.png" alt="名前名前" />
-                <div class="person">
-                    <p class="position">肩書き</p>
-                    <p class="name">名前 なまえ</p>
-                </div>  
-            </div>
-            <div class="swiper-slide page_body_content_lovers_swiper_wrapper_bl">
-                <div class="comment">
-                    <p>石のひつじと、すごす時間平尾台で過ごす時間</p>
-                </div>
-                <img src="<?php echo get_template_directory_uri(); ?>/assets/public/img/test/test_lovers04.png" alt="名前名前" />
+                <img style="padding: 40px 0 10px;"src="<?php echo get_template_directory_uri(); ?>/assets/public/img/test/lovers06.png" alt="名前名前" />
                 <div class="person">
                     <p class="position">肩書き</p>
                     <p class="name">名前 なまえ</p>

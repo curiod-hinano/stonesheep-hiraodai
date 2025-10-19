@@ -45,9 +45,9 @@ get_header(); ?>
             </div>
         </div>
         <?php 
-            get_template_part('blocks/bl_lovers');
-            get_template_part('blocks/bl_share');
-            get_template_part('blocks/bl_popular');
+            get_template_part('sections/sec_lovers');
+            get_template_part('sections/sec_share');
+            get_template_part('sections/sec_popular');
         ?>
     </div>
 </div>

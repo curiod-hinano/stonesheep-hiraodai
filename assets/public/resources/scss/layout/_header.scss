@@ -23,10 +23,13 @@
         }
       }
       .header_news {
+        display: flex;
+        justify-content: center;
         &_link {
           position: relative;
           display: block;
           text-align: left;
+          max-width: 300px;
           &_midashi {
             position: absolute;
             top: -17px;
@@ -35,7 +38,7 @@
             color: #F3FC85;
             font-family: $sub_font;
             display: inline-block;
-            font-size: 1.04vw;
+            font-size: 18px;
             letter-spacing: .1rem;
             line-height: 0;
             padding: 13px 15px;

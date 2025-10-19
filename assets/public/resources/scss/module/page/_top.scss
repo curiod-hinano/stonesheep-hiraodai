@@ -44,29 +44,220 @@ body.is-special .fv_ttl_wrap{
   opacity: 0;
   pointer-events: none;
 }
+div#bg-photo img.fvphoto {
+    height: 100vh;
+    object-fit: cover;
+}
+/* 背景コンテナ：最背面で固定・イベントは拾わない */
+.main_bg_youtube {
+    position: relative;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    overflow: hidden;
+    height: 100vh;
+}
+/* 16:9 をビューポートにフィット（常に全面をカバー） */
+.main_bg_youtube iframe {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100vw;
+    height: 100vh;
+    transform: translate(-50%, -50%) scale(1.2);
+    overflow: hidden;
+}
+
+#bg-video{
+  position: relative;
+inset: 0;
+z-index: 0;
+pointer-events: none;
+overflow: hidden;
+height: 100vh;
+}
+/* 16:9 カバー（縦長=高さ基準 / 横長=幅基準） */
+iframe#yt-bg-player {
+  position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100vw;
+    height: 100vh;
+    transform: translate(-50%, -50%) scale(1.2);
+    overflow: hidden;
+}
+
+/* fvのサウンドボタン全体 */
+.movie__btn_wrap {
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 50px;
+    height: 50px;
+    z-index: 9999;
+    opacity: 1;
+}
+.movie__btn {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    transform: translateX(-50%);
+    height: 40px;
+    width: 40px;
+    z-index: 9999;
+    pointer-events: auto;
+    opacity: 1; /* 最初から表示 */
+    transition: opacity .6s ease, transform .6s ease;
+}
+/* スクロール時などに非表示 */
+// .movie__btn.hidden {
+//   opacity: 0 !important;
+//   transform: translateY(10px);
+// }
+button.js-video-button {
+    background: unset;
+    border: unset;
+}
+button.js-video-button .icon{
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  width:40px;
+  height:40px;
+  gap:3px;
+}
+/* 共通の棒スタイル */
+button.js-video-button .icon .bar{
+  width:2px; height:16px;
+  background:#ffffff;
+  border-radius:1px;
+  transform-origin:center center; /* ← 中心基準に変更 */
+  --base:.6;
+  transform:scaleY(var(--base));
+  transition: transform .25s ease, opacity .25s ease;
+  will-change: transform, opacity;
+  opacity:1;
+}
+/* 凹凸の停止状態（SVGのようなプロファイル） */
+button.js-video-button .icon .bar.b1{ --base:.4; }
+button.js-video-button .icon .bar.b2{ --base:.7; }
+button.js-video-button .icon .bar.b3{ --base:.4; }
+button.js-video-button .icon .bar.b4{ --base:1.00; }
+button.js-video-button .icon .bar.b5{ --base:1.6; }
+button.js-video-button .icon .bar.b6{ --base:.7; }
+button.js-video-button .icon .bar.b7{ --base:.4; }
+
+button.js-video-button.off .icon .bar{
+  animation:none;
+  opacity:1;
+  transform:scaleY(var(--base)); /* 中央を基準に静止 */
+}
+/* ONで波打つ */
+button.js-video-button.on .icon .bar{
+  animation-name:waveY;
+  animation-timing-function:ease-in-out;
+  animation-iteration-count:infinite;
+  animation-direction:alternate;
+}
+/* バラつき調整（中央速め） */
+button.js-video-button.on .icon .bar.b1{ animation-duration:.82s; animation-delay:-.05s; }
+button.js-video-button.on .icon .bar.b2{ animation-duration:.68s; animation-delay:-.14s; }
+button.js-video-button.on .icon .bar.b3{ animation-duration:.56s; animation-delay:-.08s; }
+button.js-video-button.on .icon .bar.b4{ animation-duration:.48s; animation-delay:0s; }
+button.js-video-button.on .icon .bar.b5{ animation-duration:.56s; animation-delay:-.10s; }
+button.js-video-button.on .icon .bar.b6{ animation-duration:.70s; animation-delay:-.16s; }
+button.js-video-button.on .icon .bar.b7{ animation-duration:.86s; animation-delay:-.06s; }
+@keyframes waveY{
+  from{ transform:scaleY(.40); }
+  to  { transform:scaleY(1.15); }
+}
+/* ラベルはそのまま */
+button.js-video-button .status-text{
+  position:absolute;
+  bottom:-9px;
+  left:50%;
+  transform:translateX(-50%);
+  font-size:10px; color:#fff;
+  letter-spacing:.05em;
+  pointer-events:none;
+  line-height: 1;
+}
+
 
 /* ///////////////////
 /// 背景画像切替 
 ///////////////////*/
-#bg-fixed {
+// #bg-fixed {
+//   position: fixed;
+//   inset: 0;
+//   z-index: 1;
+//   pointer-events: none;
+// }
+// #bg-fixed .bg-slot {
+//   position: absolute;
+//   inset: 0;
+//   background-size: cover;
+//   background-position: center;
+//   opacity: 1!important;
+//   transition: opacity .7s ease;
+//   transition: none !important; /* フェード無効 */
+//   will-change: opacity;
+//   backface-visibility: hidden;
+//   transform: translateZ(0);
+// }
+
+/* 背景固定レイヤ */
+#bg-fixed{
   position: fixed;
   inset: 0;
-  z-index: 1;
-  pointer-events: none;
+  z-index: -1;          /* 背景として背面に配置。必要に応じて数値調整 */
+  pointer-events: none; /* 背景がクリックやスクロールを奪わない */
 }
-#bg-fixed .bg-slot {
-  position: absolute;
-  inset: 0;
-  background-size: cover;
+/* 背景スロット（1枚だけ使う） */
+#bg-fixed .bg-slot{
+  width: 100%;
+  height: 100%;
+  background-repeat: no-repeat;
   background-position: center;
-  opacity: 0;
-  transition: opacity .7s ease;
-  will-change: opacity;
+  background-size: cover;
+  opacity: 1;
+  transition: none;     /* ノーフェード運用 */
+}
+
+:root{
+  --enter-distance: 80px;          /* 下からの距離 */
+  --fade-duration: 1800ms;           /* フェードアウト/インの時間 */
+  --move-duration: 3000ms;          /* 下から上へ動く時間（全体のスピード感） */
+  --fade-ease: ease-in-out;         /* ふわっと始まり、ふわっと終わる */
+  --move-ease: cubic-bezier(.16,.84,.22,1);
+}
+#bg-fixed .bg-slot{
+  position:absolute; inset:0;
+  background-position:center; background-size:cover; background-repeat:no-repeat;
+  opacity:0;
+  transform: translate3d(0,0,0);      /* GPUに載せる */
+  will-change: opacity, transform;
   backface-visibility: hidden;
-  transform: translateZ(0);
+//   contain: paint;                      /* 描画範囲を限定してチラつき抑制 */
+  contain: layout paint;
 }
 #bg-fixed .bg-slot.is-show { 
     opacity: 1;
+    transform: translateY(0);
+}
+#bg-fixed .bg-slot.is-enter{
+  transform: translateY(var(--enter-distance));
+}
+@media (prefers-reduced-motion: reduce){
+  :root{
+    --fade-duration: 0s;
+    --move-duration: 0s;
+  }
 }
 /* コンテンツは前面 */
 #fullpage {
@@ -134,7 +325,9 @@ body.is-bg-mode #fv .main_bg_movies {
 /// 特集
 ///////////////////*/
 .special_section {
-    position: fixed; inset: 0;           /* ← ビューポートに固定 */
+    // position: fixed;
+    display: block;
+    inset: 0;           /* ← ビューポートに固定 */
     z-index: 4;
     opacity: 0; visibility: hidden; pointer-events: none;
     transition: opacity .6s ease;
@@ -150,6 +343,8 @@ body.is-bg-mode #fv .main_bg_movies {
         transform: translate(-50%, -50%);
         width: 26vw;
         height: 46vw;
+        max-width: 500px;
+        max-height: 890px;
         overflow: hidden;
         border-radius: 30px;
         &_card {
@@ -173,18 +368,27 @@ body.is-bg-mode #fv .main_bg_movies {
             &_topBtn {
                 position: absolute;
                 right: 25px;
-                bottom: 20px;
-                width: 1.5vw;
-                height: 1.5vw;
-                padding: 3px;
-                background: #fff;
-                border-radius: 50%;
+                bottom: 15px;
+                width: 2.5vw;
+                height: 2.2vw;
+                min-width: 40px;
+                max-width: 50px;
                 transition: 0.3s;
                 display: flex;
                 justify-content: center;
                 align-items: center;
-                svg {
-                    width: 60%;
+                &_img {
+                    display: block;
+                    width: 100%;
+                    height: 100%;
+                    background: url(../../assets/public/img/top/return_top_close.svg) no-repeat center center / contain;
+                    transition: all 0.3s ease;
+                }
+                &:hover {
+                    opacity: 1;
+                    .feature_wrap_card_topBtn_img {
+                        background: url(../../assets/public/img/top/return_top_open.svg) no-repeat center center / contain;
+                    }
                 }
             }
             &_bkImg {
@@ -207,6 +411,7 @@ body.is-bg-mode #fv .main_bg_movies {
                 }
                 svg {
                     width: 15vw;
+                    max-width: 300px;
                 }
             }
             &_specialttl {
@@ -215,13 +420,15 @@ body.is-bg-mode #fv .main_bg_movies {
                 padding: 15px 25px 50px;
                 img {
                     width: 13.8vw;
+                    max-width: 267px;
                 }
             }
             &_txt {
-                padding: 0 3.9vw 60px;
+                // padding: 0 3.9vw 60px;
+                padding: 0 3.7rem 60px;
                 p {
-                    font-size: 0.83vw;
-                    line-height: 1.3vw;
+                    font-size: 12px;
+                    line-height: 1.2rem;
                     overflow: visible; 
                     height: auto;
                     max-height: none;
@@ -235,7 +442,7 @@ body.is-bg-mode #fv .main_bg_movies {
                 p {
                     display: grid;
                     justify-items: center;
-                    font-size: .72vw;
+                    font-size: 11px;
                     line-height: .9rem;
                     font-weight: 400;
                     font-family: $sub_font;
@@ -244,12 +451,12 @@ body.is-bg-mode #fv .main_bg_movies {
             &_midashi01 {
                 display: inline-block;
                 width: max-content;
-                padding: 0 3.9vw;
+                padding: 0 2.8rem;
                 text-align: center;
                 position: absolute;
                 left: 50%;
                 transform: translateX(-50%);
-                font-size: 1.25vw;
+                font-size: 18px;
                 font-weight: 400;
                 line-height: 2.8rem;
                 &.top {
@@ -273,10 +480,10 @@ body.is-bg-mode #fv .main_bg_movies {
                 width: max-content;
                 text-align: center;
                 position: absolute;
-                font-size: 1.25vw;
+                font-size: 18px;
                 font-weight: 400;
                 line-height: 2.8rem;
-                writing-mode: vertical-rl;
+                letter-spacing: 2.6px;
                 &.right {
                     right: 30px;
                     top: 8%;
@@ -296,13 +503,11 @@ body.is-bg-mode #fv .main_bg_movies {
                     &:before {
                         content: "";
                         position: absolute;
-                        top: 13px;
-                        left: -4px;
+                        top: 0px;
+                        left: 1px;
                         width: 100%;
-                        height: 30px;
-                        padding-bottom: 5px;
-                        background: url(../../assets/public/img/top/wave.svg) repeat-x bottom left / auto 5px;
-                        transform: rotate(90deg);
+                        height: 100%;
+                        background: url(../../assets/public/img/top/wave_tate.svg) repeat-y bottom left / auto 25px;
                     }
                 }
             }
@@ -318,8 +523,9 @@ body.is-bg-mode #fv .main_bg_movies {
                     &.type05_contents {
                         text-align: center;
                         h2 {
-                            padding: 2vw 3.9vw 1vw;
-                            font-size: 1vw;
+                            padding: 40px 3.8rem 20px;
+                            font-size: 16px;
+                            line-height: 1.8rem;
                             font-weight: 500;
                             letter-spacing: 1.1px;
                             text-align: left;
@@ -329,11 +535,11 @@ body.is-bg-mode #fv .main_bg_movies {
                             margin: 0 calc(50% - 55vw);
                         }
                         .feature_wrap_card_contents_wrap_txt {
-                            padding: 1vw 3.9vw 45px;
+                            padding: 25px 3.8rem 45px;
                             text-align: left;
                             p {
-                                font-size: 0.83vw;
-                                line-height: 1.3vw;
+                                font-size: 12px;
+                                line-height: 1.2rem;
                                 overflow: visible;
                                 height: auto;
                                 max-height: none;
@@ -348,25 +554,26 @@ body.is-bg-mode #fv .main_bg_movies {
                     &.type06_contents {
                         text-align: center;
                         h2 {
-                            padding: 2vw 3.9vw 1vw;
-                            font-size: 1vw;
+                            padding: 40px 3.8rem 20px;
+                            font-size: 16px;
+                            line-height: 1.8rem;
                             font-weight: 500;
                             letter-spacing: 1.1px;
                             text-align: left;
                         }
                         .feature_wrap_card_contents_wrap_img {
                             // padding: 1vw 3.9vw 15px;
-                            padding: 0 3.9vw 0;
+                            padding: 0 3.8rem 0;
                             img {
                                 border: 1px solid #fff;
                             } 
                         }
                         .feature_wrap_card_contents_wrap_txt {
-                            padding: 1.5vw 3.9vw 45px;
+                            padding: 25px 3.8rem 45px;
                             text-align: left;
                             p {
-                                font-size: 0.83vw;
-                                line-height: 1.3vw;
+                                font-size: 12px;
+                                line-height: 1.2rem;
                                 overflow: visible;
                                 height: auto;
                                 max-height: none;
@@ -379,8 +586,8 @@ body.is-bg-mode #fv .main_bg_movies {
             &_contents {
                 &_wrap {
                     &.type07_contents {
-                        margin: 3vw 0;
-                        padding: 0 3.9vw 0;
+                        margin: 60px 0;
+                        padding: 0 3.8rem 0;
                         text-align: center;
                         .feature_wrap_card_contents_wrap_img {
                             padding-bottom: 30px;
@@ -398,17 +605,17 @@ body.is-bg-mode #fv .main_bg_movies {
                                 inline-size: calc(160px * auto + 20px);
                                 max-inline-size: 100%;
                                 width: 100%;
-                                font-size: 0.83vw;
-                                line-height: 1.1vw;
-                                letter-spacing: -.25rem;
+                                font-size: 12px;
+                                line-height: 1.2rem;
+                                letter-spacing: 1px;
                                 overflow: visible;
                                 height: auto;
                                 max-height: none;
                                 overflow-y: auto;
                                 span {
                                     display: block;
-                                    font-size: 0.93vw;
-                                    letter-spacing: -.2rem;
+                                    font-size: 16px;
+                                    letter-spacing: .5px;
                                     margin-left: 25px;
                                     font-weight: 500;
                                 }
@@ -423,12 +630,11 @@ body.is-bg-mode #fv .main_bg_movies {
             &_contents {
                 &_wrap {
                     &.type08_contents {
-                        margin: 3vw 0;
-                        padding: 0 3.9vw 0;
+                        margin: 60px 0;
+                        padding: 0 3.8rem 0;
                         text-align: center;
                         .feature_wrap_card_contents_wrap_txt {
                             text-align: left;
-                            writing-mode: vertical-rl;
                             width: 100%;
                             p {
                                 columns: 160px auto;
@@ -436,17 +642,17 @@ body.is-bg-mode #fv .main_bg_movies {
                                 inline-size: calc(160px * 3 + 20px);
                                 max-inline-size: 100%;
                                 width: 100%;
-                                font-size: 0.83vw;
-                                line-height: 1.1vw;
-                                letter-spacing: -.25rem;
+                                font-size: 12px;
+                                line-height: 1.2rem;
+                                letter-spacing: 1px;
                                 overflow: visible;
                                 height: auto;
                                 max-height: none;
                                 overflow-y: auto;
                                 span {
                                     display: block;
-                                    font-size: 0.93vw;
-                                    letter-spacing: -.2rem;
+                                    font-size: 16px;
+                                    letter-spacing: 0.5px;
                                     margin-left: 25px;
                                     font-weight: 500;
                                 }

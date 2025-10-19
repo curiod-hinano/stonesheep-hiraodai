@@ -25,6 +25,7 @@
     height: 27vh;
     min-height: 286px;
     background: linear-gradient(to bottom, rgba(0,0,0,0) -6%, rgba(0,96,37,.6) 30%, rgba(0,96,37,.9) 100%);
+    mix-blend-mode: multiply;
     background-size: contain;
     z-index: -1;
     opacity: 1;

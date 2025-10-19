@@ -8,8 +8,8 @@ get_header(); ?>
     <div class="page_body_content story">
         <div class="page_body_content_head">
             <div class="page_body_content_head_ttl">
-                <h2>物語に出会う</h2>
-                <p>
+                <h2 class="tategaki">物語に出会う</h2>
+                <p class="tategaki">
                     見えているものが、すべてではありません。<br>
                     あなたが歩いた、あの穏やかな丘。<br>
                     あなたが触れた、あの冷たい石。<br>
@@ -20,9 +20,9 @@ get_header(); ?>
             <div class="page_body_content_head_index">
                 <p>目次</p>
                 <ul>
-                    <li><a href="#story01">そして、石はひつじになる。</a></li>
-                    <li><a href="#story02">丘を育む炎 ー 野焼きの景観史</a></li>
-                    <li><a href="#story03">三つの力と、丘という大地 — 先人たちの眼差し</a></li>
+                    <li class="tategaki"><a href="#story01">そして、石はひつじになる。</a></li>
+                    <li class="tategaki"><a href="#story02">丘を育む炎 ー 野焼きの景観史</a></li>
+                    <li class="tategaki"><a href="#story03">三つの力と、丘という大地 — 先人たちの眼差し</a></li>
                 </ul>
             </div>
         </div>
@@ -60,9 +60,9 @@ get_header(); ?>
             </div>
         </div>
         <?php 
-            get_template_part('blocks/bl_lovers');
-            get_template_part('blocks/bl_share');
-            get_template_part('blocks/bl_popular');
+            get_template_part('sections/sec_lovers');
+            get_template_part('sections/sec_share');
+            get_template_part('sections/sec_popular');
         ?>
     </div>
 </div>

@@ -15,7 +15,7 @@
         left: 0;
         width: 100%;
         height: 100%;
-        background: url(../../assets/public/img/page/page_bk.jpg) no-repeat center top;
+        background: url(../../assets/public/img/page/page_bk.png) no-repeat center top;
         background-size: cover;
         z-index: -1;
     }
@@ -315,7 +315,7 @@
             }
         }
         &_txt {
-            padding: 60px 3.9vw 5px;
+            padding: 60px 3.2rem 5px;
             background-color: #fff;
             h2 {
                 color: #03581D;
@@ -346,20 +346,20 @@
         }
         &_ttl {
             position: relative;
-            display: grid;
+            display: flex;
+            flex-direction: row-reverse;
+            justify-content: center;
             margin-bottom: 20vh;
-            writing-mode: vertical-rl;
             h2 {
-                font-size: 1.25vw;
-                line-height: 1;
-                letter-spacing: -3px;
-                margin-left: 1.25rem;
+                letter-spacing: 1.3px;
+                font-size: 18px;
+                line-height: 1.2;
+                margin-left: 45px;
                 color: #fff;
             }
             p {
-                font-size: .83vw;
-                line-height: 1.5rem;
-                letter-spacing: -4px;
+                font-size: 14px;
+                letter-spacing: 1px;
                 color: #fff;
             }
         }
@@ -392,9 +392,9 @@
                 li {
                     color: #fff;
                     a {
-                        font-size: .93vw;
+                        font-size: 14px;
                         line-height: 2.8rem;
-                        letter-spacing: -3px;
+                        letter-spacing: 1px;
                         color: #fff;
                     }
                 }
@@ -428,8 +428,8 @@
                 min-width: 0;
                 min-height: 0;
                 p {
-                    font-size: 0.72vw;
-                    letter-spacing: -3px;
+                    font-size: 13px;
+                letter-spacing: 1px;
                     line-height: 1rem;
                     columns: 160px auto;
                     column-gap: 20px;
@@ -456,20 +456,20 @@
         }
         &_ttl {
             position: relative;
-            display: grid;
+            display: flex;
+            flex-direction: row-reverse;
+            justify-content: center;
             margin-bottom: 20vh;
-            writing-mode: vertical-rl;
             h2 {
-                font-size: 1.25vw;
-                line-height: 1;
-                letter-spacing: -3px;
+                letter-spacing: 1.3px;
+                font-size: 18px;
+                line-height: 1.2;
                 margin-left: 1.25rem;
                 color: #fff;
             }
             p {
-                font-size: .83vw;
-                line-height: 1.5rem;
-                letter-spacing: -4px;
+                font-size: 13px;
+                letter-spacing: 1px;
                 color: #fff;
             }
         }

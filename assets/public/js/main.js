@@ -283,6 +283,58 @@ jQuery(function ($) {
 
 
 //「風景に出会う」ページ 動画モーダル
-$(function(){
-  $(".js-modal-landscape").modalVideo();
+// $(function(){
+//   $(".js-modal-landscape").modalVideo();
+// });
+
+jQuery(function($){
+  // 既存：YouTubeは modal-video.js
+  $('.js-modal-landscape').modalVideo({
+    channel: 'youtube',
+    youtube: { rel: 0, playsinline: 1 }
+  });
+
+  // 画像モーダル
+  var $imgModal  = $('#img-modal');
+  var $imgTarget = $('#img-modal .imgmodal__body img');
+
+  // 開く
+  $(document).on('click', '.js-image-landscape', function(e){
+    e.preventDefault();
+
+    // 優先：data-image、フォールバック：内部の<img>のsrc
+    var src = $.trim($(this).data('image') || '') ||
+              $.trim($(this).find('img').attr('src') || '');
+
+    if (!src) {
+      console.warn('[img-modal] 画像URLが空です');
+      return;
+    }
+
+    $imgTarget.attr('src', src);
+    $imgModal.addClass('is-open').attr('aria-hidden', 'false');
+  });
+
+  // 閉じる（× or 背景）
+  $(document).on('click', '#img-modal [data-close]', function(){
+    closeImgModal();
+  });
+
+  // ダイアログ内クリックでは閉じない
+  $(document).on('click', '#img-modal .imgmodal__dialog', function(e){
+    e.stopPropagation();
+  });
+
+  // ESCで閉じる
+  $(document).on('keydown', function(e){
+    if (e.key === 'Escape' && $imgModal.hasClass('is-open')) {
+      closeImgModal();
+    }
+  });
+
+  function closeImgModal(){
+    $imgModal.removeClass('is-open').attr('aria-hidden', 'true');
+    // 読み込みを解放
+    $imgTarget.attr('src', '');
+  }
 });
