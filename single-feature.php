@@ -1,133 +1,10 @@
 <?php
 /**
- * front-page.php
+ * single-feature.php
  */
-get_header();
-?>
+get_header(); ?>
 
-<!-- ここは fullPage.js が面倒を見るエリア -->
-<div id="fullpage">
-
-  <!-- 1. FVセクション -->
-  <div id="fv" class="section">
-    <div class="wrap" style="background:transparent; min-height:100vh;">
-
-      <?php
-      // 最新の landscape 1件を取得
-      $args = [
-        'post_type'      => 'landscape',
-        'posts_per_page' => 1,
-        'orderby'        => 'date',
-        'order'          => 'DESC',
-      ];
-      $latest = get_posts($args);
-
-      $youtube_id  = '';
-      if ($latest) {
-        $pid = $latest[0]->ID;
-        if (function_exists('get_field')) {
-          $youtube_id = trim((string) get_field('youtubeid', $pid));
-        } else {
-          $youtube_id = trim((string) get_post_meta($pid, 'youtubeid', true));
-        }
-        // URLできたときはIDを抜く
-        if ($youtube_id && strpos($youtube_id, 'http') === 0) {
-          if (preg_match('~(?:v=|youtu\.be/|embed/)([A-Za-z0-9_-]{6,64})~', $youtube_id, $m)) {
-            $youtube_id = $m[1];
-          }
-        }
-        // 不正なら捨てる
-        if (!$youtube_id || !preg_match('/^[A-Za-z0-9_-]{6,64}$/', $youtube_id)) {
-          $youtube_id = '';
-        }
-      }
-      ?>
-
-      <div id="bg-video" aria-hidden="true">
-        <div id="yt-bg-player" data-video="<?php echo esc_attr($youtube_id); ?>"></div>
-      </div>
-
-      <div class="movie__btn_wrap">
-        <div class="movie__btn">
-          <button class="js-video-button off" type="button">
-            <span class="icon" aria-hidden="true">
-              <span class="bar b1"></span>
-              <span class="bar b2"></span>
-              <span class="bar b3"></span>
-              <span class="bar b4"></span>
-              <span class="bar b5"></span>
-              <span class="bar b6"></span>
-              <span class="bar b7"></span>
-            </span>
-            <span class="status-text">OFF</span>
-          </button>
-        </div>
-      </div>
-
-      <script src="https://www.youtube.com/iframe_api"></script>
-
-      <div class="fv_ttl_wrap">
-        <h1>
-          <img src="<?php echo get_template_directory_uri(); ?>/assets/public/img/top/fv_ttl.svg" alt="そして、石はひつじになる。 AND THE STONE BECAME SHEEP.">
-        </h1>
-      </div>
-
-      <!-- ニュース（SP） -->
-      <div class="d_only_sp">
-        <div class="fv_news">
-          <p class="fv_news_midashi">EVENT/NEWS</p>
-          <?php
-            $paged = (int) get_query_var('paged');
-            $news_args = array(
-                'post_type'      => 'post',
-                'posts_per_page' => 1,
-                'paged'          => $paged,
-                'orderby'        => 'post_date',
-                'order'          => 'DESC',
-                'post_status'    => 'publish',
-            );
-            $news_q = new WP_Query($news_args);
-            if ($news_q->have_posts()):
-            while ($news_q->have_posts()): $news_q->the_post();
-          ?>
-              <div class="fv_news_ticker js-ticker" data-speed="60">
-                <ul>
-                  <li><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></li>
-                </ul>
-                <ul>
-                  <li><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></li>
-                </ul>
-              </div>
-          <?php
-            endwhile;
-            wp_reset_postdata();
-          endif;
-          ?>
-        </div>
-      </div>
-
-    </div><!-- /.wrap -->
-  </div><!-- /.section（FV） -->
-
-</div><!-- /#fullpage （←ここでfullPage終わり） -->
-
-
-<?php
-// ここから下は「普通のスクロール領域」
-$paged = (int) get_query_var('paged');
-$f_args = array(
-  'post_type'      => 'feature',
-  'posts_per_page' => 1,
-  'paged'          => $paged,
-  'orderby'        => 'post_date',
-  'order'          => 'DESC',
-  'post_status'    => 'publish',
-);
-$f_q = new WP_Query($f_args);
-if ($f_q->have_posts()):
-  $f_q->the_post();
-  $bg_img = get_template_directory_uri() . '/assets/public/img/top/background_top.png';
-?>
+<?php $bg_img = get_template_directory_uri() . '/assets/public/img/top/background_top.png';?>
 
 <section class="feature-shell" id="feature">
   <!-- 背景 -->
@@ -260,8 +137,5 @@ if ($f_q->have_posts()):
 </section>
 
 <?php
-  wp_reset_postdata();
-endif;
+    get_footer();
 ?>
-
-<?php get_footer(); ?>

@@ -24,6 +24,9 @@
         position: relative;
         left: 50%;
         transform: translateX(-50%);
+        @include mq(sp){
+            width: 100%;
+        }
         &_head {
             position: relative;
             padding-top: 30vh;
@@ -32,29 +35,44 @@
             justify-items: center;
         }
         &_lovers {
-            background-color: #fff;
-            padding: 120px 0 50px;
+            position: relative;
+            margin: 0 calc(50% - 50vw);
+            padding: 0 calc(50vw - 50%);
             &_ttl {
                 display: flex;
                 justify-content: center;
-                margin-bottom: 40px;
+                padding-bottom: 40px;
+                padding-top: 120px;
                 img {
                     width: 15.3vw;
                     object-fit: contain;
+                    @include mq(sp) {
+                        width: 180px;
+                    }
                 }
             }
             &_swiper {
+                overflow: hidden;
+                margin: 0 calc(50% - 50vw);
+                width: 100vw;
                 &_wrapper {
-                    transition-timing-function: linear;
+                    transition-timing-function: linear !important;
                     &_bl {
                         padding: 0 20px;
+                        width: 200px!important;
+                        // width: auto !important; // 追加：Swiperの自動幅計算を有効に
                         .comment {
                             position: relative;
-                            padding: 0 1vw;
+                            padding: 0 15px;
                             display: flex;
                             justify-content: center;
                             align-items: start;
-                            height: 5.5vw;
+                            height: 80px;
+                            min-height: 60px;
+                            @include mq(sp){
+                                padding: 0 10px;
+                                height: 80px;
+                            }
                             &:before { 
                                 content: "";
                                 display: block;
@@ -71,36 +89,60 @@
                             p {
                                 position: relative;
                                 text-align: center;
-                                font-size: .65vw;
+                                font-size: 9px;
                                 letter-spacing: 1px;
-                                line-height: 1.1vw;
-                                padding-top: 1vw;
+                                line-height: 1rem;
+                                padding-top: 15px;
                                 color: #03581D;
                             }
                         }
                         img {
                             min-height: 200px;
-                            height: 21vh;
+                            height: 230px;
+                            width: 100%; // 追加
                             object-fit: contain;
                             margin-bottom: 10px;
+                            @include mq(sp){
+                                min-height: 160px;
+                                height: 160px;
+                            }
                         }
                         .person {
                             p {
                                 text-align: center;
                                 line-height: 1;
                                 &.position {
-                                    font-size: .52vw;
+                                    font-size: 7px;
                                     margin-bottom: 4px;
+                                    line-height: .7rem;
                                 }
                                 &.name {
-                                    font-size: .62vw;
+                                    font-size: 9px;
                                 }
                             }
                         }
                     }
                 }
+                .swiper-slide{
+                    width: auto; // 自動幅に変更
+                    @include mq(sp){
+                        margin-right: 5px!important;
+                    }
+                }
+            }
+            &:before {
+                content: '';
+                position: absolute;
+                height: 100%;
+                width: 26vw;
+                background-color: #fff;
+                z-index: -1;
+                @include mq(sp){
+                    width: 100%;
+                }
             }
         }
+        
         &_share {
             background-color: #fff;
             padding-top: 50px;
@@ -114,6 +156,9 @@
                     display: inline-block;
                     line-height: 1;
                     margin-bottom: 25px;
+                    @include mq(sp) {
+                        font-size: 12px;
+                    }
                 }
                 ul {
                     display: flex;
@@ -124,6 +169,23 @@
                             display: block;
                             img {
                                 height: 1.82vw;
+                                @include mq(sp) {
+                                    height: 25px;
+                                }
+                            }
+                        }
+                        button {
+                            border: unset;
+                            padding: unset;
+                            background-color: unset;
+                            svg {
+                                object-fit: contain;
+                                width: 1.86vw;
+                                height: 1.82vw;
+                                @include mq(sp) {
+                                    height: 25px;
+                                    width: 22px;
+                                }
                             }
                         }
                     }
@@ -133,13 +195,19 @@
         &_popular {
             padding: 50px 1.92vw 180px;
             background-color: #fff;
+            @include mq(sp) {
+                padding: 50px 7vw 180px;
+                display: flex;
+                justify-content: center;
+            }
             &_wrap {
                 position: relative;
+                max-width: 450px;
                 &:before {
                     content: "";
                     position: absolute;
-                    top: .45vw;
-                    left: .45vw;
+                    top: 7px;
+                    left: 7px;
                     width: 100%;
                     height: 100%;
                     border: 1px solid #03581D;
@@ -149,18 +217,21 @@
                 &:after {
                     content: "";
                     position: absolute;
-                    top: .9vw;
-                    left: .9vw;
+                    top: 14px;
+                    left: 14px;
                     width: 100%;
                     height: 100%;
                     border: 1px solid #03581D;
                 }
                 &_border {
                     border: 1px solid #03581D;
-                    padding: 45px 1.4vw 45px 1.92vw;
+                    padding: 45px 1.82vw 45px;
                     position: relative;
                     background-color: #fff;
                     z-index: 10;
+                    @include mq(sp) {
+                        padding: 45px 30px 45px;
+                    }
                 }
                 p {
                     font-size: 1.15vw;
@@ -169,11 +240,17 @@
                     text-align: center;
                     line-height: 1;
                     margin-bottom: 35px;
+                    @include mq(sp) {
+                        font-size: 16px;
+                    }
                     span {
                         display: block;
                         font-size: .72vw;
                         font-family: $sub_font;
                         margin-top: 15px;
+                        @include mq(sp) {
+                            font-size: 10px;
+                        }
                     }
                 }
                 &_post {
@@ -183,11 +260,16 @@
                         .popular_post_bl {
                             a {
                                 display: flex;
+                                align-items: center;
                                 gap: 1.04vw;
                             }
                             &_img {
                                 position: relative;
                                 width: 7.8vw;
+                                @include mq(sp) {
+                                    width: 30vw;
+                                    max-width: 150px;
+                                }
                                 img {
                                     aspect-ratio: 1 / 1;
                                     object-fit: cover;
@@ -199,23 +281,36 @@
                                 border-top: 1px solid #03581D;
                                 border-bottom: 1px solid #03581D;
                                 padding: 10px 5px;
+                                @include mq(sp) {
+                                    width: 100%;
+                                }
                                 &_ttl {
                                     text-align: left;
-                                    font-size: .83vw;
+                                    font-size: 12px;
                                     line-height: .9rem;
                                     margin-bottom: 8px;
+                                    @include mq(sp) {
+                                        font-size: 12px;
+                                        line-height: 1rem;
+                                    }
                                 }
                                 &_date {
                                     font-size: .73vw;
                                     text-align: left;
                                     font-family: $sub_font;
                                     margin-bottom: 6px;
+                                    @include mq(sp) {
+                                        font-size: 11px;
+                                    }
                                 }
                                 &_tag {
                                     font-size: .73vw;
                                     text-align: left;
                                     font-family: $sub_font;
                                     margin-bottom: unset;
+                                    @include mq(sp) {
+                                        font-size: 11px;
+                                    }
                                 }
                             }
                             &.one {
@@ -236,6 +331,13 @@
                                         display: flex;
                                         justify-content: center;
                                         align-items: center;
+                                        @include mq(sp) {
+                                            top: -13px;
+                                            left: -13px;
+                                            width: 28px;
+                                            height: 28px;
+                                            font-size: 14px;
+                                        }
                                     }
                                 }
                             }
@@ -257,6 +359,13 @@
                                         display: flex;
                                         justify-content: center;
                                         align-items: center;
+                                        @include mq(sp) {
+                                            top: -13px;
+                                            left: -13px;
+                                            width: 28px;
+                                            height: 28px;
+                                            font-size: 14px;
+                                        }
                                     }
                                 }
                             }
@@ -278,6 +387,13 @@
                                         display: flex;
                                         justify-content: center;
                                         align-items: center;
+                                        @include mq(sp) {
+                                            top: -13px;
+                                            left: -13px;
+                                            width: 28px;
+                                            height: 28px;
+                                            font-size: 14px;
+                                        }
                                     }
                                 }
                             }
@@ -300,6 +416,9 @@
                     font-size: .625vw;
                     color: #03581D;
                     line-height: 1;
+                    @include mq(sp) {
+                        font-size: 9px;
+                    }
                     &:before {
                         content: "";
                         display: block;
@@ -315,16 +434,32 @@
             }
         }
         &_txt {
-            padding: 60px 3.2rem 5px;
             background-color: #fff;
+            @include mq(sp){
+                display: grid;
+                justify-items: center;
+                justify-content: center;
+                width: 100%;
+            }
+            &_wrap {
+                padding: 60px 3.2rem 5px;
+                @include mq(sp){
+                    padding: 60px 10vw 5px;
+                    max-width: 500px;
+                }
+            }
             h2 {
                 color: #03581D;
-                font-size: 1.25vw;
+                font-size: 20px;
                 font-family: $sub_font;
                 margin-bottom: 35px;
                 font-weight: 500;
                 letter-spacing: 1.5px;
                 line-height: 1;
+                @include mq(sp) {
+                    font-size: 16px;
+                    width: 100%;
+                }
             }
         }
     }
@@ -351,14 +486,15 @@
             justify-content: center;
             margin-bottom: 20vh;
             h2 {
-                letter-spacing: 1.3px;
-                font-size: 18px;
-                line-height: 1.2;
                 margin-left: 45px;
                 color: #fff;
+                letter-spacing: 1.1px;
+                font-size: 18px;
+                font-weight: 600;
+                line-height: 1.2;
             }
             p {
-                font-size: 14px;
+                font-size: 13px;
                 letter-spacing: 1px;
                 color: #fff;
             }
@@ -373,6 +509,9 @@
                 letter-spacing: 1.2px;
                 color: #fff;
                 display: inline-block;
+                @include mq(sp) {
+                    font-size: 14px;
+                }
                 &:before {
                     content: "";
                     display: block;
@@ -383,6 +522,9 @@
                     height: 100%;
                     background: url(../../assets/public/img/page/head_midashi_wave.svg) no-repeat center center;
                     transform: translateX(-50%);
+                    @include mq(sp) {
+                        bottom: -15px;
+                    }
                 }
             }
             ul {
@@ -392,9 +534,9 @@
                 li {
                     color: #fff;
                     a {
-                        font-size: 14px;
+                        font-size: 13.5px;
                         line-height: 2.8rem;
-                        letter-spacing: 1px;
+                        letter-spacing: 2px;
                         color: #fff;
                     }
                 }
@@ -403,39 +545,37 @@
     }
     .page_body_content_wrap {
         padding: 60px 3.9vw 60px;
+        background-color: #fff;
+        max-width: 500px;
+        @include mq(sp) {
+            padding: 60px 9vw 60px;
+        }
         &_txt01 {
-            flex-wrap: nowrap;
-            writing-mode: horizontal-tb;
-            display: flex;
-            align-items: flex-start;
-            gap: 2.6vw;
-            flex-wrap: nowrap;
-            box-sizing: border-box;
             width: 100%;
             h3 {
-                font-size: 1.25vw;
+                font-size: 16px;
                 line-height: 1;
-                letter-spacing: -3px;
+                letter-spacing: 1.1px;
                 color: #03581D;
-                writing-mode: vertical-rl;
+                font-weight: 500;
                 flex: 0 0 auto;
             }
             .vertical {
-                max-inline-size: 100%;
-                // overflow: hidden;
-                writing-mode: vertical-rl;
-                flex: 1 1 0;
-                min-width: 0;
-                min-height: 0;
+                margin-top: 20px;
                 p {
-                    font-size: 13px;
-                letter-spacing: 1px;
-                    line-height: 1rem;
-                    columns: 160px auto;
-                    column-gap: 20px;
+                    font-size: 12px;
+                    letter-spacing: 1px;
+                    line-height: 1.3rem;
                 }
             }
         }
+    }
+    .page_body_content_container {
+        display: flex;
+        flex-wrap: wrap;
+        background-color: #fff;
+        justify-items: center;
+        justify-content: center;
     }
 }
 
@@ -483,6 +623,9 @@
                 letter-spacing: 1.2px;
                 color: #fff;
                 display: inline-block;
+                @include mq(sp) {
+                    font-size: 14px;
+                }
                 &:before {
                     content: "";
                     display: block;
@@ -493,6 +636,9 @@
                     height: 100%;
                     background: url(../../assets/public/img/page/head_midashi_wave.svg) no-repeat center center;
                     transform: translateX(-50%);
+                    @include mq(sp) {
+                        bottom: -15px;
+                    }
                 }
             }
             ul {
@@ -510,6 +656,9 @@
                         letter-spacing: 1px;
                         color: #fff;
                         text-align: center;
+                        @include mq(sp) {
+                            font-size: 12px;
+                        }
                     }
                 }
             }
@@ -524,6 +673,9 @@
             letter-spacing: 1px;
             font-weight: 500;
             margin-bottom: 30px;
+            @include mq(sp) {
+                font-size: 14px;
+            }
         }
         &_img {
             text-align: center;
@@ -531,6 +683,9 @@
                 margin: 0 calc(50% - 50vw);
                 width: 165%;
                 border: 2px solid #fff;
+                @include mq(sp) {
+                    width: 100%;
+                }
             }
         }
         &_txt {
@@ -544,6 +699,9 @@
                 overflow: hidden;
                 -webkit-box-orient: vertical;
                 -webkit-line-clamp: 12;
+                @include mq(sp) {
+                    font-size: 12px;
+                }
             }
         }
         &_btn {
@@ -563,6 +721,9 @@
                 z-index: 1000;
                 margin-bottom: 4px;
                 transition: all .3s ease;
+                @include mq(sp) {
+                    font-size: 12px;
+                }
                 &:before {
                     content: '';
                     position: absolute;
@@ -628,11 +789,14 @@
                 margin-top: unset;
             }
             p {
-                font-size: .73vw;
+                font-size: 12px;
                 line-height: 1.8;
                 letter-spacing: 1px;
                 color: #03581D;
                 font-weight: 500;
+                @include mq(sp) {
+                    font-size: 12px;
+                }
             }
         }
     }
@@ -641,11 +805,19 @@
 .page_body_content.spot {
     .page_body_content_txt {
         padding: 60px 1.875vw 5px;
+        @include mq(sp) {
+            padding: 50px 0 5px;
+            max-width: 500px;
+        }
         .page_body_content_spot_wrap {
             display: grid;
             grid-template-columns: 1fr 1fr;
             column-gap: 1vw;
             row-gap: 4.6vh;
+            @include mq(sp) {
+                column-gap: 15px;
+                row-gap: 50px;
+            }
             .spot_bl {
                 display: block;
                 &_img {
@@ -670,18 +842,27 @@
                 }
                 &_txt {
                     margin-top: 12px;
+                    @include mq(sp) {
+                        padding: 0 5px 0;
+                    }
                     h3 {
-                        font-size: 0.83vw;
-                        line-height: .9rem;
+                        font-size: 12px;
+                        line-height: 1rem;
                         letter-spacing: 1px;
                         color: #03581D;
                         margin-bottom: 2px;
                         font-weight: 400;
+                        @include mq(sp) {
+                            font-size: 12px;
+                        }
                     }
                     p {
-                        font-size: .625vw;
+                        font-size: 10px;
                         color: #03581D;
                         line-height: .9rem;
+                        @include mq(sp) {
+                            font-size: 9px;
+                        }
                     }
                 }
             }
@@ -689,17 +870,46 @@
     }
 }
 
+.page_body_content_spot_container {
+    @include mq(sp) {
+        display: flex;
+        flex-wrap: wrap;
+        justify-items: center;
+        justify-content: center;
+        width: 100%;
+        background-color: #fff;
+        padding: 0 7vw 0;
+    }
+    .page_body_content_txt h2 {
+        @include mq(sp) {
+            width: 100%;;
+        }
+    }
+}
+
+.page_body_content_wrap {
+    @include mq(sp) {
+        background-color: #fff;
+    }
+}
 .page_body_content.contact {
     padding: 75px 2.08vw 0;
     background-color: #fff;
+    @include mq(sp) {
+        padding: 75px 8vw 0;
+        max-width: 500px;
+    }
     h2 {
-        font-size: 1.25vw;
+        font-size: 20px;
         letter-spacing: 1.1px;
         font-weight: 500;
         color: #03581D;
         font-family: $sub_font;
         line-height: 1;
         margin-bottom: 50px;
+        @include mq(sp) {
+            font-size: 16px;
+        }
     }
     .page_body_content_contact_wrap {
         .form-wrap {
@@ -715,6 +925,9 @@
                     line-height: 1;
                     font-weight: 600;
                     padding: 0 1.3vw;
+                    @include mq(sp) {
+                        font-size: 12px;
+                    }
                     span {
                         margin-left: 2px;
                     }
@@ -731,6 +944,11 @@
                         border-radius: 30px;
                         line-height: 1;
                         letter-spacing: .8px;
+                        @include mq(sp) {
+                            padding: 10px 15px;
+                            font-size: 12px;
+                            border-radius: 25px;
+                        }
                         &::placeholder {
                             color: #03581D;
                             opacity: .4;
@@ -741,6 +959,9 @@
                 &.btn-wrap {
                     margin-top: 25px;
                     width: 100%;
+                    @include mq(sp) {
+                        margin-top: unset;
+                    }
                     .contact-btn {
                         display: grid;
                         justify-content: center;
@@ -770,6 +991,10 @@
                                     letter-spacing: .8px;
                                     z-index: 1000;
                                     background: #fff;
+                                    @include mq(sp) {
+                                        padding: 8px 25px;
+                                        font-size: 12px;
+                                    }
                                 }
                                 &:hover {
                                     margin-left: 3px;
@@ -850,4 +1075,26 @@
             }
         }
     }
+}
+
+
+
+/* 等速アニメーション（原本+複製=全体幅の50%ぶん送る） */
+@keyframes lovers-ticker{
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+/* 常時自動で動かす（ホバー停止なし） */
+.page_body_content_lovers_swiper.is-playing .swiper-wrapper{
+  animation-name: lovers-ticker;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  animation-play-state: running;
+  /* duration はJSで原本幅から自動設定 */
+}
+
+/* アクセシビリティ：動き低減のOS設定なら停止 */
+@media (prefers-reduced-motion: reduce){
+  .page_body_content_lovers_swiper .swiper-wrapper{ animation: none !important; }
 }

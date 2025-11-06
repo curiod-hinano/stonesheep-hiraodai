@@ -12,7 +12,7 @@
                         <ul class="footer_wrap_link_page">
                             <li><a href="<?php echo home_url(); ?>/contact">contact</a></li>
                             <li><a href="<?php echo home_url(); ?>/company">company</a></li>
-                            <li><a href="<?php echo home_url(); ?>/privacypolicy">privacy policy</a></li>
+                            <li><a href="<?php echo home_url(); ?>/privacy">privacy policy</a></li>
                         </ul>
                         <ul class="footer_wrap_link_sns">
                             <?php $footerSnsColor = '#ffffff'; ?>
@@ -42,12 +42,11 @@
                     </div>
                 </div>
                 <div class="footer_copylight">
-                    <p>© 2025 TETO.</p>
+                    <p>© 2025 COCONYAD.</p>
                 </div>
         </footer>
     <?php endif; ?>
-    
-    </div>
+
     <?php wp_footer(); ?>
     
 </body>

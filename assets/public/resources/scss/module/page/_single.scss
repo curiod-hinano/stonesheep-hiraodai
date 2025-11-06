@@ -18,20 +18,86 @@
             }
         }
     }
+    &_single {
+        @include mq(sp){
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            width: 100%;
+            padding: 40px 10vw 5px;
+        }
+    }
     &_main {
         padding: 40px 3.2rem 5px;
+        @include mq(sp){
+            padding: unset;
+            width: 100%;
+            max-width: 500px;
+        }
         h2 {
-            font-size: 1.25vw;
+            font-size: 18px;
             margin-bottom: 40px;
             color: #03581D;
+            @include mq(sp){
+                font-size: 16px;
+            }
+            &.wp-block-heading {
+                margin-top: 40px;
+                margin-bottom: 20px;
+            }
         }
+        ul.wp-block-list {
+            margin: 15px 0;
+            list-style-type: circle;
+            padding-left: 17px;
+            li {
+                color: #03581D;
+                ul.wp-block-list {
+                    margin: 4px 0 0;
+                }
+            }
+        }
+        ol.wp-block-list {
+            margin: 15px 0;
+            list-style-type: decimal;
+            padding-left: 17px;
+            li {
+                color: #03581D;
+                ol.wp-block-list {
+                    margin: 4px 0 0;
+                }
+            }
+        }
+        .wp-block-table .has-fixed-layout tr {
+            display: grid;
+            td {
+                border: none;
+                font-size: 12px;
+                padding: 11.5px 10px;
+                font-weight: 500;
+                color: #03581D;
+                &:first-child {
+                    background-color: #F4F4F2;
+                    border-top: 1px solid #dddddd;
+                }
+                &:last-child {
+                    margin-bottom: 5px;
+                }
+            }
+    }
         &_wrap {
             &_body {
                 p {
                     color: #03581D;
-                    font-size: .83vw;
+                    font-size: 12px;
                     margin-bottom: 15px;
                     font-weight: 500;
+                    @include mq(sp){
+                        font-size: 12px;
+                    }
+                    a {
+                        color: #03581D;
+                    }
                 }
             }
             &_info {

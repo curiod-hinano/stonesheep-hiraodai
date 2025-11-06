@@ -55,9 +55,9 @@ get_header(); ?>
                         <p class="open"><?php the_field('open'); ?></p>
                     <?php endif; ?>
                 </div>
-                <?php if( get_field('googlemap') ): ?>
+                <?php if( get_field('google-map') ): ?>
                     <div class="post_body_content_main_googlemap">
-                        <?php echo get_field('googlemap'); ?>
+                        <?php echo get_field('google-map'); ?>
                     </div>
                 <?php endif; ?>
             </div>

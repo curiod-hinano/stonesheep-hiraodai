@@ -38,23 +38,48 @@
     display: flex;
     justify-content: space-between;
     padding: 0 4.3vw;
+    @include mq(sp){
+      display: block;
+      padding: 0 9vw;
+    }
     &_logo {
       width: 20vw;
       min-width: 250px;
+      @include mq(sp){
+        width: 80vw;
+        min-width: unset;
+        max-width: 400px;
+        margin-bottom: 78px;
+      }
     }
     &_link {
       display: flex;
       column-gap: 45px;
       align-items: center;
+      @include mq(sp){
+        justify-content: space-between;
+        align-items: flex-end;
+      }
       &_page {
         display: flex;
         column-gap: 30px;
+        @include mq(sp){
+          display: grid;
+          gap: 6px;
+          margin-bottom: 24px;
+        }
         li {
+          @include mq(sp){
+            line-height: 1rem;
+          }
           a {
             color: #fff;
             font-size: .83vw;
             font-family: $sub_font;
             letter-spacing: .8px;
+            @include mq(sp){
+              font-size: 11px;
+            }
           }
         }
       }
@@ -91,10 +116,18 @@
     position: absolute;
     bottom: 37px;
     right: 4.3vw;
+    @include mq(sp){
+      right: unset;
+      left: 9vw;
+      bottom: 66px;
+    }
     p {
       font-size: .83vw;
       color: #fff;
       font-family: $sub_font;
+      @include mq(sp){
+        font-size: 11px;
+      }
     }
   }
 }

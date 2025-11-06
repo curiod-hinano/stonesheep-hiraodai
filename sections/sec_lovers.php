@@ -2,68 +2,100 @@
     <div class="page_body_content_lovers_ttl">
         <img src="<?php echo get_template_directory_uri(); ?>/assets/public/img/page/lovers_ttl.svg" alt="平尾台ラバーズ">
     </div>
+
     <div class="swiper page_body_content_lovers_swiper">
         <div class="swiper-wrapper page_body_content_lovers_swiper_wrapper">
             <div class="swiper-slide page_body_content_lovers_swiper_wrapper_bl">
                 <div class="comment">
-                    <p>石のひつじと、すごす時間平尾台で過ごす時間</p>
+                    <p>地殻変動の跡を、この足で確かめに行きましょう。</p>
                 </div>
-                <img src="<?php echo get_template_directory_uri(); ?>/assets/public/img/test/lovers01.png" alt="名前名前" />
+                <img src="<?php echo get_template_directory_uri(); ?>/assets/public/img/lovers/lovers01.png" alt="西中 あかね" />
                 <div class="person">
-                    <p class="position">肩書き</p>
-                    <p class="name">名前 なまえ</p>
+                    <p class="position">地球のカケラ HIRAODAI</p>
+                    <p class="name">西中 あかね</p>
                 </div>  
             </div>
             <div class="swiper-slide page_body_content_lovers_swiper_wrapper_bl">
                 <div class="comment">
-                    <p>石のひつじと、すごす時間平尾台で過ごす時間</p>
+                    <p>自然の神を鎮めて、野焼きの安全を祈願します。</p>
                 </div>
-                <img src="<?php echo get_template_directory_uri(); ?>/assets/public/img/test/lovers02.png" alt="名前名前" />
+                <img src="<?php echo get_template_directory_uri(); ?>/assets/public/img/lovers/lovers02.png" alt="重村 正親" />
                 <div class="person">
-                    <p class="position">肩書き</p>
-                    <p class="name">名前 なまえ</p>
+                    <p class="position">大野東八幡宮</p>
+                    <p class="name">重村 正親</p>
                 </div>  
             </div>
             <div class="swiper-slide page_body_content_lovers_swiper_wrapper_bl">
                 <div class="comment">
-                    <p>石のひつじと、すごす時間平尾台で過ごす時間</p>
+                    <p>ちょっと歩いても絶景！</p>
                 </div>
-                <img src="<?php echo get_template_directory_uri(); ?>/assets/public/img/test/lovers03.png" alt="名前名前" />
+                <img src="<?php echo get_template_directory_uri(); ?>/assets/public/img/lovers/lovers03.png" alt="加来 寛" />
                 <div class="person">
-                    <p class="position">肩書き</p>
-                    <p class="name">名前 なまえ</p>
+                    <p class="position">加来不動産株式会社 代表取締役CEO<br>平尾台ガイドボランティア</p>
+                    <p class="name">加来 寛</p>
                 </div>  
             </div>
             <div class="swiper-slide page_body_content_lovers_swiper_wrapper_bl">
                 <div class="comment">
-                    <p>石のひつじと、すごす時間平尾台で過ごす時間</p>
+                    <p>アナグマラブ。<br>食べたい、めでたい！</p>
                 </div>
-                <img src="<?php echo get_template_directory_uri(); ?>/assets/public/img/test/lovers04.png" alt="名前名前" />
+                <img src="<?php echo get_template_directory_uri(); ?>/assets/public/img/lovers/lovers04.png" alt="江﨑 大悟/有田 知世" />
                 <div class="person">
-                    <p class="position">肩書き</p>
-                    <p class="name">名前 なまえ</p>
+                    <p class="position">JANKANIC PEAK</p>
+                    <p class="name">江﨑 大悟/有田 知世</p>
                 </div>  
             </div>
             <div class="swiper-slide page_body_content_lovers_swiper_wrapper_bl">
                 <div class="comment">
-                    <p>石のひつじと、すごす時間平尾台で過ごす時間</p>
+                    <p>トゥクトゥクで<br>高原を駆け回る！</p>
                 </div>
-                <img src="<?php echo get_template_directory_uri(); ?>/assets/public/img/test/lovers05.png" alt="名前名前" />
+                <img src="<?php echo get_template_directory_uri(); ?>/assets/public/img/lovers/lovers05.png" alt="佐藤 直" />
                 <div class="person">
-                    <p class="position">肩書き</p>
-                    <p class="name">名前 なまえ</p>
+                    <p class="position">さくら工務店<br>トゥクトゥク</p>
+                    <p class="name">佐藤 直</p>
                 </div>  
             </div>
             <div class="swiper-slide page_body_content_lovers_swiper_wrapper_bl">
                 <div class="comment">
-                    <p>石のひつじと、すごす時間平尾台で過ごす時間</p>
+                    <p>ワンダフルワールドだ<br>ワン！</p>
                 </div>
-                <img style="padding: 40px 0 10px;"src="<?php echo get_template_directory_uri(); ?>/assets/public/img/test/lovers06.png" alt="名前名前" />
+                <img style="padding: 40px 0 10px;" src="<?php echo get_template_directory_uri(); ?>/assets/public/img/lovers/lovers06.png" alt="なごみ" />
                 <div class="person">
-                    <p class="position">肩書き</p>
-                    <p class="name">名前 なまえ</p>
+                    <p class="position">佐藤直さんの愛犬</p>
+                    <p class="name">なごみ</p>
+                </div>  
+            </div>
+            <div class="swiper-slide page_body_content_lovers_swiper_wrapper_bl">
+                <div class="comment">
+                    <p>毎日パトロールしながら、<br>平尾台の変化を観察中！</p>
+                </div>
+                <img src="<?php echo get_template_directory_uri(); ?>/assets/public/img/lovers/lovers07.png" alt="山住 従容" />
+                <div class="person">
+                    <p class="position">平尾台観察センター</p>
+                    <p class="name">山住 従容</p>
+                </div>  
+            </div>
+            <div class="swiper-slide page_body_content_lovers_swiper_wrapper_bl">
+                <div class="comment">
+                    <p>観察センターでは歴史や自然を知ることができます。</p>
+                </div>
+                <img src="<?php echo get_template_directory_uri(); ?>/assets/public/img/lovers/lovers08.png" alt="石橋 宏明" />
+                <div class="person">
+                    <p class="position">平尾台観察センター</p>
+                    <p class="name">石橋 宏明</p>
+                </div>  
+            </div>
+            <div class="swiper-slide page_body_content_lovers_swiper_wrapper_bl">
+                <div class="comment">
+                    <p>山でまってるにゃ！</p>
+                </div>
+                <img style="padding: 40px 10px 10px;" src="<?php echo get_template_directory_uri(); ?>/assets/public/img/lovers/lovers09.png" alt="くろみ" />
+                <div class="person">
+                    <p class="position">ひつじカフェの看板猫</p>
+                    <p class="name">くろみ</p>
                 </div>  
             </div>
         </div>
     </div>
 </div>
+
