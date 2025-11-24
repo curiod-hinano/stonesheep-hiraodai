@@ -59,8 +59,9 @@
     width: 6.25vw;
     min-width: 100px;
     height: fit-content;
+    object-fit: contain;
     z-index: 100;
     @include mq(sm){
-      min-width: 80px;
+      min-width: 100px;
     }
 }

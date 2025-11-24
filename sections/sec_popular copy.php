@@ -5,60 +5,45 @@
             <div class="page_body_content_popular_wrap_post">
                 <ul>
                     <?php
-                    // 除外したい固定ページのIDを配列で指定（例：10 と 25 を除外）
-                    $exclude_ids = array(128, 55, 58, 136);
-
-                    // まずは post_views_count があるものを人気順で取得
-                    $popular_args = array(
+                    // 人気順にとる
+                    $popular_query = new WP_Query(array(
                         'post_type'      => array('post', 'page', 'feature', 'spot', 'landscape'),
                         'posts_per_page' => 3,
-                        'meta_key'       => 'post_views_count',
+                        'meta_key'       => 'post_views_count', // ←PVが入っているメタキー
                         'orderby'        => 'meta_value_num',
                         'order'          => 'DESC',
                         'post_status'    => 'publish',
                         'no_found_rows'  => true,
-                        'post__not_in'   => $exclude_ids, // ←★ これを追加
-                    );
-                    $popular_query = new WP_Query( $popular_args );
-
-                    // フォールバック（新着）でも同様に除外する
-                    if ( ! $popular_query->have_posts() ) {
-                        $popular_query = new WP_Query( array(
-                            'post_type'      => array('post', 'page', 'feature', 'spot', 'landscape'),
-                            'posts_per_page' => 3,
-                            'orderby'        => 'date',
-                            'order'          => 'DESC',
-                            'post_status'    => 'publish',
-                            'no_found_rows'  => true,
-                            'post__not_in'   => $exclude_ids, // ←★ 同じく追加
-                        ) );
-                    }
+                    ));
 
                     if ( $popular_query->have_posts() ) :
                         $i = 1;
                         while ( $popular_query->have_posts() ) : $popular_query->the_post();
-                            // 並び順でクラスを変えたい場合
+                            // 1つめ・2つめ・3つめにクラス付けたいなら
                             $class_name = $i === 1 ? 'one' : ( $i === 2 ? 'two' : 'three' );
                             ?>
-                            <li class="popular_post_bl <?php echo esc_attr( $class_name ); ?>">
+                            <li class="popular_post_bl <?php echo esc_attr($class_name); ?>">
                                 <a href="<?php the_permalink(); ?>">
                                     <div class="popular_post_bl_img">
                                         <?php if ( has_post_thumbnail() ) : ?>
-                                            <?php the_post_thumbnail( 'medium' ); ?>
+                                            <?php the_post_thumbnail('medium'); ?>
                                         <?php else : ?>
-                                            <img src="<?php echo esc_url( get_template_directory_uri() . '/assets/public/img/common/no_img.png' ); ?>" alt="">
+                                            <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/public/img/noimg.jpg'); ?>" alt="">
                                         <?php endif; ?>
                                     </div>
                                     <div class="popular_post_bl_details">
                                         <p class="popular_post_bl_details_ttl"><?php the_title(); ?></p>
-                                        <p class="popular_post_bl_details_date"><?php echo get_the_date( 'Y.m.d' ); ?></p>
+                                        <p class="popular_post_bl_details_date">
+                                            <?php echo get_the_date('Y.m.d'); ?>
+                                        </p>
                                         <?php
-                                        // タグを1つだけ表示（post 以外は空になってもOKにしておく）
+                                        // もしタグ表示したければ（post以外は空になることもある）
                                         $post_tags = get_the_tags();
-                                        if ( $post_tags && ! is_wp_error( $post_tags ) ) :
+                                        if ( $post_tags && ! is_wp_error($post_tags) ) :
+                                            // 1つだけ出す例
                                             $tag = $post_tags[0];
                                             ?>
-                                            <p class="popular_post_bl_details_tag"><?php echo esc_html( $tag->name ); ?></p>
+                                            <p class="popular_post_bl_details_tag"><?php echo esc_html($tag->name); ?></p>
                                         <?php else : ?>
                                             <p class="popular_post_bl_details_tag"></p>
                                         <?php endif; ?>
@@ -70,7 +55,6 @@
                         endwhile;
                         wp_reset_postdata();
                     else :
-                        // ここまで来ることはほぼないけど一応
                         ?>
                         <li class="popular_post_bl">
                             <p>人気の記事はまだありません。</p>

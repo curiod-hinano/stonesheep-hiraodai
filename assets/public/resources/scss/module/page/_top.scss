@@ -87,8 +87,7 @@ iframe#yt-bg-player {
     overflow: hidden;
     @include mq(sp){
         height: 100dvh;
-        height: 100svh;
-        height: 100vh;
+        height: 100%;
         width: calc(100dvh * (16 / 9));
     }
 }
@@ -242,6 +241,7 @@ button.js-video-button .status-text{
             color: #F3FC85;
             line-height: 1;
             margin-bottom: 5px;
+            font-size: 16px;
         }
     }
     /* レーン入れ物 */
@@ -257,7 +257,8 @@ button.js-video-button .status-text{
     }
     /* JSが作る走行レーン（2本） */
     .fv_news_ticker .lane{
-        --w: 0px;     /* 実測幅 px（JSが代入） */
+        // --w: 0px;
+        --w: 100%; // JSが来るまでのデフォルト
         --dur: 20s;   /* アニメ時間（JSが代入） */
         position:absolute; top:0; left:0; height:100%;
         display:inline-flex; align-items:center;
@@ -266,6 +267,7 @@ button.js-video-button .status-text{
         animation: marquee var(--dur) linear infinite;
     }
     .fv_news_ticker .lane.clone{
+        left: 100%;
         transform: translate3d(var(--w),0,0);
         animation-name: marquee2;
     }
@@ -278,15 +280,15 @@ button.js-video-button .status-text{
         to  { transform: translate3d(0,0,0); }
     }
     /* 体裁 */
-        .fv_news_ticker .item{
-            display:inline-block;
-        }
-        .fv_news_ticker a{
-            color:#fff;
-            font-size: 12px;
-            text-decoration:none; 
-        }
+    .fv_news_ticker .item{
+        display:inline-block;
     }
+    .fv_news_ticker a{
+        color:#fff;
+        font-size: 14px;
+        text-decoration:none; 
+    }
+}
 
 
 /* ///////////////////
@@ -1079,9 +1081,9 @@ body.in-feature-shell {
         position: absolute;
         right: 25px;
         bottom: 15px;
-        width: 2.5vw;
-        height: 2.2vw;
-        min-width: 40px;
+        width: 50px;
+        height: 50px;
+        min-width: 50px;
         max-width: 50px;
         transition: 0.3s;
         display: flex;
@@ -1089,8 +1091,8 @@ body.in-feature-shell {
         align-items: center;
         z-index: 1000;
         @include mq(sp){
-            width: 25px;
-            height: 25px;
+            width: 50px;
+            height: 50px;
             bottom: 21px;
         }
         &_img {
@@ -1110,7 +1112,7 @@ body.in-feature-shell {
     &_contact {
         position: absolute;
         left: 50%;
-        bottom: 20px;
+        bottom: 23px;
         transform: translateX(-50%);
         background-color: #fff;
         padding: 4px 15px 4px;
@@ -1124,7 +1126,7 @@ body.in-feature-shell {
             font-family: $sub_font;
             font-weight: 400;
             letter-spacing: 0.05rem;
-            font-size: 10px;
+            font-size: 14px;
             line-height: 1;
         }
     }
@@ -1140,6 +1142,7 @@ body.in-feature-shell {
         flex-shrink: 0;
         img {
             width: 100%;
+            height: 100%;
             display: block;
             height: auto;
             object-position: center;
@@ -1168,16 +1171,84 @@ body.in-feature-shell {
             line-height: 1.5rem;
             margin: 20px auto 20px;
         }
-        figure {
+        .large {
             margin: 20px -3rem;
+            .img-wrap {
+                position: relative;
+                @include mq(md){
+                    &:before {
+                        content: "";
+                        position: absolute;
+                        bottom: 15px;
+                        right: 20px;
+                        width: 26px;
+                        height: 26px;
+                        background: url(../../assets/public/img/top/zoom.svg);
+                        background-repeat: no-repeat;
+                        background-size: contain;
+                    }
+                }
+            }
+            figcaption.wp-element-caption {
+                padding: 0 4em 0;
+            }
+        }
+        figure {
+            margin: 20px 0;
+            position: relative;
+            .img-wrap {
+                position: relative;
+                &:before {
+                    @include mq(md){
+                        content: "";
+                        position: absolute;
+                        bottom: 8px;
+                        right: 10px;
+                        width: 26px;
+                        height: 26px;
+                        background: url(../../assets/public/img/top/zoom.svg);
+                        background-repeat: no-repeat;
+                        background-size: contain;
+                    }
+                }
+            }
             img {
-            width: 100%;
+                width: 100%;
             }
             figcaption {
-                padding: 0 3rem;
-                font-size: 12px;
+                // padding: 0 3rem;
+                font-size: 13px;
                 line-height: 1.1rem;
                 color: #888;
+                @include mq(sp){
+                    font-size: 12px;
+                }
+            }
+        }
+        .index {
+            margin: 70px -2.65rem;
+            background-color: #03581D;
+            padding: 50px 3em 50px;
+            h3.mokuji {
+                color: #fff!important;
+                margin-top: unset;
+                margin-bottom: 20px;
+                padding-bottom: 3px;
+                border-bottom: 1px solid #fff;
+                display: inline-block;
+            }
+            ul {
+                display: flex;
+                flex-wrap: wrap;
+                row-gap: 16px;
+                li {
+                    width: 100%;
+                    a {
+                        font-size: 15px;
+                        color: #fff;
+                        line-height: 1.2rem;
+                    }
+                }
             }
         }
     }
@@ -1189,6 +1260,10 @@ body.in-feature-shell {
         align-items: center;
         height: 100%;
         padding: .5rem 1rem 1rem;
+        @include mq(sp){
+            height: auto;
+            padding: 120px 1rem 80px;
+        }
         &_who {
             display: flex;
             justify-content: center;
@@ -1215,7 +1290,8 @@ body.in-feature-shell {
                     }
                 }
                 img {
-                    height: 50vh;
+                    height: 320px;
+                    object-fit: contain;
                 }
             }
         }
@@ -1244,8 +1320,8 @@ body.in-feature-shell {
     width: 22vw;
     height: auto;
     aspect-ratio: 1 / 1;
-    min-width: 280px;
-    min-height: 280px;
+    min-width: 320px;
+    min-height: 320px;
     border-radius: 20px 0 20px 20px;
     padding: 25px;
     &_wrap {
@@ -1253,20 +1329,21 @@ body.in-feature-shell {
         grid-template-columns: 1fr 2fr;
         align-items: center;
         gap: 20px;
-        height: 100%;
+        height: auto;
     }
     &_img {
         object-fit: contain;
     }
     &_txt {
         .name {
-            font-size: 14px;
+            font-size: 17px;
             text-align: left;
             line-height: 1;
             margin-bottom: 12px;
+            font-weight: 500;
         }
         .txt {
-            font-size: 11px;
+            font-size: 13.5px;
             text-align: left;
             line-height: 1.5;
         }
@@ -1280,7 +1357,7 @@ body.in-feature-shell {
                 align-items: center;
                 a {
                     color: #fff;
-                    font-size: 10px;
+                    font-size: 12px;
                     letter-spacing: 0;
                     line-height: 1;
                     display: inline-block;
@@ -1292,15 +1369,21 @@ body.in-feature-shell {
             .instagram {
                 display: flex;
                 align-items: center;
+                a {
+                    img {
+                        width: 27px;
+                        object-fit: contain;
+                    }
+                }
             }
         }
     }
     button.remodal-close {
         left: unset;
-        top: -.6rem;
-        right: -.6rem;
-        width: 1.7vw;
-        height: 1.7vw;
+        top: -0.8rem;
+        right: -.8rem;
+        width: 30px;
+        height: 30px;
         min-width: 20px;
         min-height: 20px;
         &:before {
@@ -1317,3 +1400,9 @@ body.in-feature-shell {
         }
     }
 }
+
+.image-popup-caption {
+    text-align: center;
+}
+
+

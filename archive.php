@@ -11,19 +11,21 @@ get_header(); ?>
                 <h2>NEWS</h2>
             </div>
             <div class="page_body_content_txt archive">
+                <?php
+                    $paged = (int) get_query_var('paged');
+                    $args=array( 
+                        'post_type' => 'post', //カスタム投稿名
+                        'posts_per_page'=> -1,
+                        'paged' => $paged,
+                        'orderby' => 'post_date',
+                        'order' => 'DESC',
+                        'post_status' => 'publish',
+                    );
+                    $the_query = new WP_Query( $args );
+                    if( $the_query->have_posts() ):
+                ?>
                 <div class="page_body_content_spot_wrap">
                     <?php
-                        $paged = (int) get_query_var('paged');
-                        $args=array( 
-                            'post_type' => 'post', //カスタム投稿名
-                            'posts_per_page'=> -1,
-                            'paged' => $paged,
-                            'orderby' => 'post_date',
-                            'order' => 'DESC',
-                            'post_status' => 'publish',
-                        );
-                        $the_query = new WP_Query( $args );
-                        if( $the_query->have_posts() ):
                         while ( $the_query->have_posts() ) : $the_query->the_post();
                     ?>
                         <a class="spot_bl" href="<?php the_permalink(); ?>">
@@ -42,8 +44,10 @@ get_header(); ?>
                         </a>
                     <?php endwhile; ?>
                     <?php wp_reset_postdata(); ?>
-                    <?php endif; ?>
                 </div>
+                <?php else: ?>
+                    <p>最新の記事はありません。</p>
+                <?php endif; ?>
             </div>
         </div>
         <?php 

@@ -1,6 +1,6 @@
 <div class="page_body_content_lovers">
     <div class="page_body_content_lovers_ttl">
-        <img src="<?php echo get_template_directory_uri(); ?>/assets/public/img/page/lovers_ttl.svg" alt="平尾台ラバーズ">
+        <img src="<?php echo get_template_directory_uri(); ?>/assets/public/img/page/lovers_ttl.png" alt="平尾台ラバーズ">
     </div>
 
     <div class="swiper page_body_content_lovers_swiper">
@@ -27,7 +27,7 @@
             </div>
             <div class="swiper-slide page_body_content_lovers_swiper_wrapper_bl">
                 <div class="comment">
-                    <p>ちょっと歩いても絶景！</p>
+                    <p style="padding-top: 22px;">ちょっと歩いても絶景！</p>
                 </div>
                 <img src="<?php echo get_template_directory_uri(); ?>/assets/public/img/lovers/lovers03.png" alt="加来 寛" />
                 <div class="person">
@@ -87,7 +87,7 @@
             </div>
             <div class="swiper-slide page_body_content_lovers_swiper_wrapper_bl">
                 <div class="comment">
-                    <p>山でまってるにゃ！</p>
+                    <p style="padding-top: 22px;">山でまってるにゃ！</p>
                 </div>
                 <img style="padding: 40px 10px 10px;" src="<?php echo get_template_directory_uri(); ?>/assets/public/img/lovers/lovers09.png" alt="くろみ" />
                 <div class="person">

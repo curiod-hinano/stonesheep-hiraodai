@@ -18,16 +18,19 @@ get_header(); ?>
                     初めての方でも、安心してご参加いただけます。
                 </p>
             </div>
-            <div class="page_body_content_head_index">
+            <!-- <div class="page_body_content_head_index">
                 <p>目次</p>
                 <ul>
                     <li><a href="#me01">大地とひとつになる。<br>〜裸足であるく平尾台〜</a></li>
                     <li><a href="#me02">洞窟の、しずけさに浸る<br>〜鍾乳洞ツアー〜</a></li>
                     <li><a href="#me03">石のひつじと、すごす時間<br>〜平尾台で過ごす時間〜</a></li>
                 </ul>
-            </div>
+            </div> -->
         </div>
-        <div id="me01" class="page_body_content_wrap" style="background-color:#03581D;">
+        <div id="" class="page_body_content_wrap" style="background-color:#ffffff; padding: 100px 3.9vw 50px; text-align: center;">
+            <h3 style="color: #03581D;">準備中...</h3>
+        </div>
+        <!-- <div id="me01" class="page_body_content_wrap" style="background-color:#03581D;">
             <h3>見出し入ります24w見出<br>見出し入ります24w見出</h3>
             <div class="page_body_content_wrap_img">
                 <img src="<?php echo get_template_directory_uri(); ?>/assets/public/img/test/test_me01.jpg" alt="">
@@ -53,8 +56,8 @@ get_header(); ?>
             <div class="page_body_content_wrap_btn">
                 <a class="green" href="<?php echo home_url(''); ?>">MORE</a>
             </div>
-        </div>
-        <div id="me02" class="page_body_content_wrap" style="background-color:#1F9DCC;">
+        </div> -->
+        <!-- <div id="me02" class="page_body_content_wrap" style="background-color:#1F9DCC;">
             <h3>見出し入ります24w見出<br>見出し入ります24w見出</h3>
             <div class="page_body_content_wrap_img">
                 <img src="<?php echo get_template_directory_uri(); ?>/assets/public/img/test/test_me02.jpg" alt="">
@@ -80,7 +83,7 @@ get_header(); ?>
             <div class="page_body_content_wrap_btn">
                 <a class="blue" href="<?php echo home_url(''); ?>">MORE</a>
             </div>
-        </div>
+        </div> -->
         <?php 
             get_template_part('sections/sec_lovers');
             get_template_part('sections/sec_share');

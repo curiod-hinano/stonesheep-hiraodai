@@ -63,7 +63,7 @@ get_header(); ?>
             </div>
         </div>
 
-        <div class="page_body_content_txt">
+        <div class="page_body_content_txt related">
             <h2 style="margin-bottom: 25px;">HIRAODAI SPOT</h2>
             <div class="page_body_content_spot_wrap" style="padding-top:0;">
                 <?php

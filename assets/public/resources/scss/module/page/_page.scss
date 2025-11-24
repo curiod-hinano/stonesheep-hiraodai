@@ -26,6 +26,10 @@
         transform: translateX(-50%);
         @include mq(sp){
             width: 100%;
+            display: grid;
+            grid-template-columns: 1fr;
+            justify-items: center;
+            background-color: #fff;
         }
         &_head {
             position: relative;
@@ -33,6 +37,7 @@
             padding-bottom: 9.26vh;
             display: grid;
             justify-items: center;
+            width: 100%;
         }
         &_lovers {
             position: relative;
@@ -63,7 +68,7 @@
                         // width: auto !important; // 追加：Swiperの自動幅計算を有効に
                         .comment {
                             position: relative;
-                            padding: 0 15px;
+                            padding: 0 10px;
                             display: flex;
                             justify-content: center;
                             align-items: start;
@@ -89,7 +94,7 @@
                             p {
                                 position: relative;
                                 text-align: center;
-                                font-size: 9px;
+                                font-size: 10px;
                                 letter-spacing: 1px;
                                 line-height: 1rem;
                                 padding-top: 15px;
@@ -112,12 +117,12 @@
                                 text-align: center;
                                 line-height: 1;
                                 &.position {
-                                    font-size: 7px;
+                                    font-size: 10px;
                                     margin-bottom: 4px;
                                     line-height: .7rem;
                                 }
                                 &.name {
-                                    font-size: 9px;
+                                    font-size: 12px;
                                 }
                             }
                         }
@@ -151,7 +156,7 @@
             &_wrap {
                 p {
                     font-family: $sub_font;
-                    font-size: 0.93vw;
+                    font-size: 12px;
                     color: #03581D;
                     display: inline-block;
                     line-height: 1;
@@ -163,12 +168,13 @@
                 ul {
                     display: flex;
                     justify-content: center;
-                    gap: 32px 23px;
+                    gap: 35px 30px;
                     li {
                         a {
                             display: block;
                             img {
-                                height: 1.82vw;
+                                height: 36px;
+                                object-fit: contain;
                                 @include mq(sp) {
                                     height: 25px;
                                 }
@@ -180,8 +186,8 @@
                             background-color: unset;
                             svg {
                                 object-fit: contain;
-                                width: 1.86vw;
-                                height: 1.82vw;
+                                width: 36px;
+                                height: 36px;
                                 @include mq(sp) {
                                     height: 25px;
                                     width: 22px;
@@ -404,8 +410,10 @@
         }
         &_googlemap {
             background-color: #fff;
+            width: 100%;
             iframe {
-                width: 100%;;
+                width: 100%;
+                margin-top: -71px;
             }
             &_link {
                 text-align: center;
@@ -417,7 +425,7 @@
                     color: #03581D;
                     line-height: 1;
                     @include mq(sp) {
-                        font-size: 9px;
+                        font-size: 11px;
                     }
                     &:before {
                         content: "";
@@ -457,7 +465,7 @@
                 letter-spacing: 1.5px;
                 line-height: 1;
                 @include mq(sp) {
-                    font-size: 16px;
+                    font-size: 18px;
                     width: 100%;
                 }
             }
@@ -467,6 +475,7 @@
 
 .page_body_content.story {
     .page_body_content_head {
+        padding-top: 15vh;
         &:before {
             content: "";
             display: block;
@@ -489,18 +498,28 @@
                 margin-left: 45px;
                 color: #fff;
                 letter-spacing: 1.1px;
-                font-size: 18px;
+                font-size: 20px;
                 font-weight: 600;
                 line-height: 1.2;
+                @include mq(sp) {
+                    font-size: 18px;
+                }
             }
             p {
-                font-size: 13px;
+                font-size: 15px;
                 letter-spacing: 1px;
                 color: #fff;
+                white-space: nowrap;
+                 @include mq(sp) {
+                    font-size: 14px;
+                }
             }
         }
         &_index {
             text-align: center;
+            width: 100%;
+            display: grid;
+            justify-content: center;
             p {
                 position: relative;
                 font-size: .93vw;
@@ -544,7 +563,7 @@
         }
     }
     .page_body_content_wrap {
-        padding: 60px 3.9vw 60px;
+        // padding: 60px 3.9vw 60px;
         background-color: #fff;
         max-width: 500px;
         @include mq(sp) {
@@ -553,20 +572,25 @@
         &_txt01 {
             width: 100%;
             h3 {
-                font-size: 16px;
-                line-height: 1;
+                font-size: 17px;
+                line-height: 1.2;
                 letter-spacing: 1.1px;
                 color: #03581D;
-                font-weight: 500;
+                font-weight: 600;
                 flex: 0 0 auto;
             }
             .vertical {
                 margin-top: 20px;
                 p {
-                    font-size: 12px;
+                    font-size: 14px;
                     letter-spacing: 1px;
-                    line-height: 1.3rem;
+                    line-height: 1.5rem;
                 }
+            }
+        }
+        .feature-card__body {
+            @include mq(sp) {
+                padding: unset;
             }
         }
     }
@@ -576,12 +600,54 @@
         background-color: #fff;
         justify-items: center;
         justify-content: center;
+        &_storyLink {
+            margin-top: 50px;
+            padding: 0 3em;
+            text-align: center;
+            @include mq(sp) {
+                padding: 0 9vw;
+            }
+            p {
+                position: relative;
+                display: inline-block;
+                margin-bottom: 20px;
+                span {
+                    font-size: 15px;
+                    color: #03581D;
+                    letter-spacing: 0.13rem;
+                    font-weight: 500;
+                }
+                svg {
+                    width: 106%;
+                    height: 1em;
+                    bottom: -9px;
+                    left: 0;
+                    display: block;
+                    position: absolute;
+                }
+            }
+            a {
+                display: block;
+                color: #fff;
+                font-weight: 500;
+                background-color: #03581D;
+                padding: 5px 20px;
+                border-radius: 3rem;
+                font-size: 13px;
+                min-width: 250px;
+                line-height: 1.2rem;
+                &:hover {
+                    opacity: 1;
+                    color: #F3FC85;
+                }
+            }
+        }
     }
 }
 
 .page_body_content.me {
     .page_body_content_head {
-        padding-top: 9vh;
+        padding-top: 15vh;
         &:before {
             content: "";
             display: block;
@@ -602,15 +668,22 @@
             margin-bottom: 20vh;
             h2 {
                 letter-spacing: 1.3px;
-                font-size: 18px;
+                font-size: 20px;
                 line-height: 1.2;
                 margin-left: 1.25rem;
                 color: #fff;
+                @include mq(sp){
+                    font-size: 18px;
+                }
             }
             p {
-                font-size: 13px;
+                font-size: 15px;
                 letter-spacing: 1px;
                 color: #fff;
+                white-space: nowrap;
+                @include mq(sp){
+                    font-size: 14px;
+                }
             }
         }
         &_index {
@@ -668,7 +741,7 @@
         padding: 30px 3.9vw 50px;
         h3 {
             color: #fff;
-            font-size: 0.93vw;
+            font-size: 17px;
             line-height: 1.6;
             letter-spacing: 1px;
             font-weight: 500;
@@ -692,8 +765,8 @@
             padding: 30px 0 45px;
             p {
                 color: #fff;
-                font-size: 0.73vw;
-                line-height: 1.1rem;
+                font-size: 14px;
+                line-height: 1.4rem;
                 letter-spacing: 1px;
                 display: -webkit-box;
                 overflow: hidden;
@@ -789,7 +862,7 @@
                 margin-top: unset;
             }
             p {
-                font-size: 12px;
+                font-size: 14px;
                 line-height: 1.8;
                 letter-spacing: 1px;
                 color: #03581D;
@@ -824,6 +897,8 @@
                     position: relative;
                     img {
                         border-radius: 10px;
+                        aspect-ratio: 4.5 / 3;
+                        object-fit: cover;
                     }
                     ul.info {
                         position: absolute;
@@ -836,6 +911,7 @@
                                 width: 1.3vw;
                                 object-fit: contain;
                                 min-width: 20px;
+                                aspect-ratio: 1 / 1;
                             }
                         }
                     }
@@ -846,12 +922,12 @@
                         padding: 0 5px 0;
                     }
                     h3 {
-                        font-size: 12px;
+                        font-size: 13px;
                         line-height: 1rem;
                         letter-spacing: 1px;
                         color: #03581D;
                         margin-bottom: 2px;
-                        font-weight: 400;
+                        font-weight: 600;
                         @include mq(sp) {
                             font-size: 12px;
                         }
@@ -865,6 +941,12 @@
                         }
                     }
                 }
+            }
+        }
+        &.related {
+            padding: 50px 3.2vw 5px;
+            @include mq(sp) {
+                padding: 50px 8vw 5px;
             }
         }
     }
@@ -915,13 +997,13 @@
         .form-wrap {
             display: flex;
             flex-wrap: wrap;
-            gap: 20px;
+            gap: 25px;
             .form-bl {
                 width: 100%;
                 .form-title {
-                    font-size: 12px;
+                    font-size: 14px;
                     color: #03581D;
-                    margin-bottom: 5px;
+                    margin-bottom: 8px;
                     line-height: 1;
                     font-weight: 600;
                     padding: 0 1.3vw;
@@ -939,14 +1021,14 @@
                         border: 1px solid #03581D;
                         background-color: #fff;
                         padding: 10px 1.3vw;
-                        font-size: 14px;
+                        font-size: 16px;
                         color: #03581D;
-                        border-radius: 30px;
+                        border-radius: 20px;
                         line-height: 1;
                         letter-spacing: .8px;
                         @include mq(sp) {
                             padding: 10px 15px;
-                            font-size: 12px;
+                            font-size: 13px;
                             border-radius: 25px;
                         }
                         &::placeholder {
@@ -1049,7 +1131,7 @@
         }
         p {
             color: #03581D;
-            font-size: 0.83vw;
+            font-size: 14px;
             margin-bottom: 15px;
             font-weight: 500;
         }
@@ -1062,7 +1144,7 @@
                 padding: 7px 2.6vw;
                 border-radius: 30px;
                 color: #03581D;
-                font-size: 0.83vw;
+                font-size: 12px;
                 font-weight: 600;
                 letter-spacing: .8px;
                 z-index: 1000;

@@ -53,7 +53,7 @@ function init_enqueue()
 {
     // CSS読み込み
     // wp_enqueue_style( 'css',get_template_directory_uri().'/assets/public/fullpage.css', array(), filemtime(get_template_directory() . '/assets/public/css/fullpage.css'));
-    wp_enqueue_style( 'fullpage',get_template_directory_uri().'/assets/public/css/jquery.fullpage.min.css', array(), filemtime(get_template_directory() . '/assets/public/css/jquery.fullpage.min.css'));
+    wp_enqueue_style( 'aos',get_template_directory_uri().'/assets/public/css/aos.css', array(), filemtime(get_template_directory() . '/assets/public/css/aos.css'));
     wp_enqueue_style( 'remodal',get_template_directory_uri().'/assets/public/css/remodal.css', array(), filemtime(get_template_directory() . '/assets/public/css/remodal.css'));
     wp_enqueue_style( 'remodal-default-theme',get_template_directory_uri().'/assets/public/css/remodal-default-theme.css', array(), filemtime(get_template_directory() . '/assets/public/css/remodal-default-theme.css'));
     wp_enqueue_style( 'swiper-min',get_template_directory_uri().'/assets/public/css/swiper.min.css', array(), filemtime(get_template_directory() . '/assets/public/css/swiper.min.css'));
@@ -64,7 +64,7 @@ function init_enqueue()
     //script読み込み
     wp_enqueue_script( 'jquery-min', 'https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js','', '1.0.0', true );
     // wp_enqueue_script( 'fullpage', get_template_directory_uri() . '/assets/public/js/fullpage.js', array('jquery-min'), '1.0.0', true );
-    wp_enqueue_script( 'fullpage-min', get_template_directory_uri() . '/assets/public/js/jquery.fullpage.min.js', array('jquery-min'), '1.0.0', true );
+    wp_enqueue_script( 'aos', get_template_directory_uri() . '/assets/public/js/aos.js', array('jquery-min'), '1.0.0', true );
     wp_enqueue_script( 'remodal-min', get_template_directory_uri() . '/assets/public/js/remodal.min.js', array('jquery-min'), '1.0.0', true );
     wp_enqueue_script( 'swiper-bundle-min', get_template_directory_uri() . '/assets/public/js/swiper-bundle.min.js', array('jquery-min'), '1.0.0', true );
     wp_enqueue_script( 'jquery-modal-video-min', get_template_directory_uri() . '/assets/public/js/jquery-modal-video.min.js', array('jquery-min'), '1.0.0', true );

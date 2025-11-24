@@ -4,21 +4,16 @@
         <ul>
             <li class="facebook">
                 <a href="http://www.facebook.com/share.php?u=<?php echo (empty($_SERVER['HTTPS']) ? 'http://' : 'https://') . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']; ?>" rel="nofollow noopener" target="_blank">
-                    <?php if(is_front_page()): ?>
+                    <?php if(is_front_page() || is_singular('feature')): ?>
                         <img src="<?php echo get_template_directory_uri(); ?>/assets/public/img/common/facebook_blue.svg" alt="facebook">
                     <?php else: ?>
                         <img src="<?php echo get_template_directory_uri(); ?>/assets/public/img/common/facebook.svg" alt="facebook">
                     <?php endif; ?>
                 </a>
             </li>
-            <!-- <li class="instagram">
-                <a href="https://www.facebook.com/share.php?u=<?php echo $url_encode ?>" target="_blank" rel="nofollow noopener">
-                    <img src="<?php echo get_template_directory_uri(); ?>/assets/public/img/common/instagram.svg" alt="instagram">
-                </a>
-            </li> -->
             <li class="line">
                 <a href="https://social-plugins.line.me/lineit/share?url=<?php echo (empty($_SERVER['HTTPS']) ? 'http://' : 'https://') . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']; ?>" target="_blank" rel="nofollow noopener">
-                    <?php if(is_front_page()): ?>
+                    <?php if(is_front_page() || is_singular('feature')): ?>
                         <img src="<?php echo get_template_directory_uri(); ?>/assets/public/img/common/line_blue.svg" alt="line">
                     <?php else: ?>
                         <img src="<?php echo get_template_directory_uri(); ?>/assets/public/img/common/line.svg" alt="line">

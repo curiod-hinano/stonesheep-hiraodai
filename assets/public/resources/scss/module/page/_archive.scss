@@ -7,6 +7,10 @@
         padding: 0 0 0;
     }
     &_wrap {
+        @include mq(md) {
+            min-height: 60vh;
+            background-color: #fff;
+        }
         @include mq(sp) {
             display: flex;
             flex-wrap: wrap;
@@ -58,6 +62,9 @@
 
 .page_body_content_feature {
     background-color: #fff;
+    @include mq(md) {
+        min-height: 60vh;
+    }
     @include mq(sp) {
         display: flex;
         flex-wrap: wrap;
@@ -137,30 +144,37 @@
 .page_body_content_landscape {
     background-color: #fff;
     &_head {
-        padding: 70px 4.42vw 75px;
-        display: flex;
-        flex-direction: row-reverse;
+        padding: 70px 3.5vw 75px;
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        // flex-direction: row-reverse;
         justify-content: center;
         &_ttl {
             display: flex;
-            flex-direction: row-reverse;
+            // flex-direction: row-reverse;
             h2 {
                 letter-spacing: 1.1px;
-                font-size: 18px;
+                font-size: 20px;
                 color: #03581D;
                 font-weight: 600;
                 line-height: 1.2;
+                @include mq(sp){
+                    font-size: 18px;
+                }
             }
             p {
                 letter-spacing: 1.1px;
-                font-size: 18px;
+                font-size: 20px;
                 color: #03581D;
                 font-weight: 600;
                 line-height: 2.2;
                 margin-left: 30px;
+                @include mq(sp){
+                    font-size: 18px;
+                }
                 span {
                     font-family: $sub_font;
-                    font-size: 0.93vw;
+                    font-size: 12px;
                     display: block;
                     margin-top: 3px;
                     line-height: 1.2;
@@ -174,11 +188,14 @@
         }
         &_txt {
             p {
-                font-size: 13px;
+                font-size: 15px;
                 letter-spacing: 1px;
                 color: #03581D;
                 font-weight: 500;
                 margin-top: 2px;
+                @include mq(sp){
+                    font-size: 14px;
+                }
                 span {
                     -webkit-text-combine: horizontal;
                     -ms-text-combine-horizontal: all;
@@ -192,6 +209,8 @@
         background-color: #F2F2F2;
         @include mq(sp){
             padding: 40px 9.86vw 80px;
+            margin: 0 calc(50% - 50vw);
+            width: 100vw;
         }
         &_container {
             @include mq(sp){

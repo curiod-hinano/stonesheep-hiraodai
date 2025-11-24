@@ -33,6 +33,16 @@
     <link rel="apple-touch-icon" href="<?php echo get_template_directory_uri(); ?>/assets/public/img/common/apple-touch-icon.png">
     <link rel="android-chrome" href="<?php echo get_template_directory_uri(); ?>/assets/public/img/common/android-chrome.png">
     
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-HQ6YJFPDXQ"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-HQ6YJFPDXQ');
+    </script>
+
     <?php wp_head(); ?>
 </head>
 
@@ -84,7 +94,7 @@
                                     <?php
                                         if ( is_front_page() ) :
                                             $colorLogo = '#03581D';
-                                            $newsBkColor = '#1F9DCC';
+                                            $newsBkColor = '#03581D';
                                             $newsTxtColor = '#F3FC85';
                                         else:
                                             $colorLogo = '#03581D';
@@ -188,12 +198,20 @@
                                         <span class="header_news_link_body_ttl" style="color: <?php echo $newsTxtColor; ?>;"><?php the_title(); ?></span>
                                         <span class="header_news_link_body_date" style="color: <?php echo $newsTxtColor; ?>;"><?php echo get_the_date('Y.m.d'); ?></span>
                                         <!-- <span class="header_news_link_body_time" style="color: <?php echo $newsTxtColor; ?>;">10:00~12:00</span> -->
-                                        <span class="header_news_link_body_txt"><?php echo get_the_excerpt(); ?></span>
+                                        <!-- <span class="header_news_link_body_txt"><?php echo get_the_excerpt(); ?></span> -->
                                     </span>
                                 </a>
                             <?php endwhile; ?>
                             <?php wp_reset_postdata(); ?>
                             <?php endif; ?>
+                        </div>
+                        <div class="header_link">
+                            <a class="header_link_btn reservation_btn" href="https://hiraodai-ikimura.com/" target="_blank" rel="noopener">
+                                <span class="header_link_btn_logo">
+                                    <img src="<?php echo get_template_directory_uri(); ?>/assets/public/img/common/ikimura_logo.png" alt="山の家 粋邑">
+                                </span>
+                                <span class="header_link_btn_txt">平尾台に泊まる</span>
+                            </a>
                         </div>
                     </div>
                     <div class="header_wrap_bl02">
@@ -325,7 +343,7 @@
                                         </g>
                                     </svg>
                                     <span>
-                                        <a href="<?php echo home_url(); ?>/story" style="<?php echo $colorLogo; ?>">平尾台の物語</a>
+                                        <a style="<?php echo $colorLogo; ?>">平尾台の物語</a>
                                         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="117.459" height="1.975" viewBox="0 0 117.459 1.975">
                                             <defs>
                                                 <clipPath id="clip-path">
@@ -340,9 +358,9 @@
                                         </svg>
                                     </span>
                                     <ul class="sub_menu">
-                                        <li><a href="<?php echo home_url(); ?>/story#story01" style="<?php echo $colorLogo; ?>">そして、石はひつじになる。</a></li>
-                                        <li><a href="<?php echo home_url(); ?>/story#story02" style="<?php echo $colorLogo; ?>">丘を育む炎 — 野焼きの景観史</a></li>
-                                        <li><a href="<?php echo home_url(); ?>/story#story03" style="<?php echo $colorLogo; ?>">三つの力と、丘という大地 — 先人たちの眼差し</a></li>
+                                        <li><a href="<?php echo home_url(); ?>/story/story01" style="<?php echo $colorLogo; ?>">そして、石はひつじになる。</a></li>
+                                        <li><a href="<?php echo home_url(); ?>/story/story02" style="<?php echo $colorLogo; ?>">野焼きが生み出す風景 — 草原に火を灯す理由</a></li>
+                                        <!-- <li><a href="<?php echo home_url(); ?>/story#story03" style="<?php echo $colorLogo; ?>">三つの力と、丘という大地 — 先人たちの眼差し</a></li> -->
                                     </ul>
                                 </li>
                                 <li class="page me header_menuList_link">
@@ -374,11 +392,11 @@
                                             </g>
                                         </svg>
                                     </span>
-                                    <ul class="sub_menu">
+                                    <!-- <ul class="sub_menu">
                                         <li><a href="<?php echo home_url(); ?>/me#me01" style="<?php echo $colorLogo; ?>">大地とひとつになる。〜裸足であるく平尾台〜</a></li>
                                         <li><a href="<?php echo home_url(); ?>/me#me02" style="<?php echo $colorLogo; ?>">洞窟の、しずけさに浸る〜鍾乳洞ツアー〜</a></li>
                                         <li><a href="<?php echo home_url(); ?>/me#me03" style="<?php echo $colorLogo; ?>">石のひつじと、すごす時間〜平尾台で過ごす時間〜</a></li>
-                                    </ul>
+                                    </ul> -->
                                 </li>
                                 <?php 
                                     // wp_nav_menu( array(
@@ -441,28 +459,28 @@
                                 <li><a href="<?php echo home_url(); ?>/news" style="<?php echo $colorLogo; ?>">NEWS</a></li>
                             </ul>
                             <ul class="header_menuList_wrap_sns">
-                                <li>
+                                <!-- <li>
                                     <a href="https://www.facebook.com/" target="_blank" rel="noopener">
                                         <svg id="facebook" xmlns="http://www.w3.org/2000/svg" width="12.087" height="22.663" viewBox="0 0 12.087 22.663">
                                             <path id="パス_998" data-name="パス 998" d="M15.807.163v3.6h-2.2a2.091,2.091,0,0,0-1.623.49,2.214,2.214,0,0,0-.42,1.471V8.294h4.1l-.546,4.031H11.568V22.663H7.287V12.326H3.72V8.294H7.287V5.325A5.189,5.189,0,0,1,8.742,1.4,5.363,5.363,0,0,1,12.618,0,23.765,23.765,0,0,1,15.807.163Z" transform="translate(-3.72)" fill="<?php echo $colorLogo; ?>"/>
                                         </svg>
                                     </a>
-                                </li>
+                                </li> -->
                                 <li>
-                                    <a href="https://www.instagram.com/" target="_blank" rel="noopener">
+                                    <a href="https://www.instagram.com/hitsujicafe_ikimura_hiraodai/" target="_blank" rel="noopener">
                                         <svg id="instagram" xmlns="http://www.w3.org/2000/svg" width="22.663" height="22.384" viewBox="0 0 22.663 22.384">
                                             <path id="パス_997" data-name="パス 997" d="M11.331,0C8.253,0,7.869.014,6.66.067a8.447,8.447,0,0,0-2.751.52A5.557,5.557,0,0,0,1.9,1.878,5.454,5.454,0,0,0,.595,3.861,8.14,8.14,0,0,0,.068,6.578C.011,7.772,0,8.151,0,11.192s.014,3.42.068,4.614a8.169,8.169,0,0,0,.527,2.717A5.483,5.483,0,0,0,1.9,20.506,5.548,5.548,0,0,0,3.909,21.8a8.457,8.457,0,0,0,2.751.52c1.209.056,1.593.067,4.671.067s3.463-.014,4.671-.067a8.477,8.477,0,0,0,2.751-.52,5.577,5.577,0,0,0,2.008-1.291,5.459,5.459,0,0,0,1.307-1.983,8.169,8.169,0,0,0,.527-2.717c.057-1.194.068-1.573.068-4.614s-.014-3.42-.068-4.614a8.188,8.188,0,0,0-.527-2.717A5.756,5.756,0,0,0,18.754.588,8.427,8.427,0,0,0,16,.067C14.794.011,14.41,0,11.331,0Zm0,2.015c3.025,0,3.385.015,4.58.066a6.311,6.311,0,0,1,2.1.387,3.524,3.524,0,0,1,1.305.836,3.454,3.454,0,0,1,.846,1.288,6.113,6.113,0,0,1,.39,2.077c.054,1.181.066,1.535.066,4.523s-.014,3.344-.07,4.523a6.231,6.231,0,0,1-.4,2.077A3.723,3.723,0,0,1,18,19.917a6.371,6.371,0,0,1-2.11.385c-1.2.053-1.557.065-4.588.065s-3.386-.014-4.588-.069A6.5,6.5,0,0,1,4.6,19.906a3.513,3.513,0,0,1-1.3-.838,3.4,3.4,0,0,1-.85-1.287,6.284,6.284,0,0,1-.4-2.085C2.012,14.521,2,14.158,2,11.178s.015-3.345.058-4.534a6.277,6.277,0,0,1,.4-2.084A3.314,3.314,0,0,1,3.3,3.273a3.356,3.356,0,0,1,1.3-.838,6.34,6.34,0,0,1,2.1-.393C7.9,2,8.259,1.987,11.289,1.987l.042.028Zm0,3.43a5.748,5.748,0,1,0,5.819,5.747A5.783,5.783,0,0,0,11.331,5.445Zm0,9.478a3.731,3.731,0,1,1,3.777-3.731A3.753,3.753,0,0,1,11.331,14.923Zm7.409-9.7a1.361,1.361,0,0,1-2.72,0,1.36,1.36,0,0,1,2.72,0Z" fill="<?php echo $colorLogo; ?>"/>
                                         </svg>
                                     </a>
                                 </li>
-                                <li>
+                                <!-- <li>
                                     <button onclick="copyUrl()">
                                         <svg id="ios-link" xmlns="http://www.w3.org/2000/svg" width="22.902" height="22.891" viewBox="0 0 22.902 22.891">
                                             <path id="パス_1012" data-name="パス 1012" d="M31.006,78.922l-.066.006a.91.91,0,0,0-.528.248L26.857,82.73a4.008,4.008,0,0,1-5.668-5.668l3.775-3.775a3.984,3.984,0,0,1,.627-.512,4.045,4.045,0,0,1,.814-.413,3.854,3.854,0,0,1,.825-.2,3.9,3.9,0,0,1,.561-.039c.077,0,.154.006.253.011a4,4,0,0,1,2.575,1.156,3.946,3.946,0,0,1,.941,1.5.866.866,0,0,0,1.062.556c.006,0,.011-.005.017-.005s.011,0,.011-.006a.86.86,0,0,0,.578-1.051,4.986,4.986,0,0,0-1.354-2.256,5.793,5.793,0,0,0-3.17-1.612c-.1-.017-.209-.033-.314-.044a5.681,5.681,0,0,0-.611-.033c-.143,0-.286.006-.424.017a5.549,5.549,0,0,0-.891.138c-.061.011-.116.028-.176.044a5.722,5.722,0,0,0-1.073.4,5.652,5.652,0,0,0-1.524,1.1l-3.775,3.775a5.8,5.8,0,0,0-1.678,4.1A5.786,5.786,0,0,0,28.112,84L31.705,80.4A.871.871,0,0,0,31.006,78.922Z" transform="translate(-18.24 -62.794)" fill="<?php echo $colorLogo; ?>"/>
                                             <path id="パス_1013" data-name="パス 1013" d="M86.089,19.929a5.8,5.8,0,0,0-8.182,0L74.4,23.435a.885.885,0,0,0,.556,1.508.894.894,0,0,0,.7-.253l3.511-3.5a4.008,4.008,0,0,1,5.668,5.668l-3.775,3.775a3.984,3.984,0,0,1-.627.512,4.045,4.045,0,0,1-.814.413,3.853,3.853,0,0,1-.825.2,3.9,3.9,0,0,1-.561.039c-.077,0-.16-.006-.253-.011A3.954,3.954,0,0,1,74.5,29.229a.879.879,0,0,0-1.051-.539.889.889,0,0,0-.622,1.128,5.027,5.027,0,0,0,1.3,2.064l.011.011a5.793,5.793,0,0,0,3.483,1.656,5.679,5.679,0,0,0,.611.033q.215,0,.429-.017a6.291,6.291,0,0,0,1.062-.176,5.724,5.724,0,0,0,1.073-.4,5.653,5.653,0,0,0,1.524-1.1L86.1,28.117a5.792,5.792,0,0,0-.011-8.188Z" transform="translate(-64.887 -18.24)" fill="<?php echo $colorLogo; ?>"/>
                                         </svg>
                                     </button>
-                                </li>
+                                </li> -->
                             </ul>
                         </div>
                     </div>
@@ -476,7 +494,7 @@
                     <div class="header_menuList_wrap">
                         <div class="header_menuList_wrap_headttl">
                             <p style="color:<?php echo $colorLogo; ?>;">平尾台で出会う旅</p>
-                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="164.729" height="1.975" viewBox="0 0 164.729 1.975">
+                            <!-- <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="164.729" height="1.975" viewBox="0 0 164.729 1.975">
                                 <defs>
                                     <clipPath id="clip-path">
                                     <rect id="長方形_13" data-name="長方形 13" width="164.729" height="1.975" fill="none" stroke="<?php echo $colorLogo; ?>" stroke-width="1"/>
@@ -487,7 +505,7 @@
                                     <path id="パス_123" data-name="パス 123" d="M0,.142c3.921,0,3.921,1.8,7.842,1.8s3.92-1.8,7.84-1.8,3.92,1.8,7.842,1.8,3.92-1.8,7.841-1.8,3.921,1.8,7.843,1.8,3.92-1.8,7.841-1.8,3.922,1.8,7.844,1.8,3.922-1.8,7.844-1.8,3.922,1.8,7.844,1.8S74.5.142,78.423.142s3.922,1.8,7.844,1.8,3.923-1.8,7.846-1.8,3.922,1.8,7.844,1.8,3.921-1.8,7.843-1.8,3.922,1.8,7.843,1.8,3.922-1.8,7.844-1.8,3.923,1.8,7.845,1.8,3.924-1.8,7.849-1.8,3.922,1.8,7.845,1.8,3.926-1.8,7.852-1.8,3.925,1.8,7.851,1.8" transform="translate(0 -0.052)" fill="none" stroke="<?php echo $colorLogo; ?>" stroke-miterlimit="10" stroke-width="1"/>
                                     </g>
                                 </g>
-                            </svg>
+                            </svg> -->
                         </div>
                         <ul class="header_menuList_wrap_01">
                             <?php
@@ -578,7 +596,7 @@
                                     </g>
                                 </svg>
                                 <span>
-                                    <a href="<?php echo home_url(); ?>/landscape" style="<?php echo $colorLogo; ?>">風景に出会う</a>
+                                    <a href="<?php echo home_url(); ?>/landscape" style="<?php echo $colorLogo; ?>">平尾台の風景</a>
                                     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="117.459" height="1.975" viewBox="0 0 117.459 1.975">
                                         <defs>
                                             <clipPath id="clip-path">
@@ -611,7 +629,7 @@
                                     </g>
                                 </svg>
                                 <span>
-                                    <a href="<?php echo home_url(); ?>/story" style="<?php echo $colorLogo; ?>">物語に出会う</a>
+                                    <a style="<?php echo $colorLogo; ?>">平尾台の物語</a>
                                     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="117.459" height="1.975" viewBox="0 0 117.459 1.975">
                                         <defs>
                                             <clipPath id="clip-path">
@@ -626,9 +644,9 @@
                                     </svg>
                                 </span>
                                 <ul class="sub_menu">
-                                    <li><a href="<?php echo home_url(); ?>/story#story01" style="<?php echo $colorLogo; ?>">そして、石はひつじになる。</a></li>
-                                    <li><a href="<?php echo home_url(); ?>/story#story02" style="<?php echo $colorLogo; ?>">丘を育む炎 — 野焼きの景観史</a></li>
-                                    <li><a href="<?php echo home_url(); ?>/story#story03" style="<?php echo $colorLogo; ?>">三つの力と、丘という大地 — 先人たちの眼差し</a></li>
+                                    <li><a href="<?php echo home_url(); ?>/story/story01" style="<?php echo $colorLogo; ?>">そして、石はひつじになる。</a></li>
+                                    <li><a href="<?php echo home_url(); ?>/story/story02" style="<?php echo $colorLogo; ?>">野焼きが生み出す風景 — 草原に火を灯す理由</a></li>
+                                    <!-- <li><a href="<?php echo home_url(); ?>/story#story03" style="<?php echo $colorLogo; ?>">三つの力と、丘という大地 — 先人たちの眼差し</a></li> -->
                                 </ul>
                             </li>
                             <li class="page me header_menuList_link">
@@ -646,7 +664,7 @@
                                     </g>
                                 </svg>
                                 <span>
-                                    <a href="<?php echo home_url(); ?>/me" style="<?php echo $colorLogo; ?>">わたしに出会う</a>
+                                    <a href="<?php echo home_url(); ?>/me" style="<?php echo $colorLogo; ?>">平尾台の体験</a>
                                     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="132.459" height="1.975" viewBox="0 0 132.459 1.975">
                                         <defs>
                                             <clipPath id="clip-path">
@@ -660,11 +678,28 @@
                                         </g>
                                     </svg>
                                 </span>
-                                <ul class="sub_menu">
+                                <!-- <ul class="sub_menu">
                                     <li><a href="<?php echo home_url(); ?>/me#me01" style="<?php echo $colorLogo; ?>">大地とひとつになる。〜裸足であるく平尾台〜</a></li>
                                     <li><a href="<?php echo home_url(); ?>/me#me02" style="<?php echo $colorLogo; ?>">洞窟の、しずけさに浸る〜鍾乳洞ツアー〜</a></li>
                                     <li><a href="<?php echo home_url(); ?>/me#me03" style="<?php echo $colorLogo; ?>">石のひつじと、すごす時間〜平尾台で過ごす時間〜</a></li>
-                                </ul>
+                                </ul> -->
+                            </li>
+                            <li class="page stay header_menuList_link">
+                                <span>
+                                    <a href="https://hiraodai-ikimura.com/" target="_blank" rel="noopener" style="<?php echo $colorLogo; ?>">平尾台に泊まる</a>
+                                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="132.459" height="1.975" viewBox="0 0 132.459 1.975">
+                                        <defs>
+                                            <clipPath id="clip-path">
+                                            <rect id="長方形_13" data-name="長方形 13" width="132.459" height="1.975" fill="none" stroke="<?php echo $colorLogo; ?>" stroke-width="1"/>
+                                            </clipPath>
+                                        </defs>
+                                        <g id="グループ_28" data-name="グループ 28" transform="translate(0 0)">
+                                            <g id="グループ_25" data-name="グループ 25" transform="translate(0 0)" clip-path="url(#clip-path)">
+                                            <path id="パス_123" data-name="パス 123" d="M0,.142c3.153,0,3.153,1.8,6.306,1.8s3.152-1.8,6.3-1.8,3.152,1.8,6.306,1.8,3.152-1.8,6.3-1.8,3.153,1.8,6.306,1.8,3.152-1.8,6.3-1.8,3.154,1.8,6.307,1.8,3.154-1.8,6.308-1.8,3.154,1.8,6.307,1.8,3.154-1.8,6.307-1.8,3.154,1.8,6.308,1.8,3.155-1.8,6.309-1.8,3.154,1.8,6.308,1.8,3.153-1.8,6.306-1.8,3.154,1.8,6.307,1.8,3.154-1.8,6.307-1.8,3.155,1.8,6.308,1.8,3.155-1.8,6.311-1.8,3.154,1.8,6.308,1.8,3.157-1.8,6.313-1.8,3.156,1.8,6.313,1.8" transform="translate(0 -0.052)" fill="none" stroke="<?php echo $colorLogo; ?>" stroke-miterlimit="10" stroke-width="1"/>
+                                            </g>
+                                        </g>
+                                    </svg>
+                                </span>
                             </li>
                             <?php 
                                 // wp_nav_menu( array(
@@ -727,28 +762,28 @@
                             <li><a href="<?php echo home_url(); ?>/news" style="<?php echo $colorLogo; ?>">NEWS</a></li>
                         </ul>
                         <ul class="header_menuList_wrap_sns">
-                            <li>
+                            <!-- <li>
                                 <a href="https://www.facebook.com/" target="_blank" rel="noopener">
                                     <svg id="facebook" xmlns="http://www.w3.org/2000/svg" width="12.087" height="22.663" viewBox="0 0 12.087 22.663">
                                         <path id="パス_998" data-name="パス 998" d="M15.807.163v3.6h-2.2a2.091,2.091,0,0,0-1.623.49,2.214,2.214,0,0,0-.42,1.471V8.294h4.1l-.546,4.031H11.568V22.663H7.287V12.326H3.72V8.294H7.287V5.325A5.189,5.189,0,0,1,8.742,1.4,5.363,5.363,0,0,1,12.618,0,23.765,23.765,0,0,1,15.807.163Z" transform="translate(-3.72)" fill="<?php echo $colorLogo; ?>"/>
                                     </svg>
                                 </a>
-                            </li>
+                            </li> -->
                             <li>
-                                <a href="https://www.instagram.com/" target="_blank" rel="noopener">
+                                <a href="https://www.instagram.com/hitsujicafe_ikimura_hiraodai/" target="_blank" rel="noopener">
                                     <svg id="instagram" xmlns="http://www.w3.org/2000/svg" width="22.663" height="22.384" viewBox="0 0 22.663 22.384">
                                         <path id="パス_997" data-name="パス 997" d="M11.331,0C8.253,0,7.869.014,6.66.067a8.447,8.447,0,0,0-2.751.52A5.557,5.557,0,0,0,1.9,1.878,5.454,5.454,0,0,0,.595,3.861,8.14,8.14,0,0,0,.068,6.578C.011,7.772,0,8.151,0,11.192s.014,3.42.068,4.614a8.169,8.169,0,0,0,.527,2.717A5.483,5.483,0,0,0,1.9,20.506,5.548,5.548,0,0,0,3.909,21.8a8.457,8.457,0,0,0,2.751.52c1.209.056,1.593.067,4.671.067s3.463-.014,4.671-.067a8.477,8.477,0,0,0,2.751-.52,5.577,5.577,0,0,0,2.008-1.291,5.459,5.459,0,0,0,1.307-1.983,8.169,8.169,0,0,0,.527-2.717c.057-1.194.068-1.573.068-4.614s-.014-3.42-.068-4.614a8.188,8.188,0,0,0-.527-2.717A5.756,5.756,0,0,0,18.754.588,8.427,8.427,0,0,0,16,.067C14.794.011,14.41,0,11.331,0Zm0,2.015c3.025,0,3.385.015,4.58.066a6.311,6.311,0,0,1,2.1.387,3.524,3.524,0,0,1,1.305.836,3.454,3.454,0,0,1,.846,1.288,6.113,6.113,0,0,1,.39,2.077c.054,1.181.066,1.535.066,4.523s-.014,3.344-.07,4.523a6.231,6.231,0,0,1-.4,2.077A3.723,3.723,0,0,1,18,19.917a6.371,6.371,0,0,1-2.11.385c-1.2.053-1.557.065-4.588.065s-3.386-.014-4.588-.069A6.5,6.5,0,0,1,4.6,19.906a3.513,3.513,0,0,1-1.3-.838,3.4,3.4,0,0,1-.85-1.287,6.284,6.284,0,0,1-.4-2.085C2.012,14.521,2,14.158,2,11.178s.015-3.345.058-4.534a6.277,6.277,0,0,1,.4-2.084A3.314,3.314,0,0,1,3.3,3.273a3.356,3.356,0,0,1,1.3-.838,6.34,6.34,0,0,1,2.1-.393C7.9,2,8.259,1.987,11.289,1.987l.042.028Zm0,3.43a5.748,5.748,0,1,0,5.819,5.747A5.783,5.783,0,0,0,11.331,5.445Zm0,9.478a3.731,3.731,0,1,1,3.777-3.731A3.753,3.753,0,0,1,11.331,14.923Zm7.409-9.7a1.361,1.361,0,0,1-2.72,0,1.36,1.36,0,0,1,2.72,0Z" fill="<?php echo $colorLogo; ?>"/>
                                     </svg>
                                 </a>
                             </li>
-                            <li>
+                            <!-- <li>
                                 <button onclick="copyUrl()">
                                     <svg id="ios-link" xmlns="http://www.w3.org/2000/svg" width="22.902" height="22.891" viewBox="0 0 22.902 22.891">
                                         <path id="パス_1012" data-name="パス 1012" d="M31.006,78.922l-.066.006a.91.91,0,0,0-.528.248L26.857,82.73a4.008,4.008,0,0,1-5.668-5.668l3.775-3.775a3.984,3.984,0,0,1,.627-.512,4.045,4.045,0,0,1,.814-.413,3.854,3.854,0,0,1,.825-.2,3.9,3.9,0,0,1,.561-.039c.077,0,.154.006.253.011a4,4,0,0,1,2.575,1.156,3.946,3.946,0,0,1,.941,1.5.866.866,0,0,0,1.062.556c.006,0,.011-.005.017-.005s.011,0,.011-.006a.86.86,0,0,0,.578-1.051,4.986,4.986,0,0,0-1.354-2.256,5.793,5.793,0,0,0-3.17-1.612c-.1-.017-.209-.033-.314-.044a5.681,5.681,0,0,0-.611-.033c-.143,0-.286.006-.424.017a5.549,5.549,0,0,0-.891.138c-.061.011-.116.028-.176.044a5.722,5.722,0,0,0-1.073.4,5.652,5.652,0,0,0-1.524,1.1l-3.775,3.775a5.8,5.8,0,0,0-1.678,4.1A5.786,5.786,0,0,0,28.112,84L31.705,80.4A.871.871,0,0,0,31.006,78.922Z" transform="translate(-18.24 -62.794)" fill="<?php echo $colorLogo; ?>"/>
                                         <path id="パス_1013" data-name="パス 1013" d="M86.089,19.929a5.8,5.8,0,0,0-8.182,0L74.4,23.435a.885.885,0,0,0,.556,1.508.894.894,0,0,0,.7-.253l3.511-3.5a4.008,4.008,0,0,1,5.668,5.668l-3.775,3.775a3.984,3.984,0,0,1-.627.512,4.045,4.045,0,0,1-.814.413,3.853,3.853,0,0,1-.825.2,3.9,3.9,0,0,1-.561.039c-.077,0-.16-.006-.253-.011A3.954,3.954,0,0,1,74.5,29.229a.879.879,0,0,0-1.051-.539.889.889,0,0,0-.622,1.128,5.027,5.027,0,0,0,1.3,2.064l.011.011a5.793,5.793,0,0,0,3.483,1.656,5.679,5.679,0,0,0,.611.033q.215,0,.429-.017a6.291,6.291,0,0,0,1.062-.176,5.724,5.724,0,0,0,1.073-.4,5.653,5.653,0,0,0,1.524-1.1L86.1,28.117a5.792,5.792,0,0,0-.011-8.188Z" transform="translate(-64.887 -18.24)" fill="<?php echo $colorLogo; ?>"/>
                                     </svg>
                                 </button>
-                            </li>
+                            </li> -->
                         </ul>
                         <div class="header_menuList_wrap_illust">
                             <img src="<?php echo get_template_directory_uri(); ?>/assets/public/img/common/header_illust_sp.svg" alt="">

@@ -22,6 +22,15 @@ document.addEventListener('click', function (e) {
 
 
 //ヘッダー サイトのURLをコピーするボタンを作る
+// function copyUrl() {
+//     const element = document.createElement('input');
+//     element.value = location.href;
+//     document.body.appendChild(element);
+//     element.select();
+//     document.execCommand('copy');
+//     document.body.removeChild(element);
+// }
+
 function copyUrl() {
   // 1) URLコピー（古い方法）
   const temp = document.createElement('input');
@@ -61,50 +70,6 @@ function copyUrl() {
 }
 
 
-// // ヘッダー 現在のページの表示を変える方法
-// document.addEventListener('DOMContentLoaded', () => {
-//   const normalize = (p) => {
-//     p = p.replace(/index\.html?$/i, '');
-//     if (p.length > 1) p = p.replace(/\/+$/, '');
-//     return p || '/';
-//   };
-
-//   const currentPath = normalize(location.pathname);
-//   // ① メインメニュー（必要なら _02, _03 もカンマで追加）
-//   const items = document.querySelectorAll(
-//     '.header_menuList_wrap_01 li.header_menuList_link'
-//   );
-//   items.forEach(li => {
-//     // <li>直下のリンク（<a> or <span>配下<a>）を取得
-//     const mainA = li.querySelector(':scope > a, :scope > span > a');
-//     if (!mainA) return;
-
-//     const linkUrl  = new URL(mainA.getAttribute('href'), location.origin);
-//     const linkPath = normalize(linkUrl.pathname);
-
-//     if (linkPath === currentPath) {
-//       li.classList.add('is-active');
-//     } else {
-//       li.classList.remove('is-active');
-//     }
-//   });
-//   // ②（任意）サブメニュー内のリンクが同じパスなら、親<li>もアクティブにする
-//   //    ※サブが同じページ内アンカー（#）でも親を光らせたい場合に有効
-//   const withSub = document.querySelectorAll(
-//     '.header_menuList_wrap_01 li.header_menuList_link .sub_menu'
-//   );
-//   withSub.forEach(ul => {
-//     const parentLi = ul.closest('li.header_menuList_link');
-//     if (!parentLi) return;
-//     const hit = Array.from(ul.querySelectorAll('a')).some(a => {
-//       const u = new URL(a.getAttribute('href'), location.origin);
-//       return normalize(u.pathname) === currentPath;
-//     });
-//     if (hit) parentLi.classList.add('is-active');
-//   });
-// });
-
-
 // ヘッダー 現在のページの表示を変える方法
 document.addEventListener('DOMContentLoaded', () => {
   const normalize = (p) => {
@@ -114,18 +79,16 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   const currentPath = normalize(location.pathname);
-  console.log('現在のパス:', currentPath);
-
-  // ① メインメニュー
+  // ① メインメニュー（必要なら _02, _03 もカンマで追加）
   const items = document.querySelectorAll(
     '.header_menuList_wrap_01 li.header_menuList_link'
   );
-  
   items.forEach(li => {
+    // <li>直下のリンク（<a> or <span>配下<a>）を取得
     const mainA = li.querySelector(':scope > a, :scope > span > a');
     if (!mainA) return;
 
-    const linkUrl = new URL(mainA.getAttribute('href'), location.origin);
+    const linkUrl  = new URL(mainA.getAttribute('href'), location.origin);
     const linkPath = normalize(linkUrl.pathname);
 
     if (linkPath === currentPath) {
@@ -134,40 +97,19 @@ document.addEventListener('DOMContentLoaded', () => {
       li.classList.remove('is-active');
     }
   });
-
-  // ② サブメニュー内のすべての <li> をチェック
-  const subMenuItems = document.querySelectorAll('.header_menuList_wrap_01 .sub_menu li');
-  
-  console.log('サブメニュー項目数:', subMenuItems.length);
-  
-  subMenuItems.forEach((li, index) => {
-    const a = li.querySelector('a');
-    if (!a) {
-      console.log(`サブメニュー ${index}: リンクなし`);
-      return;
-    }
-
-    const href = a.getAttribute('href');
-    console.log(`サブメニュー ${index}: href="${href}"`);
-    
-    const linkUrl = new URL(href, location.origin);
-    const linkPath = normalize(linkUrl.pathname);
-    
-    console.log(`  → 正規化後: "${linkPath}" vs 現在: "${currentPath}"`);
-
-    if (linkPath === currentPath) {
-      console.log(`  ✓ 一致！ is-activeを追加`);
-      li.classList.add('is-active');
-      a.classList.add('is-active');
-      
-      const mainParentLi = li.closest('li.header_menuList_link');
-      if (mainParentLi) {
-        mainParentLi.classList.add('is-active');
-      }
-    } else {
-      li.classList.remove('is-active');
-      a.classList.remove('is-active');
-    }
+  // ②（任意）サブメニュー内のリンクが同じパスなら、親<li>もアクティブにする
+  //    ※サブが同じページ内アンカー（#）でも親を光らせたい場合に有効
+  const withSub = document.querySelectorAll(
+    '.header_menuList_wrap_01 li.header_menuList_link .sub_menu'
+  );
+  withSub.forEach(ul => {
+    const parentLi = ul.closest('li.header_menuList_link');
+    if (!parentLi) return;
+    const hit = Array.from(ul.querySelectorAll('a')).some(a => {
+      const u = new URL(a.getAttribute('href'), location.origin);
+      return normalize(u.pathname) === currentPath;
+    });
+    if (hit) parentLi.classList.add('is-active');
   });
 });
 
@@ -1688,121 +1630,3 @@ document.addEventListener('DOMContentLoaded', function(){
 
 AOS.init();
 
-
-
-// Remodalのハッシュトラッキングを完全に無効化
-$(document).on('ready', function() {
-  // グローバルなRemodal設定
-  if (window.$ && $.fn.remodal) {
-    $.extend($.remodal.defaults, {
-      hashTracking: false,  // ハッシュトラッキングを無効化
-      closeOnOutsideClick: true
-    });
-  }
-});
-
-// ハッシュ追加を完全に防止するシステム
-(function() {
-  let savedScrollPosition = 0;
-  let isModalOperation = false;
-  
-  // URLのハッシュを常に監視して削除
-  setInterval(function() {
-    if (window.location.hash && window.location.hash !== '') {
-      if (history.replaceState) {
-        const cleanUrl = window.location.pathname + window.location.search;
-        history.replaceState(null, null, cleanUrl);
-      }
-      // スクロール位置を復元
-      if (savedScrollPosition > 0) {
-        window.scrollTo(0, savedScrollPosition);
-      }
-    }
-  }, 10);
-  
-  // モーダルを開くリンクのクリックをインターセプト
-  $(document).on('click', 'a[href^="#modal"]', function(e) {
-    e.preventDefault();
-    e.stopPropagation();
-    
-    isModalOperation = true;
-    savedScrollPosition = window.pageYOffset || document.documentElement.scrollTop;
-    
-    const modalId = $(this).attr('href').replace('#', '');
-    const inst = $('[data-remodal-id="' + modalId + '"]').remodal();
-    
-    if (inst) {
-      inst.open();
-    }
-    
-    return false;
-  });
-  
-  // hashchangeイベントをキャンセル
-  $(window).on('hashchange', function(e) {
-    e.preventDefault();
-    e.stopPropagation();
-    
-    // ハッシュを即座に削除
-    if (history.replaceState) {
-      const cleanUrl = window.location.pathname + window.location.search;
-      history.replaceState(null, null, cleanUrl);
-    }
-    
-    // スクロール位置を復元
-    window.scrollTo(0, savedScrollPosition);
-    
-    return false;
-  });
-  
-  // モーダルが開く時
-  $(document).on('opening', '.remodal', function () {
-    savedScrollPosition = window.pageYOffset || document.documentElement.scrollTop;
-    isModalOperation = true;
-  });
-  
-  // モーダルが閉じた時
-  $(document).on('closed', '.remodal', function () {
-    setTimeout(function() {
-      isModalOperation = false;
-      // 最終確認でハッシュを削除
-      if (window.location.hash) {
-        if (history.replaceState) {
-          const cleanUrl = window.location.pathname + window.location.search;
-          history.replaceState(null, null, cleanUrl);
-        }
-      }
-      window.scrollTo(0, savedScrollPosition);
-    }, 50);
-  });
-  
-  // クローズボタンのクリック
-  $(document).on('click', '[data-remodal-action="close"]', function(e) {
-    savedScrollPosition = window.pageYOffset || document.documentElement.scrollTop;
-  });
-})();
-
-
-
-// アンカーリンクのクリックイベントを確認
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-  anchor.addEventListener('click', function(e) {
-    e.preventDefault();
-    
-    const targetId = this.getAttribute('href');
-    const target = document.querySelector(targetId);
-    
-    if (target) {
-      const headerHeight = 100; // 固定ヘッダーの高さに合わせて調整
-      const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - headerHeight;
-      
-      window.scrollTo({
-        top: targetPosition,
-        behavior: 'smooth'
-      });
-      
-      // URLを更新（履歴に追加せずに）
-      history.replaceState(null, null, targetId);
-    }
-  });
-});

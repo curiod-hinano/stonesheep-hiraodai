@@ -26,7 +26,7 @@ get_header(); ?>
 
             <!-- CONTACTボタン START -->
             <div class="feature-card_contact">
-                <a href="<?php echo home_url(); ?>/contact" style="color:#1f9dcc;">CONTACT</a>
+                <a href="<?php echo home_url(); ?>/contact" style="color:#03581D;">CONTACT</a>
             </div>
             <!-- CONTACTボタン END -->
 
@@ -110,14 +110,18 @@ get_header(); ?>
                                     <p class="name"><?php echo esc_html($guest['name']); ?></p>
                                     <p class="txt"><?php echo esc_html($guest['message']); ?></p>
                                     <div class="link">
-                                        <div class="web">
-                                            <a href="<?php echo esc_html($guest['link']); ?>" target="_blank" rel="noopener">公式サイト</a>
-                                        </div>
-                                        <div class="instagram">
-                                            <a href="<?php echo esc_html($guest['instagram']); ?>" target="_blank" rel="noopener">
-                                                <img src="<?php echo get_template_directory_uri(); ?>/assets/public/img/top/instagram.svg" alt="">
-                                            </a>
-                                        </div>
+                                        <?php if (!empty($guest['link'])): ?>
+                                            <div class="web">
+                                                <a href="<?php echo esc_html($guest['link']); ?>" target="_blank" rel="noopener">公式サイト</a>
+                                            </div>
+                                        <?php endif; ?>
+                                        <?php if (!empty($guest['instagram'])): ?>
+                                            <div class="instagram">
+                                                <a href="<?php echo esc_html($guest['instagram']); ?>" target="_blank" rel="noopener">
+                                                    <img src="<?php echo get_template_directory_uri(); ?>/assets/public/img/top/instagram.svg" alt="">
+                                                </a>
+                                            </div>
+                                        <?php endif; ?>
                                     </div>
                                 </div>
                             </div>

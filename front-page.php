@@ -10,7 +10,7 @@ get_header();
 
   <!-- 1. FVセクション -->
   <div id="fv" class="section">
-    <div class="wrap" style="background:transparent; min-height:100vh;">
+    <div class="wrap" style="background:transparent; min-height:100%;">
 
       <?php
       // 最新の landscape 1件を取得
@@ -74,36 +74,36 @@ get_header();
 
       <!-- ニュース（SP） -->
       <div class="d_only_sp">
-        <div class="fv_news">
-          <p class="fv_news_midashi">EVENT/NEWS</p>
-          <?php
-            $paged = (int) get_query_var('paged');
-            $news_args = array(
-                'post_type'      => 'post',
-                'posts_per_page' => 1,
-                'paged'          => $paged,
-                'orderby'        => 'post_date',
-                'order'          => 'DESC',
-                'post_status'    => 'publish',
-            );
-            $news_q = new WP_Query($news_args);
-            if ($news_q->have_posts()):
-            while ($news_q->have_posts()): $news_q->the_post();
-          ?>
-              <div class="fv_news_ticker js-ticker" data-speed="60">
-                <ul>
-                  <li><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></li>
-                </ul>
-                <ul>
-                  <li><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></li>
-                </ul>
-              </div>
-          <?php
-            endwhile;
-            wp_reset_postdata();
-          endif;
-          ?>
-        </div>
+        <?php
+          $paged = (int) get_query_var('paged');
+          $news_args = array(
+              'post_type'      => 'post',
+              'posts_per_page' => 1,
+              'paged'          => $paged,
+              'orderby'        => 'post_date',
+              'order'          => 'DESC',
+              'post_status'    => 'publish',
+          );
+          $news_q = new WP_Query($news_args);
+          if ($news_q->have_posts()):
+          while ($news_q->have_posts()): $news_q->the_post();
+        ?>
+          <div class="fv_news">
+            <p class="fv_news_midashi">EVENT/NEWS</p>
+            <div class="fv_news_ticker js-ticker" data-speed="60">
+              <ul>
+                <li><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></li>
+              </ul>
+              <ul>
+                <li><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></li>
+              </ul>
+            </div>
+          </div>
+        <?php
+          endwhile;
+          wp_reset_postdata();
+        endif;
+        ?>
       </div>
 
     </div><!-- /.wrap -->
@@ -149,7 +149,7 @@ if ($f_q->have_posts()):
 
             <!-- CONTACTボタン START -->
             <div class="feature-card_contact">
-                <a href="<?php echo home_url(); ?>/contact" style="color:#1f9dcc;">CONTACT</a>
+                <a href="<?php echo home_url(); ?>/contact" style="color:#03581D;">CONTACT</a>
             </div>
             <!-- CONTACTボタン END -->
 
@@ -218,37 +218,40 @@ if ($f_q->have_posts()):
                 <?php the_content(); ?>
             </div>
             <div class="feature-card__footer">
-                <?php if ($guest = get_field('guest')): ?>
-
-                    <div class="feature-card__footer_who">
-                        <a href="#modalWho">
-                            <img src="<?php echo esc_html($guest['img']); ?>" alt="">
-                        </a>
-                        <div class="remodal modal_who" data-remodal-id="modalWho">
-                            <div class="modal_who_wrap">
-                                <div class="modal_who_img">
-                                    <img src="<?php echo esc_html($guest['img']); ?>" alt="">
-                                </div>
-                                <div class="modal_who_txt">
-                                    <p class="name"><?php echo esc_html($guest['name']); ?></p>
-                                    <p class="txt"><?php echo esc_html($guest['message']); ?></p>
-                                    <div class="link">
-                                        <div class="web">
-                                            <a href="<?php echo esc_html($guest['link']); ?>" target="_blank" rel="noopener">公式サイト</a>
-                                        </div>
-                                        <div class="instagram">
-                                            <a href="<?php echo esc_html($guest['instagram']); ?>" target="_blank" rel="noopener">
-                                                <img src="<?php echo get_template_directory_uri(); ?>/assets/public/img/top/instagram.svg" alt="">
-                                            </a>
-                                        </div>
-                                    </div>
+              <?php if ($guest = get_field('guest')): ?>
+                <div class="feature-card__footer_who">
+                    <a href="#modalWho">
+                        <img src="<?php echo esc_html($guest['img']); ?>" alt="">
+                    </a>
+                    <div class="remodal modal_who" data-remodal-id="modalWho">
+                        <div class="modal_who_wrap">
+                            <div class="modal_who_img">
+                                <img src="<?php echo esc_html($guest['img']); ?>" alt="">
+                            </div>
+                            <div class="modal_who_txt">
+                                <p class="name"><?php echo esc_html($guest['name']); ?></p>
+                                <p class="txt"><?php echo esc_html($guest['message']); ?></p>
+                                <div class="link">
+                                    <?php if (!empty($guest['link'])): ?>
+                                      <div class="web">
+                                          <a href="<?php echo esc_html($guest['link']); ?>" target="_blank" rel="noopener">公式サイト</a>
+                                      </div>
+                                    <?php endif; ?>
+                                    <?php if (!empty($guest['instagram'])): ?>
+                                      <div class="instagram">
+                                          <a href="<?php echo esc_html($guest['instagram']); ?>" target="_blank" rel="noopener">
+                                              <img src="<?php echo get_template_directory_uri(); ?>/assets/public/img/top/instagram.svg" alt="">
+                                          </a>
+                                      </div>
+                                    <?php endif; ?>
                                 </div>
                             </div>
-                            <!-- クローズボタン -->
-                            <button data-remodal-action="close" class="remodal-close"></button>
                         </div>
+                        <!-- クローズボタン -->
+                        <button data-remodal-action="close" class="remodal-close"></button>
                     </div>
-                <?php endif; ?>
+                </div>
+              <?php endif; ?>
             </div>
             <!-- SHAREボタン START -->
             <?php

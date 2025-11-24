@@ -7,10 +7,6 @@ get_header(); ?>
 <div class="page_body">
     <div class="page_body_content page_body_content_landscape">
         <div class="page_body_content_landscape_head">
-            <div class="page_body_content_landscape_head_ttl">
-                <h2 class="tategaki">風景に出会う</h2>
-                <p class="tategaki">こだまする、丘の上のサンゴ。<span>ARCHIVES</span></p>
-            </div>
             <div class="page_body_content_landscape_head_txt">
                 <p class="tategaki">
                     平尾台の丘のおと。<br>
@@ -20,6 +16,10 @@ get_header(); ?>
                     さあ、時を超えた響きに、<br>
                     その身をゆだねてみよう。
                 </p>
+            </div>
+            <div class="page_body_content_landscape_head_ttl">
+                <p class="tategaki">こだまする、丘の上のサンゴ。<span>ARCHIVES</span></p>
+                <h2 class="tategaki">風景に出会う</h2>
             </div>
         </div>
         <div class="page_body_content_landscape_archive">

@@ -2,6 +2,7 @@
     background-color: #fff;
     &_thumbnail {
         position: relative;
+        width: 100%;
         ul.info {
             position: absolute;
             bottom: 1.4vh;
@@ -30,7 +31,7 @@
     &_main {
         padding: 40px 3.2rem 5px;
         @include mq(sp){
-            padding: unset;
+            padding: 0 8vw 0;
             width: 100%;
             max-width: 500px;
         }
@@ -40,6 +41,7 @@
             color: #03581D;
             @include mq(sp){
                 font-size: 16px;
+                margin-top: 30px;
             }
             &.wp-block-heading {
                 margin-top: 40px;
@@ -63,25 +65,29 @@
             padding-left: 17px;
             li {
                 color: #03581D;
+                font-size: 13px;
                 ol.wp-block-list {
                     margin: 4px 0 0;
                 }
             }
         }
         .wp-block-table .has-fixed-layout tr {
-            display: grid;
+            // display: grid;
+            display: inline-block;
             td {
                 border: none;
-                font-size: 12px;
-                padding: 11.5px 10px;
+                font-size: 14px;
+                padding: 11.5px 10px 6px;
                 font-weight: 500;
                 color: #03581D;
+                display: block;
                 &:first-child {
-                    background-color: #F4F4F2;
-                    border-top: 1px solid #dddddd;
+                    border-bottom: 1px solid #03581D;
+                    display: inline-block;
+                    font-weight: 600;
                 }
                 &:last-child {
-                    margin-bottom: 5px;
+                    margin-bottom: 18px;
                 }
             }
     }
@@ -89,7 +95,7 @@
             &_body {
                 p {
                     color: #03581D;
-                    font-size: 12px;
+                    font-size: 14px;
                     margin-bottom: 15px;
                     font-weight: 500;
                     @include mq(sp){
@@ -104,7 +110,7 @@
                 margin-top: 40px;
                 p {
                     color: #03581D;
-                    font-size: .83vw;
+                    font-size: 14px;
                     margin-bottom: 10px;
                     line-height: 1;
                     font-weight: 500;
@@ -112,7 +118,8 @@
             }
         }
         &_googlemap {
-            margin-top: 40px;
+            margin: 40px auto 0;
+            width: 100%;
             iframe {
                 width: 100%;
                 height: auto;
