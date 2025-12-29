@@ -317,3 +317,41 @@ function create_post_type02() {
     )
   );
 }
+
+//「平尾台の体験」カスタム投稿タイプ
+add_action( 'init', 'create_post_type03' );
+function create_post_type03() {
+  register_post_type( 'experience', //カスタム投稿名
+    array(
+      'labels' => array(
+        'name' => __( '平尾台の体験' ), //カスタム投稿のラベル
+        'singular_name' => __( '平尾台の体験' ),
+        'add_new_item' => __('平尾台の体験を追加'),
+        'edit_item' => __('平尾台の体験を編集'),
+        'new_item' => __('平尾台の体験を追加')
+      ),
+      'public' => true, //投稿の公開
+      'supports' => array('title','editor','thumbnail'),  //タイトルと本文を有効化
+      'menu_position' =>8,  //メニューの位置
+      'show_ui' => true,  //カスタム投稿タイプを表示するかどうか
+      'has_archive' => true,  //アーカイブの生成
+      'hierarchical' => false,  //階層構造の有無
+      'show_in_rest' => true,   //Gutenberg(ブロックエディタ)に対応
+      'rewrite' => array('width_front' => false), //パーマリンクの設定
+    )
+  );
+  //カスタムタクソノミー
+  register_taxonomy(
+    'experience-cat',
+    // 'trends',
+    array(
+      'hierarchical' => true,  //階層構造の有無。falseでタグ形式
+      'label' => 'カテゴリー',  //タクソノミーのラベル
+      'singular_label' => 'カテゴリー', //タクソノミーのラベル
+      'public' => true,  //検索可能にするかどうか　trueで可能
+      'show_in_rest' => true,
+      'show_ui' => true,  //タームを管理するためにデフォルトのUIを用意
+      // 'rewrite' => 'trends',
+    )
+  );
+}

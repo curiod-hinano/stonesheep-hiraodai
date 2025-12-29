@@ -4,9 +4,37 @@
  */
 get_header(); ?>
 
-<?php $bg_img = get_template_directory_uri() . '/assets/public/img/top/background_top.png';?>
+<?php 
+    // $bg_img = get_template_directory_uri() . '/assets/public/img/top/background_top.jpg';
 
-<section class="feature-shell" id="feature">
+    $latest_post = get_posts(array(
+      'posts_per_page' => 1,
+      'post_type' => 'feature',
+      'post_status' => 'publish'
+    ));
+    $bg_img = '';
+    if (!empty($latest_post)) {
+        // 最新投稿のカスタムフィールド「bkimg」を取得
+        $custom_field_img = get_field('bkimg', $latest_post[0]->ID);
+        if (!empty($custom_field_img)) {
+            // カスタムフィールドに画像が設定されている場合
+            $bg_img = is_array($custom_field_img) ? $custom_field_img['url'] : $custom_field_img;
+        }
+    }
+    if (empty($bg_img)) {
+        // 固定ページID:20のサムネイル画像を取得
+        $page_thumbnail = get_the_post_thumbnail_url(20, 'full');
+        if (!empty($page_thumbnail)) {
+            $bg_img = $page_thumbnail;
+        }
+    }
+    if (empty($bg_img)) {
+        // デフォルト画像を設定
+        $bg_img = get_template_directory_uri() . '/assets/public/img/top/background_top.jpg';
+    }
+?>
+
+<section class="feature-shell single-feature" id="feature">
   <!-- 背景 -->
   <div class="feature-bg">
     <div class="feature-bg__inner">

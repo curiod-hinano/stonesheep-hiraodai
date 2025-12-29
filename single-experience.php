@@ -1,6 +1,6 @@
 <?php
 /**
- * single.php
+ * single-experience.php
  */
 get_header(); ?>
 
@@ -26,7 +26,7 @@ get_header(); ?>
             <?php
                 $paged = (int) get_query_var('paged');
                 $args=array( 
-                    'post_type' => 'post', //カスタム投稿名
+                    'post_type' => 'experience', //カスタム投稿名
                     'posts_per_page'=> 2,
                     'paged' => $paged,
                     'post__not_in' => array(get_the_ID()), // 現在の記事を除外
@@ -38,7 +38,7 @@ get_header(); ?>
                 if( $the_query->have_posts() ):
             ?>
             <div class="page_body_content_txt">
-                <h2 style="margin-bottom: 25px;">NEWS</h2>
+                <h2 style="margin-bottom: 25px; font-family:'zen-kaku-gothic-new',sans-serif;">平尾台の体験</h2>
                 <div class="page_body_content_spot_wrap" style="padding-top:0;">
                     <?php while ( $the_query->have_posts() ) : $the_query->the_post(); ?>
                         <a class="spot_bl" href="<?php the_permalink(); ?>">

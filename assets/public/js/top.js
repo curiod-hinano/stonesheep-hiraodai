@@ -1,9 +1,22 @@
-// loadingアニメーション制御
+// loadingアニメーション制御（初回訪問時のみ）
 document.addEventListener('DOMContentLoaded', () => {
   const loader = document.querySelector('.loading');
   const imgs = loader?.querySelectorAll('.loading_img img');
   const fv = document.getElementById('fv');
   if(!loader || !imgs || !imgs.length){ fv?.classList.add('is-show'); return; }
+
+  // 初回訪問チェック（セッションストレージ使用）
+  const hasVisited = sessionStorage.getItem('hasVisited');
+  
+  if (hasVisited) {
+    // 2回目以降：ローディングをスキップ
+    loader.style.display = 'none';
+    fv?.classList.add('is-show');
+    return;
+  }
+
+  // 初回訪問フラグを保存
+  sessionStorage.setItem('hasVisited', 'true');
 
   // 初期化
   imgs.forEach((img,i)=>{ img.style.display='block'; img.classList.toggle('is-on', i===0); });
@@ -23,172 +36,6 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
-
-// // トップ動画背景（YouTube埋め込み）
-// (function(){
-//   'use strict';
-//   const el = document.getElementById('yt-bg-player');
-//   if (!el) return;
-//   const VIDEO_ID = el.getAttribute('data-video');
-//   let player, lastKick = 0;
-
-//   window.onYouTubeIframeAPIReady = function(){
-//     player = new YT.Player('yt-bg-player', {
-//       videoId: VIDEO_ID,
-//       playerVars: {
-//         // ------- UI/表示系の最適化 -------
-//         controls: 0,            // コントロール非表示
-//         modestbranding: 1,      // ロゴ最小化
-//         rel: 0,                 // 関連は同チャンネルのみ
-//         iv_load_policy: 3,      // 注釈非表示
-//         fs: 0,                  // 全画面ボタン無効
-//         disablekb: 1,           // キーボード操作無効
-//         cc_load_policy: 0,      // 字幕自動表示しない
-//         // ------- 再生系 -------
-//         autoplay: 1,
-//         mute: 1,
-//         playsinline: 1,
-//         loop: 1,
-//         playlist: VIDEO_ID,     // ループに必須
-//         enablejsapi: 1,
-//         origin: location.origin
-//       },
-//       events: {
-//         onReady: (e) => {
-//           try { e.target.mute(); } catch(_){}
-//           kickPlay();
-//           // 初期チラつき防止：準備できたらフェードイン
-//           requestAnimationFrame(()=> {
-//             document.getElementById('bg-video')?.classList.add('is-ready');
-//           });
-
-//            // ▼ ここが追加：グローバル参照＋準備完了イベント
-//           window.YT_BG = e.target;
-//           document.dispatchEvent(new CustomEvent('ytbg:ready'));
-//         },
-//         onStateChange: (e) => {
-//           if (e.data === YT.PlayerState.ENDED) {
-//             try { e.target.seekTo(0, true); } catch(_){}
-//             kickPlay();
-//           }
-//           if (e.data === YT.PlayerState.PAUSED || e.data === YT.PlayerState.CUED) {
-//             kickPlay();
-//           }
-//         }
-//       },
-//       host: 'https://www.youtube-nocookie.com' // ← これが重要
-//     });
-//   };
-
-//   function kickPlay(){
-//     if (!player || typeof player.playVideo !== 'function') return;
-//     const now = Date.now();
-//     if (now - lastKick < 300) return; // 連打しない
-//     lastKick = now;
-//     try { player.playVideo(); } catch(_){}
-//   }
-
-//   const rekick = () => kickPlay();
-//   document.addEventListener('visibilitychange', rekick, {passive:true});
-//   window.addEventListener('focus', rekick, {passive:true});
-//   window.addEventListener('scroll', rekick, {passive:true});
-//   window.addEventListener('touchmove', rekick, {passive:true});
-
-//   try{
-//     const io = new IntersectionObserver((ents)=>{
-//       if (ents[0]?.isIntersecting) kickPlay();
-//     }, {threshold: 0.01});
-//     io.observe(document.getElementById('bg-video'));
-//   }catch(_){}
-// })();
-
-// document.addEventListener("DOMContentLoaded", () => {
-//   const buttons = document.querySelectorAll(".js-video-button");
-
-//   function setState(btn, on){
-//     btn.classList.toggle("on",  on);
-//     btn.classList.toggle("off", !on);
-//     btn.setAttribute("aria-pressed", on ? "true" : "false");
-//     btn.setAttribute("aria-label",   on ? "サウンドをオフ" : "サウンドをオン");
-//     const st = btn.querySelector(".status-text");
-//     if (st) st.textContent = on ? "ON" : "OFF";
-//   }
-
-//   // --- 初期同期（YouTube > <video> > 見た目のみ）
-//   function syncInitial(){
-//     const hasYT = !!(window.YT_BG && typeof window.YT_BG.isMuted === "function");
-//     if (hasYT){
-//       const on = !window.YT_BG.isMuted();
-//       buttons.forEach(b => setState(b, on));
-//       return;
-//     }
-//     const video = document.querySelector(".js-video");
-//     if (video){
-//       buttons.forEach(b => setState(b, !video.muted));
-//     } else {
-//       // デフォはOFF（必要なら true に）
-//       buttons.forEach(b => setState(b, false));
-//     }
-//   }
-//   syncInitial();
-
-//   // YouTube 側があとから ready になる場合
-//   document.addEventListener("ytbg:ready", () => {
-//     if (window.YT_BG && typeof window.YT_BG.isMuted === "function"){
-//       const on = !window.YT_BG.isMuted();
-//       buttons.forEach(b => setState(b, on));
-//     }
-//   }, { once:true });
-
-//   // --- クリックで切替
-//   buttons.forEach(btn => {
-//     btn.addEventListener("click", (e) => {
-//       e.preventDefault();
-//       e.stopPropagation();
-
-//       // 1) YouTube IFrame API を使っている場合
-//       if (window.YT_BG && typeof window.YT_BG.isMuted === "function"){
-//         try{
-//           if (window.YT_BG.isMuted()){
-//             window.YT_BG.unMute();
-//             window.YT_BG.setVolume?.(100);
-//             window.YT_BG.playVideo?.();
-//             setState(btn, true);
-//           } else {
-//             window.YT_BG.mute();
-//             setState(btn, false);
-//           }
-//         } catch(_){}
-//         return;
-//       }
-
-//       // 2) <video class="js-video"> がある場合
-//       const video = document.querySelector(".js-video");
-//       if (video){
-//         video.muted = !video.muted;
-//         if (!video.muted) video.play?.();
-//         setState(btn, !video.muted);
-//         return;
-//       }
-
-//       // 3) 連動先が無い場合は見た目だけトグル
-//       setState(btn, !btn.classList.contains("on"));
-//     });
-//   });
-
-//   // --- スクロールでボタンを隠す（あなたの元コード踏襲）
-//   const hiddenBtn = document.querySelectorAll(".movie__btn");
-//   const toggleStoppedClass = () => {
-//     hiddenBtn.forEach(el => {
-//       if (window.scrollY > 50) el.classList.add("hidden");
-//       else el.classList.remove("hidden");
-//     });
-//   };
-//   toggleStoppedClass();
-//   window.addEventListener("scroll", toggleStoppedClass);
-// });
-
-// トップ動画背景（YouTube埋め込み）- モバイル対応版
 // トップ動画背景（YouTube埋め込み）- スマホ完全対応版
 (function(){
   'use strict';
@@ -545,12 +392,63 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
+// // トップニュースティッカー（SP時のみ）
+// document.addEventListener('DOMContentLoaded', function(){
+//   const ticker = document.querySelector('.fv_news_ticker.js-ticker');
+//   if (!ticker) return;
+
+//   // 1) 中のすべての <ul> の <li> を集めて1本の"lane"にする
+//   const uls = Array.from(ticker.querySelectorAll(':scope > ul'));
+//   if (uls.length === 0) return;
+
+//   const lane = document.createElement('div');
+//   lane.className = 'lane';
+
+//   uls.forEach(ul => {
+//     Array.from(ul.querySelectorAll('li')).forEach(li => {
+//       const item = document.createElement('span');
+//       item.className = 'item';
+//       item.innerHTML = li.innerHTML; // <li>の中身を移植
+//       lane.appendChild(item);
+//     });
+//   });
+
+//   // 2) lane を配置し、同一内容のクローンを後ろに並べる
+//   ticker.appendChild(lane);
+//   const clone = lane.cloneNode(true);
+//   clone.classList.add('clone');
+//   ticker.appendChild(clone);
+
+//   // 3) 実測幅(px)でアニメ距離と時間を設定（継ぎ目ゼロ）
+//   function measure(){
+//     // 計測のため一時的にlane可視化（元のULは後で隠す）
+//     const w = lane.scrollWidth;
+//     lane.style.setProperty('--w', w + 'px');
+//     clone.style.setProperty('--w', w + 'px');
+
+//     const speed = Number(ticker.dataset.speed) || 160; // px/sec
+//     const dur = (w / speed).toFixed(3) + 's';
+//     lane.style.setProperty('--dur', dur);
+//     clone.style.setProperty('--dur', dur);
+
+//     // 元のUL群は非表示に（高さは .fv_news_ticker で固定されている）
+//     uls.forEach(ul => ul.style.visibility = 'hidden');
+//   }
+
+//   // 初回 & リサイズ & フォント読み込み後に再計測
+//   function scheduleMeasure(){ requestAnimationFrame(measure); }
+//   measure();
+//   window.addEventListener('resize', scheduleMeasure, { passive:true });
+//   if (document.fonts && document.fonts.ready) document.fonts.ready.then(measure);
+//   setTimeout(measure, 0);
+// });
+
+
 // トップニュースティッカー（SP時のみ）
 document.addEventListener('DOMContentLoaded', function(){
   const ticker = document.querySelector('.fv_news_ticker.js-ticker');
   if (!ticker) return;
 
-  // 1) 中のすべての <ul> の <li> を集めて1本の“lane”にする
   const uls = Array.from(ticker.querySelectorAll(':scope > ul'));
   if (uls.length === 0) return;
 
@@ -561,446 +459,45 @@ document.addEventListener('DOMContentLoaded', function(){
     Array.from(ul.querySelectorAll('li')).forEach(li => {
       const item = document.createElement('span');
       item.className = 'item';
-      item.innerHTML = li.innerHTML; // <li>の中身を移植
+      item.innerHTML = li.innerHTML;
       lane.appendChild(item);
     });
   });
 
-  // 2) lane を配置し、同一内容のクローンを後ろに並べる
+  // オリジナルを配置
   ticker.appendChild(lane);
+  
+  // クローンを1つだけ作成
   const clone = lane.cloneNode(true);
   clone.classList.add('clone');
   ticker.appendChild(clone);
 
-  // 3) 実測幅(px)でアニメ距離と時間を設定（継ぎ目ゼロ）
   function measure(){
-    // 計測のため一時的にlane可視化（元のULは後で隠す）
     const w = lane.scrollWidth;
+    
+    // 幅とアニメーション時間を設定
     lane.style.setProperty('--w', w + 'px');
     clone.style.setProperty('--w', w + 'px');
 
-    const speed = Number(ticker.dataset.speed) || 160; // px/sec
+    const speed = Number(ticker.dataset.speed) || 60;
     const dur = (w / speed).toFixed(3) + 's';
+    
     lane.style.setProperty('--dur', dur);
     clone.style.setProperty('--dur', dur);
 
-    // 元のUL群は非表示に（高さは .fv_news_ticker で固定されている）
+    // 元のULを非表示
     uls.forEach(ul => ul.style.visibility = 'hidden');
   }
 
-  // 初回 & リサイズ & フォント読み込み後に再計測
-  function scheduleMeasure(){ requestAnimationFrame(measure); }
+  function scheduleMeasure(){ 
+    requestAnimationFrame(measure); 
+  }
+  
   measure();
   window.addEventListener('resize', scheduleMeasure, { passive:true });
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(measure);
-  setTimeout(measure, 0);
+  setTimeout(measure, 100);
 });
-
-
-
-
-(function() {
-  'use strict';
-
-  // 実際の機能本体
-  function initFeatureScroll() {
-    const scrollTarget = document.querySelector('.js-feature-scroll');
-    const bgInner = document.querySelector('.feature-bg__inner');
-    const bgImg = bgInner?.querySelector('img');
-    const featureShell = document.querySelector('.feature-shell');
-    const featureCard = document.querySelector('.feature-card');
-    const cardHeadImg = document.querySelector('.feature-card__head img');
-
-    console.log('Feature scroll init:', { scrollTarget, bgInner, bgImg, featureShell, featureCard, cardHeadImg });
-
-    if (!scrollTarget || !bgInner || !bgImg) {
-      console.warn('Feature elements not found');
-      return;
-    }
-
-    let bgNaturalHeight = 0;
-    let bgNaturalWidth = 0;
-    let isImageLoaded = false;
-
-    // カード高さ合わせ
-    function setCardHeight() {
-      if (!cardHeadImg || !featureCard) return;
-
-      if (cardHeadImg.complete && cardHeadImg.naturalHeight > 0) {
-        const imgNaturalWidth = cardHeadImg.naturalWidth;
-        const imgNaturalHeight = cardHeadImg.naturalHeight;
-        const imgAspectRatio = imgNaturalWidth / imgNaturalHeight;
-        const cardWidth = featureCard.offsetWidth;
-        const imgDisplayHeight = cardWidth / imgAspectRatio;
-        featureCard.style.height = `${imgDisplayHeight}px`;
-      } else {
-        cardHeadImg.onload = setCardHeight;
-      }
-    }
-
-    function initCardHeight() {
-      setCardHeight();
-      let resizeTimer;
-      window.addEventListener('resize', function() {
-        clearTimeout(resizeTimer);
-        resizeTimer = setTimeout(setCardHeight, 100);
-      }, { passive: true });
-    }
-    initCardHeight();
-
-    function loadImageDimensions() {
-      return new Promise((resolve) => {
-        if (bgImg.complete && bgImg.naturalHeight > 0) {
-          bgNaturalWidth = bgImg.naturalWidth;
-          bgNaturalHeight = bgImg.naturalHeight;
-          isImageLoaded = true;
-          resolve();
-        } else {
-          bgImg.onload = function() {
-            bgNaturalWidth = bgImg.naturalWidth;
-            bgNaturalHeight = bgImg.naturalHeight;
-            isImageLoaded = true;
-            resolve();
-          };
-          bgImg.onerror = function() {
-            console.error('Failed to load background image');
-            resolve();
-          };
-        }
-      });
-    }
-
-    function calculateBgDisplaySize() {
-      if (!isImageLoaded) return null;
-
-      const viewportWidth = window.innerWidth;
-      const viewportHeight = window.innerHeight;
-      const imageAspect = bgNaturalWidth / bgNaturalHeight;
-      const viewportAspect = viewportWidth / viewportHeight;
-
-      let displayWidth, displayHeight;
-
-      if (imageAspect > viewportAspect) {
-        displayHeight = viewportHeight;
-        displayWidth = displayHeight * imageAspect;
-      } else {
-        displayWidth = viewportWidth;
-        displayHeight = displayWidth / imageAspect;
-      }
-
-      return { displayWidth, displayHeight };
-    }
-
-    function setBgSize() {
-      const size = calculateBgDisplaySize();
-      if (!size) return;
-      bgInner.style.height = `${size.displayHeight}px`;
-    }
-
-    function handleScroll() {
-      const scrollTop = scrollTarget.scrollTop;
-      const scrollHeight = scrollTarget.scrollHeight;
-      const clientHeight = scrollTarget.clientHeight;
-      const maxScroll = scrollHeight - clientHeight;
-
-      if (maxScroll <= 0) return;
-
-      const scrollProgress = scrollTop / maxScroll;
-      const size = calculateBgDisplaySize();
-      if (!size) return;
-      const viewportHeight = window.innerHeight;
-      const maxBgMove = size.displayHeight - viewportHeight;
-      const bgY = -(scrollProgress * maxBgMove);
-
-      bgInner.style.transform = `translate(-50%, ${bgY}px)`;
-    }
-
-    // wheel/touch のブロックはそのまま
-    if (featureShell) {
-      let unlockAnimating = false;
-
-      featureShell.addEventListener('wheel', function(e) {
-        if (unlockAnimating) return;
-
-        const scrollHeight = scrollTarget.scrollHeight;
-        const clientHeight = scrollTarget.clientHeight;
-        const maxScroll = scrollHeight - clientHeight;
-
-        if (maxScroll <= 0) return;
-
-        const currentScroll = scrollTarget.scrollTop;
-        const delta = e.deltaY;
-        const atTop = currentScroll <= 0;
-        const atBottom = currentScroll >= maxScroll - 1;
-
-        if (atTop && delta < 0) {
-          unlockAnimating = true;
-          featureShell.style.transition = 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
-          featureShell.style.position = 'relative';
-          featureShell.style.top = '';
-          featureShell.style.left = '';
-          featureShell.style.width = '';
-          featureShell.style.zIndex = '';
-          document.body.classList.remove('in-feature-shell');
-          document.body.classList.remove('is-special');
-          setTimeout(() => {
-            unlockAnimating = false;
-            featureShell.style.transition = '';
-          }, 600);
-          return;
-        }
-
-        if (atBottom && delta > 0) {
-          return;
-        }
-
-        e.preventDefault();
-        e.stopPropagation();
-
-        let newScroll = currentScroll + delta;
-        newScroll = Math.max(0, Math.min(newScroll, maxScroll));
-        scrollTarget.scrollTop = newScroll;
-      }, { passive: false });
-
-      let touchStartY = 0;
-      featureShell.addEventListener('touchstart', function(e) {
-        touchStartY = e.touches[0].clientY;
-      }, { passive: true });
-
-      featureShell.addEventListener('touchmove', function(e) {
-        const scrollHeight = scrollTarget.scrollHeight;
-        const clientHeight = scrollTarget.clientHeight;
-        const maxScroll = scrollHeight - clientHeight;
-        if (maxScroll <= 0) return;
-
-        const currentScroll = scrollTarget.scrollTop;
-        const touchY = e.touches[0].clientY;
-        const deltaY = touchStartY - touchY;
-        const atTop = currentScroll <= 0;
-        const atBottom = currentScroll >= maxScroll - 1;
-
-        if (atTop && deltaY < 0) {
-          featureShell.style.position = 'relative';
-          featureShell.style.top = '';
-          featureShell.style.left = '';
-          featureShell.style.width = '';
-          featureShell.style.zIndex = '';
-          document.body.classList.remove('in-feature-shell');
-          document.body.classList.remove('is-special');
-          return;
-        }
-
-        if (atBottom && deltaY > 0) {
-          return;
-        }
-
-        e.preventDefault();
-        touchStartY = touchY;
-      }, { passive: false });
-    }
-
-    (async function() {
-      await loadImageDimensions();
-      setBgSize();
-      scrollTarget.addEventListener('scroll', handleScroll, { passive: true });
-
-      let resizeTimer;
-      window.addEventListener('resize', function() {
-        clearTimeout(resizeTimer);
-        resizeTimer = setTimeout(() => {
-          setBgSize();
-          handleScroll();
-        }, 100);
-      }, { passive: true });
-
-      console.log('Feature scroll initialized');
-    })();
-
-    // ★ここで「初期化済み」をマークする
-    document.body.classList.add('feature-scroll-initialized');
-  }
-
-  // 400px以上のときだけ初期化するやつ
-  function initIfWideScreen() {
-    if (window.innerWidth >= 400) {
-      if (!document.body.classList.contains('feature-scroll-initialized')) {
-        initFeatureScroll();
-        console.log('Feature scroll initialized (>=400px)');
-      }
-    } else {
-      console.log('Feature scroll disabled (<400px)');
-    }
-  }
-
-  // DOM読み込み時
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initIfWideScreen);
-  } else {
-    initIfWideScreen();
-  }
-
-  // リサイズでも判定
-  window.addEventListener('resize', function() {
-    clearTimeout(window._featureScrollResizeTimer);
-    window._featureScrollResizeTimer = setTimeout(() => {
-      if (window.innerWidth >= 400) {
-        if (!document.body.classList.contains('feature-scroll-initialized')) {
-          initFeatureScroll();
-          console.log('Feature scroll re-initialized on resize (>=400px)');
-        }
-      } else {
-        // ここで本気で解除したい場合はリスナーも外す処理を書く
-        document.body.classList.remove('feature-scroll-initialized');
-        console.log('Feature scroll disabled due to small screen');
-      }
-    }, 150);
-  }, { passive: true });
-
-})();
-
-
-
-// ページトップボタン制御
-(function() {
-  'use strict';
-  
-  console.log('=== Page Top Button Script Loaded ===');
-  
-  function initPageTopButton() {
-    console.log('=== Page Top Button Debug ===');
-    
-    // 複数のセレクタで試行
-    const selectors = [
-      '.feature-card_topBtn',
-      '.page_top.feature-card_topBtn',
-      'a.feature-card_topBtn',
-      '.feature-card__scroll-wrapper .page_top',
-      'a[href="#"]'
-    ];
-    
-    let topBtn = null;
-    
-    for (let selector of selectors) {
-      topBtn = document.querySelector(selector);
-      if (topBtn) {
-        console.log(`Found button with selector: ${selector}`);
-        break;
-      }
-    }
-    
-    if (!topBtn) {
-      console.error('❌ Page top button not found with any selector');
-      console.log('Available buttons:', document.querySelectorAll('a[href="#"]'));
-      console.log('Available with class*="top":', document.querySelectorAll('[class*="top"]'));
-      return;
-    }
-    
-    console.log('Button element:', topBtn);
-    console.log('Button classes:', topBtn.className);
-    console.log('Button href:', topBtn.href);
-    
-    const featureShell = document.querySelector('.feature-shell');
-    const scrollTarget = document.querySelector('.js-feature-scroll');
-    
-    console.log('Feature shell:', featureShell);
-    console.log('Scroll target:', scrollTarget);
-    
-    // イベント委譲も追加（念のため）
-    document.body.addEventListener('click', function(e) {
-      const target = e.target.closest('.feature-card_topBtn');
-      if (target) {
-        console.log('✓✓✓ Button clicked via delegation!');
-        handleClick(e);
-      }
-    });
-    
-    // 直接イベントも設定
-    topBtn.addEventListener('click', handleClick, true); // キャプチャフェーズ
-    topBtn.addEventListener('click', handleClick, false); // バブリングフェーズ
-    
-    function handleClick(e) {
-      console.log('==================');
-      console.log('✓✓✓ CLICK EVENT FIRED!');
-      console.log('Event type:', e.type);
-      console.log('Target:', e.target);
-      console.log('==================');
-      
-      e.preventDefault();
-      e.stopPropagation();
-      e.stopImmediatePropagation();
-      
-      // 1. カード内のスクロールを最上部に戻す
-      if (scrollTarget) {
-        scrollTarget.scrollTop = 0;
-        console.log('✓ Card scroll reset to top');
-      }
-      
-      // 2. feature-shellの固定を完全に解除
-      if (featureShell) {
-        featureShell.style.transition = 'none';
-        featureShell.style.position = 'static';
-        featureShell.style.top = '';
-        featureShell.style.left = '';
-        featureShell.style.width = '';
-        featureShell.style.zIndex = '';
-        featureShell.style.transform = '';
-        console.log('✓ Feature-shell reset');
-      }
-      
-      // 3. bodyのクラスとスタイルを削除
-      document.body.classList.remove('in-feature-shell');
-      document.body.classList.remove('is-special');
-      document.body.style.overflow = '';
-      document.body.style.position = '';
-      document.body.style.width = '';
-      document.body.style.height = '';
-      console.log('✓ Body reset');
-      
-      // 4. htmlのスタイルも削除
-      document.documentElement.style.overflow = '';
-      document.documentElement.style.position = '';
-      console.log('✓ HTML reset');
-      
-      // 5. 強制的にページトップへ
-      const scrollToTop = function() {
-        window.scrollTo(0, 0);
-        window.pageYOffset = 0;
-        document.documentElement.scrollTop = 0;
-        document.body.scrollTop = 0;
-        console.log('✓ Scroll position:', window.pageYOffset);
-      };
-      
-      scrollToTop();
-      requestAnimationFrame(scrollToTop);
-      setTimeout(scrollToTop, 0);
-      setTimeout(scrollToTop, 10);
-      setTimeout(scrollToTop, 50);
-      
-      console.log('✓✓✓ All operations completed!');
-      
-      return false;
-    }
-    
-    // テスト用：ボタンをクリックしてみる
-    console.log('✓ Page top button initialized');
-    console.log('Try clicking the button or run: document.querySelector(".feature-card_topBtn").click()');
-    console.log('=============================');
-  }
-  
-  // DOMContentLoaded
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initPageTopButton);
-  } else {
-    initPageTopButton();
-  }
-  
-  // load イベントでも試行
-  window.addEventListener('load', function() {
-    console.log('Window loaded - reinitializing button listener');
-    initPageTopButton();
-  });
-  
-})();
 
 
 /**
@@ -1283,3 +780,501 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 })();
 
+// // ========================================
+// // スクロール制御
+// // ========================================
+// document.addEventListener('DOMContentLoaded', function() {
+//     const featureShell = document.querySelector('.feature-shell');
+//     const scrollWrapper = document.querySelector('.feature-card__scroll-wrapper');
+//     const topBtn = document.querySelector('.feature-card_topBtn');
+    
+//     if (!featureShell || !scrollWrapper) {
+//         console.error('スクロール要素が見つかりません');
+//         return;
+//     }
+    
+//     let isFixed = false;
+    
+//     // 画面幅チェック関数
+//     function isDesktop() {
+//         return window.innerWidth >= 1000;
+//     }
+    
+//     function enableFixedMode() {
+//         if (isFixed || !isDesktop()) return;
+//         isFixed = true;
+        
+//         console.log('スクロール固定');
+        
+//         // featureShell.style.position = 'fixed';
+//         featureShell.style.top = '0';
+//         featureShell.style.left = '0';
+//         featureShell.style.right = '0';
+//         featureShell.style.width = '100%';
+//         featureShell.style.height = '100vh';
+//         featureShell.style.zIndex = '8000';
+        
+//         scrollWrapper.style.setProperty('overflow-y', 'auto', 'important');
+//         scrollWrapper.style.setProperty('max-height', '100vh', 'important');
+//     }
+    
+//     function disableFixedMode() {
+//         if (!isFixed) return;
+//         isFixed = false;
+        
+//         console.log('スクロール解除');
+        
+//         featureShell.style.position = '';
+//         featureShell.style.top = '';
+//         featureShell.style.left = '';
+//         featureShell.style.right = '';
+//         featureShell.style.width = '';
+//         featureShell.style.height = '';
+//         featureShell.style.zIndex = '';
+        
+//         scrollWrapper.style.removeProperty('overflow-y');
+//         scrollWrapper.style.removeProperty('max-height');
+//         scrollWrapper.scrollTop = 0;
+//     }
+    
+//     function checkPosition() {
+//         if (!isDesktop()) {
+//             if (isFixed) disableFixedMode();
+//             return;
+//         }
+        
+//         const rect = featureShell.getBoundingClientRect();
+        
+//         if (rect.top <= 0) {
+//             enableFixedMode();
+//         } else if (rect.top > 0) {
+//             disableFixedMode();
+//         }
+//     }
+    
+//     // ホイールイベント
+//     scrollWrapper.addEventListener('wheel', function(e) {
+//         if (!isFixed || !isDesktop()) return;
+        
+//         const scrollTop = scrollWrapper.scrollTop;
+//         const isScrollingUp = e.deltaY < 0;
+        
+//         if (scrollTop === 0 && isScrollingUp) {
+//             e.preventDefault();
+//             disableFixedMode();
+//             window.scrollBy(0, -100);
+//         }
+//     }, { passive: false });
+    
+//     // トップに戻るボタン
+//     if (topBtn) {
+//         topBtn.addEventListener('click', function(e) {
+//             e.preventDefault();
+            
+//             scrollWrapper.scrollTop = 0;
+//             disableFixedMode();
+            
+//             window.scrollTo({
+//                 top: 0,
+//                 behavior: 'smooth'
+//             });
+//         });
+//     }
+    
+//     window.addEventListener('scroll', checkPosition);
+//     window.addEventListener('resize', checkPosition); // リサイズ時もチェック
+//     checkPosition();
+// });
+
+
+// // ========================================
+// // スクロール制御
+// // ========================================
+// document.addEventListener('DOMContentLoaded', function() {
+//     const featureShell = document.querySelector('.feature-shell');
+//     const scrollWrapper = document.querySelector('.feature-card__scroll-wrapper');
+//     const topBtn = document.querySelector('.feature-card_topBtn');
+//     const contactBtn = document.querySelector('.feature-card_contact');
+    
+//     if (!featureShell || !scrollWrapper) {
+//         console.error('スクロール要素が見つかりません');
+//         return;
+//     }
+    
+//     let isFixed = false;
+//     let buttonsShown = false; // 一度表示したかのフラグ
+    
+//     // 初期状態：モバイルの場合はボタンを非表示
+//     if (window.innerWidth <= 999) {
+//         if (topBtn) topBtn.style.display = 'none';
+//         if (contactBtn) contactBtn.style.display = 'none';
+//     }
+    
+//     // 画面幅チェック関数
+//     function isDesktop() {
+//         return window.innerWidth >= 1000;
+//     }
+    
+//     function isMobile() {
+//         return window.innerWidth <= 999;
+//     }
+    
+//     function enableFixedMode() {
+//         if (isFixed || !isDesktop()) return;
+//         isFixed = true;
+        
+//         console.log('スクロール固定');
+        
+//         featureShell.style.top = '0';
+//         featureShell.style.left = '0';
+//         featureShell.style.right = '0';
+//         featureShell.style.width = '100%';
+//         featureShell.style.height = '100vh';
+//         featureShell.style.zIndex = '8000';
+        
+//         scrollWrapper.style.setProperty('overflow-y', 'auto', 'important');
+//         scrollWrapper.style.setProperty('max-height', '100vh', 'important');
+//     }
+    
+//     function disableFixedMode() {
+//         if (!isFixed) return;
+//         isFixed = false;
+        
+//         console.log('スクロール解除');
+        
+//         featureShell.style.position = '';
+//         featureShell.style.top = '';
+//         featureShell.style.left = '';
+//         featureShell.style.right = '';
+//         featureShell.style.width = '';
+//         featureShell.style.height = '';
+//         featureShell.style.zIndex = '';
+        
+//         scrollWrapper.style.removeProperty('overflow-y');
+//         scrollWrapper.style.removeProperty('max-height');
+//         scrollWrapper.scrollTop = 0;
+//     }
+    
+//     // モバイル用：ボタン表示制御
+//     function checkButtonsVisibility() {
+//         if (!isMobile()) {
+//             // PC表示では常に表示
+//             if (topBtn) topBtn.style.display = '';
+//             if (contactBtn) contactBtn.style.display = '';
+//             buttonsShown = false; // リセット
+//             return;
+//         }
+        
+//         // 一度表示したら消さない
+//         if (buttonsShown) return;
+        
+//         const rect = featureShell.getBoundingClientRect();
+//         const windowHeight = window.innerHeight;
+        
+//         // feature-shellの上端が画面内に入ったら表示
+//         const hasEntered = rect.top < windowHeight;
+        
+//         if (hasEntered) {
+//             if (topBtn) topBtn.style.display = 'block';
+//             if (contactBtn) contactBtn.style.display = 'block';
+//             buttonsShown = true; // フラグを立てる
+//         }
+//     }
+    
+//     function checkPosition() {
+//         // PC用のスクロール固定処理
+//         if (!isDesktop()) {
+//             if (isFixed) disableFixedMode();
+//         } else {
+//             const rect = featureShell.getBoundingClientRect();
+            
+//             if (rect.top <= 0) {
+//                 enableFixedMode();
+//             } else if (rect.top > 0) {
+//                 disableFixedMode();
+//             }
+//         }
+        
+//         // モバイル用のボタン表示制御
+//         checkButtonsVisibility();
+//     }
+    
+//     // ホイールイベント
+//     scrollWrapper.addEventListener('wheel', function(e) {
+//         if (!isFixed || !isDesktop()) return;
+        
+//         const scrollTop = scrollWrapper.scrollTop;
+//         const isScrollingUp = e.deltaY < 0;
+        
+//         if (scrollTop === 0 && isScrollingUp) {
+//             e.preventDefault();
+//             disableFixedMode();
+//             window.scrollBy(0, -100);
+//         }
+//     }, { passive: false });
+    
+//     // トップに戻るボタン
+//     if (topBtn) {
+//         topBtn.addEventListener('click', function(e) {
+//             e.preventDefault();
+            
+//             scrollWrapper.scrollTop = 0;
+//             disableFixedMode();
+            
+//             window.scrollTo({
+//                 top: 0,
+//                 behavior: 'smooth'
+//             });
+//         });
+//     }
+    
+//     window.addEventListener('scroll', checkPosition);
+//     window.addEventListener('resize', function() {
+//         // リサイズ時の処理
+//         if (isDesktop()) {
+//             buttonsShown = false;
+//             if (topBtn) topBtn.style.display = '';
+//             if (contactBtn) contactBtn.style.display = '';
+//         } else {
+//             // モバイルに切り替わった時
+//             if (!buttonsShown) {
+//                 if (topBtn) topBtn.style.display = 'none';
+//                 if (contactBtn) contactBtn.style.display = 'none';
+//             }
+//         }
+//         checkPosition();
+//     });
+//     checkPosition();
+// });
+
+// ========================================
+// スクロール制御
+// ========================================
+document.addEventListener('DOMContentLoaded', function() {
+    const featureShell = document.querySelector('.feature-shell');
+    const scrollWrapper = document.querySelector('.feature-card__scroll-wrapper');
+    const topBtn = document.querySelector('.feature-card_topBtn');
+    const contactBtn = document.querySelector('.feature-card_contact');
+    const fv = document.querySelector('#fv');
+    
+    if (!featureShell || !scrollWrapper) {
+        console.error('スクロール要素が見つかりません');
+        return;
+    }
+    
+    let isFixed = false;
+    let buttonsShown = false; // 一度表示したかのフラグ
+    
+    // 初期状態：モバイルの場合はボタンを非表示
+    if (window.innerWidth <= 999) {
+        if (topBtn) topBtn.style.display = 'none';
+        if (contactBtn) contactBtn.style.display = 'none';
+    }
+    
+    // 画面幅チェック関数
+    function isDesktop() {
+        return window.innerWidth >= 1000;
+    }
+    
+    function isMobile() {
+        return window.innerWidth <= 999;
+    }
+    
+    function enableFixedMode() {
+        if (isFixed || !isDesktop()) return;
+        isFixed = true;
+        
+        console.log('スクロール固定');
+        
+        featureShell.style.top = '0';
+        featureShell.style.left = '0';
+        featureShell.style.right = '0';
+        featureShell.style.width = '100%';
+        featureShell.style.height = '100vh';
+        featureShell.style.zIndex = '8000';
+        
+        scrollWrapper.style.setProperty('overflow-y', 'auto', 'important');
+        scrollWrapper.style.setProperty('max-height', '100vh', 'important');
+    }
+    
+    function disableFixedMode() {
+        if (!isFixed) return;
+        isFixed = false;
+        
+        console.log('スクロール解除');
+        
+        featureShell.style.position = '';
+        featureShell.style.top = '';
+        featureShell.style.left = '';
+        featureShell.style.right = '';
+        featureShell.style.width = '';
+        featureShell.style.height = '';
+        featureShell.style.zIndex = '';
+        
+        scrollWrapper.style.removeProperty('overflow-y');
+        scrollWrapper.style.removeProperty('max-height');
+        scrollWrapper.scrollTop = 0;
+    }
+    
+    // モバイル用：ボタン表示制御
+    function checkButtonsVisibility() {
+        if (!isMobile()) {
+            // PC表示では常に表示
+            if (topBtn) topBtn.style.display = '';
+            if (contactBtn) contactBtn.style.display = '';
+            buttonsShown = false; // リセット
+            return;
+        }
+        
+        // #fv内にいるかチェック
+        if (fv) {
+            const fvRect = fv.getBoundingClientRect();
+            const isInFv = fvRect.bottom > 0;
+            
+            if (isInFv) {
+                // #fv内では非表示
+                if (topBtn) topBtn.style.display = 'none';
+                if (contactBtn) contactBtn.style.display = 'none';
+                buttonsShown = false; // フラグをリセット
+                return;
+            }
+        }
+        
+        // 一度表示したら消さない
+        if (buttonsShown) return;
+        
+        const rect = featureShell.getBoundingClientRect();
+        const windowHeight = window.innerHeight;
+        
+        // feature-shellの上端が画面内に入ったら表示
+        const hasEntered = rect.top < windowHeight;
+        
+        if (hasEntered) {
+            if (topBtn) topBtn.style.display = 'block';
+            if (contactBtn) contactBtn.style.display = 'block';
+            buttonsShown = true; // フラグを立てる
+        }
+    }
+    
+    function checkPosition() {
+        // PC用のスクロール固定処理
+        if (!isDesktop()) {
+            if (isFixed) disableFixedMode();
+        } else {
+            const rect = featureShell.getBoundingClientRect();
+            
+            if (rect.top <= 0) {
+                enableFixedMode();
+            } else if (rect.top > 0) {
+                disableFixedMode();
+            }
+        }
+        
+        // モバイル用のボタン表示制御
+        checkButtonsVisibility();
+    }
+    
+    // ホイールイベント
+    scrollWrapper.addEventListener('wheel', function(e) {
+        if (!isFixed || !isDesktop()) return;
+        
+        const scrollTop = scrollWrapper.scrollTop;
+        const isScrollingUp = e.deltaY < 0;
+        
+        if (scrollTop === 0 && isScrollingUp) {
+            e.preventDefault();
+            disableFixedMode();
+            window.scrollBy(0, -100);
+        }
+    }, { passive: false });
+    
+    // トップに戻るボタン
+    if (topBtn) {
+        topBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            scrollWrapper.scrollTop = 0;
+            disableFixedMode();
+            
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+    }
+    
+    window.addEventListener('scroll', checkPosition);
+    window.addEventListener('resize', function() {
+        // リサイズ時の処理
+        if (isDesktop()) {
+            buttonsShown = false;
+            if (topBtn) topBtn.style.display = '';
+            if (contactBtn) contactBtn.style.display = '';
+        } else {
+            // モバイルに切り替わった時
+            if (!buttonsShown) {
+                if (topBtn) topBtn.style.display = 'none';
+                if (contactBtn) contactBtn.style.display = 'none';
+            }
+        }
+        checkPosition();
+    });
+    checkPosition();
+});
+
+
+(function() {
+  
+  const fv = document.querySelector('#fv');
+  const fh = document.querySelector('.header_wrap_bl01');
+  const fh02 = document.querySelector('.header_wrap_bl02');
+  
+  function checkPosition() {
+    const fvRect = fv.getBoundingClientRect();
+    const fvBottom = fvRect.bottom;
+    const scrollY = window.pageYOffset || window.scrollY;
+    
+    // FVの下端が画面上端より上にある = FVを完全に通過した
+    if (fvBottom <= 0) {
+      fh.classList.add('visible');
+      fh02.classList.add('visible');
+    } else {
+      fh.classList.remove('visible');
+      fh02.classList.remove('visible');
+    }
+  }
+  
+  // 初期チェック
+  checkPosition();
+  
+  // スクロール時にチェック
+  window.addEventListener('scroll', checkPosition);
+}());
+
+
+// ========================================
+// .feature-bg スクロール時表示
+// ========================================
+document.addEventListener('DOMContentLoaded', function() {
+    const featureBg = document.querySelector('.feature-bg');
+    if (!featureBg) return;
+    // 初期状態：非表示
+    featureBg.style.opacity = '0';
+    featureBg.style.transition = 'opacity 0.5s ease';
+    
+    let bgShown = false;
+    
+    function checkBgVisibility() {
+        if (bgShown) return;
+        
+        const scrollY = window.pageYOffset || window.scrollY;
+        
+        // スクロールが発生したら表示
+        if (scrollY > 0) {
+            featureBg.style.opacity = '1';
+            bgShown = true;
+        }
+    }   
+    window.addEventListener('scroll', checkBgVisibility);
+    checkBgVisibility();
+});

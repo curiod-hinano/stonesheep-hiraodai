@@ -22,7 +22,7 @@
         }
     }
     h2 {
-        font-size: 1.25vw;
+        font-size: 20px;
         letter-spacing: 1.1px;
         font-weight: 500;
         color: #03581D;
@@ -52,7 +52,8 @@
                     p.date {
                         font-family: $sub_font;
                         line-height: 1;
-                        margin-top: 4px;
+                        margin-top: 7px;
+                        font-size: 12px;
                     }
                 }
             }
@@ -80,7 +81,7 @@
         }
     }
     h2 {
-        font-size: 1.25vw;
+        font-size: 20px;
         letter-spacing: 1.1px;
         font-weight: 500;
         color: #03581D;
@@ -88,11 +89,11 @@
         line-height: 1;
         margin-bottom: 55px;
         @include mq(sp) {
-            font-size: 16px;
+            font-size: 18px;
         }
         span {
             font-family: $main_font;
-            font-size: .93vw;
+            font-size: 13px;
             display: block;
             line-height: 1;
             margin-bottom: 10px;
@@ -127,12 +128,13 @@
                     }
                 }
                 p {
-                    font-size: 11.5px;
+                    font-size: 13px;
                     display: block;
                     line-height: 1.2;
                     color: #03581D;
                     @include mq(sp) {
-                        font-size: 9px;
+                        font-size: 13px;
+                        padding-left: 5px;
                         line-height: 1.2;
                     }
                 }
@@ -159,7 +161,7 @@
                 font-weight: 600;
                 line-height: 1.2;
                 @include mq(sp){
-                    font-size: 18px;
+                    font-size: 19px;
                 }
             }
             p {
@@ -170,7 +172,7 @@
                 line-height: 2.2;
                 margin-left: 30px;
                 @include mq(sp){
-                    font-size: 18px;
+                    font-size: 19px;
                 }
                 span {
                     font-family: $sub_font;
@@ -181,7 +183,7 @@
                     letter-spacing: 1.3px;
                     text-orientation: sideways;
                     @include mq(sp){
-                        font-size: 10px;
+                        font-size: 11.5px;
                     }
                 }
             }
@@ -194,7 +196,7 @@
                 font-weight: 500;
                 margin-top: 2px;
                 @include mq(sp){
-                    font-size: 14px;
+                    font-size: 14.5px;
                 }
                 span {
                     -webkit-text-combine: horizontal;
@@ -228,7 +230,7 @@
             letter-spacing: 1.5px;
             line-height: 1;
             @include mq(sp){
-                font-size: 16px;
+                font-size: 18px;
             }
         }
         &_wrap {
@@ -265,7 +267,7 @@
                         padding: 0 5px 0;
                     }
                     h3 {
-                        font-size: 12px;
+                        font-size: 13px;
                         line-height: 0.9rem;
                         letter-spacing: 1px;
                         color: #03581D;
@@ -273,18 +275,19 @@
                         font-weight: 400;
                         text-align: left;
                         @include mq(sp){
-                            font-size: 12px;
+                            font-size: 13px;
+                            line-height: 1rem;
                         }
                     }
                     p {
-                        font-size: 10px;
+                        font-size: 11.5px;
                         color: #03581D;
                         font-family: $sub_font;
                         line-height: 1;
                         margin-top: 4px;
                         text-align: left;
                         @include mq(sp){
-                            font-size: 10px;
+                            font-size: 12px;
                             margin-left: 1px;
                         }
                         &.time {

@@ -61,50 +61,6 @@ function copyUrl() {
 }
 
 
-// // ヘッダー 現在のページの表示を変える方法
-// document.addEventListener('DOMContentLoaded', () => {
-//   const normalize = (p) => {
-//     p = p.replace(/index\.html?$/i, '');
-//     if (p.length > 1) p = p.replace(/\/+$/, '');
-//     return p || '/';
-//   };
-
-//   const currentPath = normalize(location.pathname);
-//   // ① メインメニュー（必要なら _02, _03 もカンマで追加）
-//   const items = document.querySelectorAll(
-//     '.header_menuList_wrap_01 li.header_menuList_link'
-//   );
-//   items.forEach(li => {
-//     // <li>直下のリンク（<a> or <span>配下<a>）を取得
-//     const mainA = li.querySelector(':scope > a, :scope > span > a');
-//     if (!mainA) return;
-
-//     const linkUrl  = new URL(mainA.getAttribute('href'), location.origin);
-//     const linkPath = normalize(linkUrl.pathname);
-
-//     if (linkPath === currentPath) {
-//       li.classList.add('is-active');
-//     } else {
-//       li.classList.remove('is-active');
-//     }
-//   });
-//   // ②（任意）サブメニュー内のリンクが同じパスなら、親<li>もアクティブにする
-//   //    ※サブが同じページ内アンカー（#）でも親を光らせたい場合に有効
-//   const withSub = document.querySelectorAll(
-//     '.header_menuList_wrap_01 li.header_menuList_link .sub_menu'
-//   );
-//   withSub.forEach(ul => {
-//     const parentLi = ul.closest('li.header_menuList_link');
-//     if (!parentLi) return;
-//     const hit = Array.from(ul.querySelectorAll('a')).some(a => {
-//       const u = new URL(a.getAttribute('href'), location.origin);
-//       return normalize(u.pathname) === currentPath;
-//     });
-//     if (hit) parentLi.classList.add('is-active');
-//   });
-// });
-
-
 // ヘッダー 現在のページの表示を変える方法
 document.addEventListener('DOMContentLoaded', () => {
   const normalize = (p) => {
@@ -171,12 +127,12 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
+
 // ページ共通 「平尾台ラバーズ」スライダー
 document.addEventListener('DOMContentLoaded', () => {
   const SEL = '.page_body_content_lovers_swiper';
   const root = document.querySelector(SEL);
   if (!root || !window.Swiper) return;
-
   // 画像読み込み待ち（幅確定）
   const waitImages = (scope, timeoutMs = 4000) => new Promise((resolve) => {
     const imgs = [...scope.querySelectorAll('img')];
@@ -190,10 +146,15 @@ document.addEventListener('DOMContentLoaded', () => {
       img.addEventListener('error', tick, { once: true });
     });
   });
-
-  // マウスホイールで横に動かされるのを抑止
-  root.addEventListener('wheel', (e) => { e.preventDefault(); }, { passive: false });
-
+  // マウスホイールで横に動かされるのを抑止（縦スクロールは確実に優先）
+  root.addEventListener('wheel', (e) => {
+    // 縦方向の動きがある場合は何もしない（縦スクロールを優先）
+    if (Math.abs(e.deltaY) > 0) {
+      return;
+    }
+    // 純粋な横スクロールのみを防ぐ
+    e.preventDefault();
+  }, { passive: false });
   let sw = null;
   const initSwiper = () => {
     if (sw && !sw.destroyed) sw.destroy(true, true);
@@ -301,41 +262,94 @@ document.addEventListener('DOMContentLoaded', () => {
   })();
 });
 
+// // ページ共通 フッターセクションに入ったらヘッダーを消す
+// document.addEventListener('DOMContentLoaded', () => {
+//   const header = document.getElementById('header') || document.querySelector('.header');
+//   const footer = document.getElementById('footer') || document.querySelector('.footer');
+//   if (!header || !footer) return;
+//   header.classList.add('visible');
+//   let hidden = false;
+//   let ticking = false;
+//   const getHeaderH = () => Math.ceil(header.getBoundingClientRect().height);
+//   function update() {
+//     ticking = false;
+//     const ih = window.innerHeight;
+//     const ftTop = footer.getBoundingClientRect().top;
+//     const h = getHeaderH();
+//     const HIDE_BUFFER = 24;
+//     const SHOW_BUFFER = 160;
+//     const hideThreshold = ih - (h + HIDE_BUFFER);
+//     const showThreshold = ih + SHOW_BUFFER;
+
+//     if (!hidden && ftTop <= hideThreshold) {
+//       header.classList.remove('visible');
+//       header.classList.add('hidden');
+//       hidden = true;
+//     } else if (hidden && ftTop >= showThreshold) {
+//       header.classList.add('visible');
+//       header.classList.remove('hidden');
+//       hidden = false;
+//     }
+//   }
+//   function onScroll() {
+//     if (!ticking) {
+//       ticking = true;
+//       requestAnimationFrame(update);
+//     }
+//   }
+//   window.addEventListener('scroll', onScroll, { passive: true });
+//   window.addEventListener('resize', onScroll);
+//   onScroll();
+// });
+
 // ページ共通 フッターセクションに入ったらヘッダーを消す
 document.addEventListener('DOMContentLoaded', () => {
-  const header = document.getElementById('header') || document.querySelector('.header');
+  const fh = document.querySelector('.header_wrap_bl01');
+  const fh02 = document.querySelector('.header_wrap_bl02');
   const footer = document.getElementById('footer') || document.querySelector('.footer');
-  if (!header || !footer) return;
-  header.classList.add('visible');
+  
+  if (!fh || !fh02 || !footer) return;
+  
+  fh.classList.add('visible');
+  fh02.classList.add('visible');
+  
   let hidden = false;
   let ticking = false;
-  const getHeaderH = () => Math.ceil(header.getBoundingClientRect().height);
+  
+  const getHeaderH = () => Math.ceil(fh.getBoundingClientRect().height);
+  
   function update() {
     ticking = false;
     const ih = window.innerHeight;
     const ftTop = footer.getBoundingClientRect().top;
     const h = getHeaderH();
     const HIDE_BUFFER = 24;
-    const SHOW_BUFFER = 160;
+    const SHOW_BUFFER = -100;
     const hideThreshold = ih - (h + HIDE_BUFFER);
     const showThreshold = ih + SHOW_BUFFER;
 
     if (!hidden && ftTop <= hideThreshold) {
-      header.classList.remove('visible');
-      header.classList.add('hidden');
+      fh.classList.remove('visible');
+      fh.classList.add('hidden');
+      fh02.classList.remove('visible');
+      fh02.classList.add('hidden');
       hidden = true;
     } else if (hidden && ftTop >= showThreshold) {
-      header.classList.add('visible');
-      header.classList.remove('hidden');
+      fh.classList.add('visible');
+      fh.classList.remove('hidden');
+      fh02.classList.add('visible');
+      fh02.classList.remove('hidden');
       hidden = false;
     }
   }
+  
   function onScroll() {
     if (!ticking) {
       ticking = true;
       requestAnimationFrame(update);
     }
   }
+  
   window.addEventListener('scroll', onScroll, { passive: true });
   window.addEventListener('resize', onScroll);
   onScroll();
@@ -859,837 +873,6 @@ document.addEventListener('DOMContentLoaded', function(){
   setTimeout(measure, 0);
 });
 
-
-// // Feature背景スクロール連動（画像の実サイズベース）
-// (function() {
-//   'use strict';
-  
-//   function initFeatureScroll() {
-//     const scrollTarget = document.querySelector('.js-feature-scroll');
-//     const bgInner = document.querySelector('.feature-bg__inner');
-//     const bgImg = bgInner?.querySelector('img');
-//     const featureShell = document.querySelector('.feature-shell');
-//     const featureCard = document.querySelector('.feature-card');
-//     const cardHeadImg = document.querySelector('.feature-card__head img');
-    
-//     console.log('Feature scroll init:', { scrollTarget, bgInner, bgImg, featureShell, featureCard, cardHeadImg });
-    
-//     if (!scrollTarget || !bgInner || !bgImg) {
-//       console.warn('Feature elements not found');
-//       return;
-//     }
-    
-//     let bgNaturalHeight = 0;
-//     let bgNaturalWidth = 0;
-//     let isImageLoaded = false;
-    
-//     // カード画像の高さを計算してカードの高さを設定
-//     function setCardHeight() {
-//       if (!cardHeadImg || !featureCard) return;
-      
-//       // 画像が読み込まれているか確認
-//       if (cardHeadImg.complete && cardHeadImg.naturalHeight > 0) {
-//         const imgNaturalWidth = cardHeadImg.naturalWidth;
-//         const imgNaturalHeight = cardHeadImg.naturalHeight;
-//         const imgAspectRatio = imgNaturalWidth / imgNaturalHeight;
-        
-//         // カードの幅を取得
-//         const cardWidth = featureCard.offsetWidth;
-        
-//         // 画像の高さを計算
-//         const imgDisplayHeight = cardWidth / imgAspectRatio;
-        
-//         // カードの高さを設定（画像の高さ + body/footerの余白）
-//         // 最大80vhに制限
-//         const maxHeight = window.innerHeight * 0.8;
-//         const calculatedHeight = Math.min(imgDisplayHeight + 200, maxHeight); // 200pxは body + footer の概算
-        
-//         featureCard.style.height = `${calculatedHeight}px`;
-        
-//         console.log('Card height set:', {
-//           imgNaturalWidth,
-//           imgNaturalHeight,
-//           imgAspectRatio: imgAspectRatio.toFixed(2),
-//           cardWidth,
-//           imgDisplayHeight: imgDisplayHeight.toFixed(2),
-//           calculatedHeight: calculatedHeight.toFixed(2)
-//         });
-//       } else {
-//         // 画像が読み込まれていない場合は読み込みを待つ
-//         cardHeadImg.onload = function() {
-//           setCardHeight();
-//         };
-//       }
-//     }
-    
-//     // 初期設定とリサイズ時の再計算
-//     function initCardHeight() {
-//       setCardHeight();
-      
-//       let resizeTimer;
-//       window.addEventListener('resize', function() {
-//         clearTimeout(resizeTimer);
-//         resizeTimer = setTimeout(setCardHeight, 100);
-//       }, { passive: true });
-//     }
-    
-//     // 初期化時に実行
-//     initCardHeight();
-    
-//     // feature-shellの表示状態を監視してヘッダー表示を制御
-//     if (featureShell) {
-//       // 初期状態をログ
-//       console.log('Initial body classes:', document.body.className);
-//       console.log('Header element:', document.querySelector('#header') || document.querySelector('.header'));
-      
-//       let isInFeatureShell = false;
-//       let unlockTimeout = null; // 固定解除のタイマー
-      
-//       const observerOptions = {
-//         root: null,
-//         rootMargin: '0px',
-//         threshold: [0, 0.1, 0.3, 0.5, 0.7, 0.9, 1.0] // より細かく監視
-//       };
-      
-//       const observer = new IntersectionObserver((entries) => {
-//         entries.forEach(entry => {
-//           console.log('IntersectionObserver triggered:', {
-//             intersectionRatio: entry.intersectionRatio,
-//             isIntersecting: entry.isIntersecting,
-//             target: entry.target.className
-//           });
-          
-//           // feature-shellが50%以上画面に入ったら固定開始
-//           if (entry.intersectionRatio >= 0.5) {
-//             // タイマーキャンセル
-//             if (unlockTimeout) {
-//               clearTimeout(unlockTimeout);
-//               unlockTimeout = null;
-//             }
-            
-//             isInFeatureShell = true;
-//             document.body.classList.add('is-special');
-//             document.body.classList.add('in-feature-shell');
-//             console.log('✓ Entered feature-shell - page locked');
-//             console.log('Body classes:', document.body.className);
-            
-//             // トランジションなしで即座に固定（チカチカ防止）
-//             featureShell.style.transition = 'none';
-            
-//             // feature-shellを画面に固定
-//             requestAnimationFrame(() => {
-//               featureShell.style.position = 'fixed';
-//               featureShell.style.top = '0';
-//               featureShell.style.left = '0';
-//               featureShell.style.width = '100%';
-//               featureShell.style.zIndex = '100';
-//             });
-            
-//           } else if (entry.intersectionRatio < 0.5) {
-//             // 50%未満になったら固定解除の準備（すぐには解除しない）
-//             if (!unlockTimeout && isInFeatureShell) {
-//               unlockTimeout = setTimeout(() => {
-//                 isInFeatureShell = false;
-//                 document.body.classList.remove('is-special');
-//                 document.body.classList.remove('in-feature-shell');
-//                 console.log('✓ Exited feature-shell - page unlocked');
-//                 console.log('Body classes:', document.body.className);
-                
-//                 // トランジションなしで即座に固定解除（チカチカ防止）
-//                 featureShell.style.transition = 'none';
-//                 featureShell.style.position = 'relative';
-//                 featureShell.style.top = '';
-//                 featureShell.style.left = '';
-//                 featureShell.style.width = '';
-//                 featureShell.style.zIndex = '';
-                
-//                 unlockTimeout = null;
-//               }, 100); // 300ms → 100msに短縮
-//             }
-//           }
-          
-//           // header要素の状態も確認
-//           const header = document.querySelector('#header') || document.querySelector('.header');
-//           if (header) {
-//             const styles = window.getComputedStyle(header);
-//             console.log('Header computed styles:', {
-//               opacity: styles.opacity,
-//               visibility: styles.visibility,
-//               display: styles.display
-//             });
-//           }
-//         });
-//       }, observerOptions);
-      
-//       observer.observe(featureShell);
-//       console.log('IntersectionObserver attached to feature-shell');
-      
-//       // ページ全体のスクロールを監視
-//       let lastScrollY = window.scrollY;
-//       let ticking = false;
-      
-//       window.addEventListener('scroll', function() {
-//         lastScrollY = window.scrollY;
-        
-//         if (!ticking && isInFeatureShell) {
-//           window.requestAnimationFrame(function() {
-//             // feature-shell内にいる間はページスクロールを防止
-//             const rect = featureShell.getBoundingClientRect();
-//             if (rect.top !== 0 && isInFeatureShell) {
-//               // 位置がずれたら修正
-//               featureShell.style.position = 'fixed';
-//               featureShell.style.top = '0';
-//             }
-//             ticking = false;
-//           });
-//           ticking = true;
-//         }
-//       }, { passive: true });
-//     }
-    
-//     // 画像の自然なサイズを取得
-//     function loadImageDimensions() {
-//       return new Promise((resolve) => {
-//         if (bgImg.complete && bgImg.naturalHeight > 0) {
-//           bgNaturalWidth = bgImg.naturalWidth;
-//           bgNaturalHeight = bgImg.naturalHeight;
-//           isImageLoaded = true;
-//           console.log('Image already loaded:', { 
-//             naturalWidth: bgNaturalWidth, 
-//             naturalHeight: bgNaturalHeight 
-//           });
-//           resolve();
-//         } else {
-//           bgImg.onload = function() {
-//             bgNaturalWidth = bgImg.naturalWidth;
-//             bgNaturalHeight = bgImg.naturalHeight;
-//             isImageLoaded = true;
-//             console.log('Image loaded:', { 
-//               naturalWidth: bgNaturalWidth, 
-//               naturalHeight: bgNaturalHeight 
-//             });
-//             resolve();
-//           };
-//           bgImg.onerror = function() {
-//             console.error('Failed to load background image');
-//             resolve();
-//           };
-//         }
-//       });
-//     }
-    
-//     // 背景画像の表示サイズを計算
-//     function calculateBgDisplaySize() {
-//       if (!isImageLoaded) return null;
-      
-//       const viewportWidth = window.innerWidth;
-//       const viewportHeight = window.innerHeight;
-//       const imageAspect = bgNaturalWidth / bgNaturalHeight;
-//       const viewportAspect = viewportWidth / viewportHeight;
-      
-//       let displayWidth, displayHeight;
-      
-//       // object-fit: cover の計算
-//       if (imageAspect > viewportAspect) {
-//         // 画像が横長 → 高さ基準
-//         displayHeight = viewportHeight;
-//         displayWidth = displayHeight * imageAspect;
-//       } else {
-//         // 画像が縦長 → 幅基準
-//         displayWidth = viewportWidth;
-//         displayHeight = displayWidth / imageAspect;
-//       }
-      
-//       console.log('Background display size:', {
-//         displayWidth: displayWidth.toFixed(2),
-//         displayHeight: displayHeight.toFixed(2),
-//         viewportWidth,
-//         viewportHeight,
-//         canMove: (displayHeight - viewportHeight).toFixed(2)
-//       });
-      
-//       return { displayWidth, displayHeight };
-//     }
-    
-//     // 背景のサイズを設定
-//     function setBgSize() {
-//       const size = calculateBgDisplaySize();
-//       if (!size) return;
-      
-//       // bgInnerの高さを画像の表示高さに設定
-//       bgInner.style.height = `${size.displayHeight}px`;
-//     }
-    
-//     // スクロールイベント（throttle付きでチカチカ防止）
-//     let scrollTimeout = null;
-//     function handleScroll() {
-//       if (scrollTimeout) return;
-      
-//       scrollTimeout = setTimeout(() => {
-//         const scrollTop = scrollTarget.scrollTop;
-//         const scrollHeight = scrollTarget.scrollHeight;
-//         const clientHeight = scrollTarget.clientHeight;
-//         const maxScroll = scrollHeight - clientHeight;
-        
-//         if (maxScroll <= 0) {
-//           scrollTimeout = null;
-//           return;
-//         }
-        
-//         // スクロール進捗率 (0〜1)
-//         const scrollProgress = scrollTop / maxScroll;
-        
-//         // 背景を移動させる距離を計算
-//         const size = calculateBgDisplaySize();
-//         if (!size) {
-//           scrollTimeout = null;
-//           return;
-//         }
-        
-//         const viewportHeight = window.innerHeight;
-//         const maxBgMove = size.displayHeight - viewportHeight;
-        
-//         // 背景のY位置を計算
-//         const bgY = -(scrollProgress * maxBgMove);
-        
-//         // transformで背景を移動
-//         bgInner.style.transform = `translate(-50%, ${bgY}px)`;
-        
-//         scrollTimeout = null;
-//       }, 16); // 約60fps
-//     }
-    
-//     // feature-shell全体でマウスホイールを検知
-//     if (featureShell) {
-//       let unlockAnimating = false; // アニメーション中フラグ
-      
-//       featureShell.addEventListener('wheel', function(e) {
-//         // アニメーション中はイベントを無視
-//         if (unlockAnimating) return;
-        
-//         // スクロール可能かチェック
-//         const scrollHeight = scrollTarget.scrollHeight;
-//         const clientHeight = scrollTarget.clientHeight;
-//         const maxScroll = scrollHeight - clientHeight;
-        
-//         if (maxScroll <= 0) {
-//           // スクロールできない場合はページスクロールを許可
-//           return;
-//         }
-        
-//         // 現在のスクロール位置
-//         const currentScroll = scrollTarget.scrollTop;
-//         const delta = e.deltaY;
-        
-//         // スクロールの端に達しているかチェック
-//         const atTop = currentScroll <= 0;
-//         const atBottom = currentScroll >= maxScroll - 1; // 1px の誤差を許容
-        
-//         // 上端で上スクロール → 固定解除してFVエリアへ戻る
-//         if (atTop && delta < 0) {
-//           console.log('At top, scrolling up - releasing fixed position instantly');
-//           unlockAnimating = true;
-          
-//           // ★ ブラウザの再描画を1フレームに統合してチカチカを防止
-//           requestAnimationFrame(() => {
-//             // すべてのスタイル変更を一度に実行
-//             featureShell.style.cssText = featureShell.style.cssText
-//               .replace(/position:[^;]+;?/g, '')
-//               .replace(/top:[^;]+;?/g, '')
-//               .replace(/left:[^;]+;?/g, '')
-//               .replace(/width:[^;]+;?/g, '')
-//               .replace(/z-index:[^;]+;?/g, '')
-//               .replace(/transition:[^;]+;?/g, '');
-            
-//             featureShell.style.position = 'relative';
-            
-//             document.body.classList.remove('in-feature-shell');
-//             document.body.classList.remove('is-special');
-            
-//             // 次のフレームでフラグをリセット
-//             requestAnimationFrame(() => {
-//               unlockAnimating = false;
-//             });
-//           });
-          
-//           // ページスクロールを許可（preventDefaultしない）
-//           return;
-//         }
-        
-//         // 下端で下スクロール → ページスクロールを許可（固定は維持）
-//         if (atBottom && delta > 0) {
-//           console.log('At bottom, scrolling down - allowing page scroll');
-//           // ページスクロールを許可（preventDefaultしない）
-//           return;
-//         }
-        
-//         // それ以外はカード内スクロールのみ（ページスクロールをブロック）
-//         e.preventDefault();
-//         e.stopPropagation();
-        
-//         // 新しいスクロール位置を計算
-//         let newScroll = currentScroll + delta;
-        
-//         // 範囲制限
-//         newScroll = Math.max(0, Math.min(newScroll, maxScroll));
-        
-//         // スクロール位置を設定
-//         scrollTarget.scrollTop = newScroll;
-        
-//       }, { passive: false }); // passive: false でpreventDefaultを有効に
-      
-//       // タッチイベントも同様に処理（モバイル対応）
-//       let touchStartY = 0;
-      
-//       featureShell.addEventListener('touchstart', function(e) {
-//         touchStartY = e.touches[0].clientY;
-//       }, { passive: true });
-      
-//       featureShell.addEventListener('touchmove', function(e) {
-//         const scrollHeight = scrollTarget.scrollHeight;
-//         const clientHeight = scrollTarget.clientHeight;
-//         const maxScroll = scrollHeight - clientHeight;
-        
-//         if (maxScroll <= 0) return;
-        
-//         const currentScroll = scrollTarget.scrollTop;
-//         const touchY = e.touches[0].clientY;
-//         const deltaY = touchStartY - touchY;
-        
-//         const atTop = currentScroll <= 0;
-//         const atBottom = currentScroll >= maxScroll - 1;
-        
-//         // 上端で上方向のタッチ → 固定解除
-//         if (atTop && deltaY < 0) {
-//           console.log('Touch: at top, releasing fixed position');
-          
-//           // ★ ブラウザの再描画を1フレームに統合してチカチカを防止
-//           requestAnimationFrame(() => {
-//             featureShell.style.cssText = featureShell.style.cssText
-//               .replace(/position:[^;]+;?/g, '')
-//               .replace(/top:[^;]+;?/g, '')
-//               .replace(/left:[^;]+;?/g, '')
-//               .replace(/width:[^;]+;?/g, '')
-//               .replace(/z-index:[^;]+;?/g, '')
-//               .replace(/transition:[^;]+;?/g, '');
-            
-//             featureShell.style.position = 'relative';
-            
-//             document.body.classList.remove('in-feature-shell');
-//             document.body.classList.remove('is-special');
-//           });
-          
-//           // ページスクロールを許可
-//           return;
-//         }
-        
-//         // 下端で下方向のタッチ → ページスクロール許可（固定は維持）
-//         if (atBottom && deltaY > 0) {
-//           console.log('Touch: at bottom, allowing page scroll');
-//           // ページスクロールを許可
-//           return;
-//         }
-        
-//         // カード内スクロール中はページスクロールをブロック
-//         e.preventDefault();
-        
-//         touchStartY = touchY;
-//       }, { passive: false });
-      
-//       console.log('Wheel event listener attached to feature-shell');
-//     }
-    
-//     // 初期化
-//     async function init() {
-//       await loadImageDimensions();
-//       setBgSize();
-      
-//       // スクロールイベントを登録
-//       scrollTarget.addEventListener('scroll', handleScroll, { passive: true });
-      
-//       // リサイズ時に再計算
-//       let resizeTimer;
-//       window.addEventListener('resize', function() {
-//         clearTimeout(resizeTimer);
-//         resizeTimer = setTimeout(() => {
-//           setBgSize();
-//           handleScroll(); // 現在のスクロール位置で再計算
-//         }, 100);
-//       }, { passive: true });
-      
-//       console.log('Feature scroll initialized');
-      
-//       // 初期状態のチェック
-//       setTimeout(() => {
-//         console.log('Content dimensions:', {
-//           scrollHeight: scrollTarget.scrollHeight,
-//           clientHeight: scrollTarget.clientHeight,
-//           canScroll: scrollTarget.scrollHeight > scrollTarget.clientHeight
-//         });
-//       }, 100);
-//     }
-    
-//     init();
-//   }
-  
-//   // DOM読み込み後に実行
-//   if (document.readyState === 'loading') {
-//     document.addEventListener('DOMContentLoaded', initFeatureScroll);
-//   } else {
-//     initFeatureScroll();
-//   }
-// })();
-
-
-// Feature背景スクロール連動（画像の実サイズベース）
-(function() {
-  'use strict';
-  
-  // 400px未満では何もしない（スマホでスクロール奪わない）
-  function initIfWideScreen() {
-    if (window.innerWidth < 400) {
-      console.log('Feature scroll disabled (<400px)');
-      return;
-    }
-    initFeatureScroll();
-  }
-
-  function initFeatureScroll() {
-    const scrollTarget = document.querySelector('.js-feature-scroll');
-    const bgInner = document.querySelector('.feature-bg__inner');
-    const bgImg = bgInner?.querySelector('img');
-    const featureShell = document.querySelector('.feature-shell');
-    const featureCard = document.querySelector('.feature-card');
-    const cardHeadImg = document.querySelector('.feature-card__head img');
-    
-    console.log('Feature scroll init:', { scrollTarget, bgInner, bgImg, featureShell, featureCard, cardHeadImg });
-    
-    if (!scrollTarget || !bgInner || !bgImg) {
-      console.warn('Feature elements not found');
-      return;
-    }
-    
-    let bgNaturalHeight = 0;
-    let bgNaturalWidth = 0;
-    let isImageLoaded = false;
-    
-    // カード画像の高さを計算してカードの高さを設定
-    function setCardHeight() {
-      if (!cardHeadImg || !featureCard) return;
-      
-      if (cardHeadImg.complete && cardHeadImg.naturalHeight > 0) {
-        const imgNaturalWidth = cardHeadImg.naturalWidth;
-        const imgNaturalHeight = cardHeadImg.naturalHeight;
-        const imgAspectRatio = imgNaturalWidth / imgNaturalHeight;
-        
-        const cardWidth = featureCard.offsetWidth;
-        const imgDisplayHeight = cardWidth / imgAspectRatio;
-        
-        const maxHeight = window.innerHeight * 0.8;
-        const calculatedHeight = Math.min(imgDisplayHeight + 200, maxHeight);
-        
-        featureCard.style.height = `${calculatedHeight}px`;
-      } else {
-        cardHeadImg.onload = setCardHeight;
-      }
-    }
-    
-    function initCardHeight() {
-      setCardHeight();
-      
-      let resizeTimer;
-      window.addEventListener('resize', function() {
-        clearTimeout(resizeTimer);
-        resizeTimer = setTimeout(setCardHeight, 100);
-      }, { passive: true });
-    }
-    initCardHeight();
-    
-    // feature-shellの表示状態を監視してヘッダー表示を制御
-    if (featureShell) {
-      let isInFeatureShell = false;
-      let unlockTimeout = null;
-      
-      const observerOptions = {
-        root: null,
-        rootMargin: '0px',
-        threshold: [0, 0.1, 0.3, 0.5, 0.7, 0.9, 1.0]
-      };
-      
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.intersectionRatio >= 0.5) {
-            if (unlockTimeout) {
-              clearTimeout(unlockTimeout);
-              unlockTimeout = null;
-            }
-            
-            isInFeatureShell = true;
-            document.body.classList.add('is-special', 'in-feature-shell');
-            
-            featureShell.style.transition = 'none';
-            requestAnimationFrame(() => {
-              featureShell.style.position = 'fixed';
-              featureShell.style.top = '0';
-              featureShell.style.left = '0';
-              featureShell.style.width = '100%';
-              featureShell.style.zIndex = '100';
-            });
-          } else {
-            if (!unlockTimeout && isInFeatureShell) {
-              unlockTimeout = setTimeout(() => {
-                isInFeatureShell = false;
-                document.body.classList.remove('is-special', 'in-feature-shell');
-                
-                featureShell.style.transition = 'none';
-                featureShell.style.position = 'relative';
-                featureShell.style.top = '';
-                featureShell.style.left = '';
-                featureShell.style.width = '';
-                featureShell.style.zIndex = '';
-                
-                unlockTimeout = null;
-              }, 100);
-            }
-          }
-        });
-      }, observerOptions);
-      
-      observer.observe(featureShell);
-      
-      let ticking = false;
-      window.addEventListener('scroll', function() {
-        if (!ticking && isInFeatureShell) {
-          window.requestAnimationFrame(function() {
-            const rect = featureShell.getBoundingClientRect();
-            if (rect.top !== 0 && isInFeatureShell) {
-              featureShell.style.position = 'fixed';
-              featureShell.style.top = '0';
-            }
-            ticking = false;
-          });
-          ticking = true;
-        }
-      }, { passive: true });
-    }
-    
-    // 画像の自然なサイズを取得
-    function loadImageDimensions() {
-      return new Promise((resolve) => {
-        if (bgImg.complete && bgImg.naturalHeight > 0) {
-          bgNaturalWidth = bgImg.naturalWidth;
-          bgNaturalHeight = bgImg.naturalHeight;
-          isImageLoaded = true;
-          resolve();
-        } else {
-          bgImg.onload = function() {
-            bgNaturalWidth = bgImg.naturalWidth;
-            bgNaturalHeight = bgImg.naturalHeight;
-            isImageLoaded = true;
-            resolve();
-          };
-          bgImg.onerror = function() {
-            console.error('Failed to load background image');
-            resolve();
-          };
-        }
-      });
-    }
-    
-    function calculateBgDisplaySize() {
-      if (!isImageLoaded) return null;
-      
-      const viewportWidth = window.innerWidth;
-      const viewportHeight = window.innerHeight;
-      const imageAspect = bgNaturalWidth / bgNaturalHeight;
-      const viewportAspect = viewportWidth / viewportHeight;
-      
-      let displayWidth, displayHeight;
-      
-      if (imageAspect > viewportAspect) {
-        displayHeight = viewportHeight;
-        displayWidth = displayHeight * imageAspect;
-      } else {
-        displayWidth = viewportWidth;
-        displayHeight = displayWidth / imageAspect;
-      }
-      
-      return { displayWidth, displayHeight };
-    }
-    
-    function setBgSize() {
-      const size = calculateBgDisplaySize();
-      if (!size) return;
-      bgInner.style.height = `${size.displayHeight}px`;
-    }
-    
-    // スクロールイベント（throttle付き）
-    let scrollTimeout = null;
-    function handleScroll() {
-      if (scrollTimeout) return;
-      
-      scrollTimeout = setTimeout(() => {
-        const scrollTop = scrollTarget.scrollTop;
-        const scrollHeight = scrollTarget.scrollHeight;
-        const clientHeight = scrollTarget.clientHeight;
-        const maxScroll = scrollHeight - clientHeight;
-        
-        if (maxScroll <= 0) {
-          scrollTimeout = null;
-          return;
-        }
-        
-        const scrollProgress = scrollTop / maxScroll;
-        const size = calculateBgDisplaySize();
-        if (!size) {
-          scrollTimeout = null;
-          return;
-        }
-        
-        const viewportHeight = window.innerHeight;
-        const maxBgMove = size.displayHeight - viewportHeight;
-        const bgY = -(scrollProgress * maxBgMove);
-        
-        bgInner.style.transform = `translate(-50%, ${bgY}px)`;
-        
-        scrollTimeout = null;
-      }, 16);
-    }
-    
-    // feature-shell全体でマウスホイールを検知
-    if (featureShell) {
-      let unlockAnimating = false;
-      
-      featureShell.addEventListener('wheel', function(e) {
-        if (unlockAnimating) return;
-        
-        const scrollHeight = scrollTarget.scrollHeight;
-        const clientHeight = scrollTarget.clientHeight;
-        const maxScroll = scrollHeight - clientHeight;
-        
-        if (maxScroll <= 0) {
-          return;
-        }
-        
-        const currentScroll = scrollTarget.scrollTop;
-        const delta = e.deltaY;
-        const atTop = currentScroll <= 0;
-        const atBottom = currentScroll >= maxScroll - 1;
-        
-        if (atTop && delta < 0) {
-          unlockAnimating = true;
-          requestAnimationFrame(() => {
-            featureShell.style.position = 'relative';
-            featureShell.style.top = '';
-            featureShell.style.left = '';
-            featureShell.style.width = '';
-            featureShell.style.zIndex = '';
-            document.body.classList.remove('in-feature-shell', 'is-special');
-            requestAnimationFrame(() => {
-              unlockAnimating = false;
-            });
-          });
-          return;
-        }
-        
-        if (atBottom && delta > 0) {
-          return;
-        }
-        
-        e.preventDefault();
-        e.stopPropagation();
-        
-        let newScroll = currentScroll + delta;
-        newScroll = Math.max(0, Math.min(newScroll, maxScroll));
-        scrollTarget.scrollTop = newScroll;
-        
-      }, { passive: false });
-      
-      // タッチ（ここもPC幅のときだけ動く前提なのでOK）
-      let touchStartY = 0;
-      
-      featureShell.addEventListener('touchstart', function(e) {
-        touchStartY = e.touches[0].clientY;
-      }, { passive: true });
-      
-      featureShell.addEventListener('touchmove', function(e) {
-        const scrollHeight = scrollTarget.scrollHeight;
-        const clientHeight = scrollTarget.clientHeight;
-        const maxScroll = scrollHeight - clientHeight;
-        if (maxScroll <= 0) return;
-        
-        const currentScroll = scrollTarget.scrollTop;
-        const touchY = e.touches[0].clientY;
-        const deltaY = touchStartY - touchY;
-        
-        const atTop = currentScroll <= 0;
-        const atBottom = currentScroll >= maxScroll - 1;
-        
-        if (atTop && deltaY < 0) {
-          requestAnimationFrame(() => {
-            featureShell.style.position = 'relative';
-            featureShell.style.top = '';
-            featureShell.style.left = '';
-            featureShell.style.width = '';
-            featureShell.style.zIndex = '';
-            document.body.classList.remove('in-feature-shell', 'is-special');
-          });
-          return;
-        }
-        
-        if (atBottom && deltaY > 0) {
-          return;
-        }
-        
-        e.preventDefault();
-        scrollTarget.scrollTop = currentScroll + deltaY;
-        touchStartY = touchY;
-      }, { passive: false });
-    }
-    
-    // 初期化
-    (async function() {
-      await loadImageDimensions();
-      setBgSize();
-      
-      scrollTarget.addEventListener('scroll', handleScroll, { passive: true });
-      
-      let resizeTimer;
-      window.addEventListener('resize', function() {
-        clearTimeout(resizeTimer);
-        resizeTimer = setTimeout(() => {
-          setBgSize();
-          handleScroll();
-        }, 100);
-      }, { passive: true });
-      
-      console.log('Feature scroll initialized');
-    })();
-  }
-  
-  // DOM読み込み後に実行（ここで幅を見てから呼ぶ）
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initIfWideScreen);
-  } else {
-    initIfWideScreen();
-  }
-
-  // もし「横にしたら400px超えた」ケースでも効かせたいならこれ
-  window.addEventListener('resize', function() {
-    // すでに初期化済みなら何もしないでいいならここは空でもいい
-    // 今回はシンプルに「まだ初期化してなくて400px超えたら初期化」にしておく
-    if (!document.body.classList.contains('feature-scroll-initialized') && window.innerWidth >= 400) {
-      initFeatureScroll();
-      document.body.classList.add('feature-scroll-initialized');
-    }
-  }, { passive: true });
-
-})();
-
-AOS.init();
-
-
-
 // Remodalのハッシュトラッキングを完全に無効化
 $(document).on('ready', function() {
   // グローバルなRemodal設定
@@ -1781,8 +964,6 @@ $(document).on('ready', function() {
     savedScrollPosition = window.pageYOffset || document.documentElement.scrollTop;
   });
 })();
-
-
 
 // アンカーリンクのクリックイベントを確認
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {

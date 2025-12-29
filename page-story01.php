@@ -1,6 +1,6 @@
 <?php
 /**
- * page-story.php
+ * page-story01.php
  */
 get_header(); ?>
 
@@ -25,6 +25,7 @@ get_header(); ?>
                     <li class="tategaki"><a href="#index03">3章：ひとのものがたり。石と、人が出会う（数万年前〜江戸時代）</a></li>
                     <li class="tategaki"><a href="#index04">4章：石と人の、対話（明治時代〜昭和時代）</a></li>
                     <li class="tategaki"><a href="#index05">5章：「守る」と「使う」石の価値</a></li>
+                    <li class="tategaki"><a href="#index06">6章：そして、石はひつじとなる</a></li>
                 </ul>
             </div>
         </div>

@@ -95,6 +95,36 @@
                     <p class="name">くろみ</p>
                 </div>  
             </div>
+            <div class="swiper-slide page_body_content_lovers_swiper_wrapper_bl">
+                <div class="comment">
+                    <p>子どもたちと自然な日々を楽しんでます</p>
+                </div>
+                <img src="<?php echo get_template_directory_uri(); ?>/assets/public/img/lovers/lovers10.png" alt="副校長 さとちゃん/馬のさくら" />
+                <div class="person">
+                    <p class="position">ひつじカフェの看板猫</p>
+                    <p class="name">副校長さとちゃん<br>馬のさくら</p>
+                </div>  
+            </div>
+            <div class="swiper-slide page_body_content_lovers_swiper_wrapper_bl">
+                <div class="comment">
+                    <p>火を守ることは、台地と人を守ること</p>
+                </div>
+                <img src="<?php echo get_template_directory_uri(); ?>/assets/public/img/lovers/lovers11.png" alt="前田 康典" />
+                <div class="person">
+                    <p class="position">平尾台町内会長<br>野焼き頭</p>
+                    <p class="name">前田 康典</p>
+                </div>  
+            </div>
+            <div class="swiper-slide page_body_content_lovers_swiper_wrapper_bl">
+                <div class="comment">
+                    <p>月に数回、自家製ピザを焼いてます！</p>
+                </div>
+                <img src="<?php echo get_template_directory_uri(); ?>/assets/public/img/lovers/lovers12.png" alt="水上さん" />
+                <div class="person">
+                    <p class="position">ウッドストックの<br>愉快な平尾台民</p>
+                    <p class="name">水上さん</p>
+                </div>  
+            </div>
         </div>
     </div>
 </div>

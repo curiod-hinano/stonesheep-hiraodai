@@ -15,6 +15,26 @@ get_header(); ?>
         <div class="page_body_content_spot_container">
             <div class="page_body_content_txt">
                 <h2>HIRAODAI SPOT</h2>
+                <div class="page_body_content_spot_container_guide">
+                    <ul>
+                        <li class="information">
+                            <img src="<?php echo get_template_directory_uri(); ?>/assets/public/img/page/spot_info.svg" alt="information">
+                            <span>インフォメーション</span>
+                        </li>
+                        <li class="toilet">
+                            <img src="<?php echo get_template_directory_uri(); ?>/assets/public/img/page/spot_toilet.svg" alt="toilet">
+                            <span>トイレ</span>
+                        </li>
+                        <li class="food">
+                            <img src="<?php echo get_template_directory_uri(); ?>/assets/public/img/page/spot_food.svg" alt="cafe/restaurant">
+                            <span>カフェ・レストラン</span>
+                        </li>
+                        <li class="high-king">
+                            <img src="<?php echo get_template_directory_uri(); ?>/assets/public/img/page/spot_walk.svg" alt="high-king">
+                            <span>ハイキングツアー</span>
+                        </li>
+                    </ul>
+                </div>
                 <div class="page_body_content_spot_wrap" style="padding-top:0;">
                     <?php
                         $paged = (int) get_query_var('paged');

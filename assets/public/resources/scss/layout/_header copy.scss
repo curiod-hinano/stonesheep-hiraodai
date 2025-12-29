@@ -1,12 +1,11 @@
 .header {
-  position: absolute; // relative から fixed に変更
-  top: 0;
-  left: 0;
-  width: 100%;
+  position: relative;
+  z-index: 9999;
+  transition: opacity .28s ease, transform .28s ease;
+
+  opacity: 1;
+  transition: opacity 2s ease-out;
   &_wrap {
-    position: relative;
-    width: 100%;
-    height: 100vh;
     &_bl01 {
       position: fixed;
       left: 13.2vw;
@@ -14,16 +13,6 @@
       z-index: 9999;
       width: 17vw;
       min-width: 190px;
-      opacity: 0;
-      visibility: hidden; // display の代わりに visibility を使用
-      transform: translateY(70px); // 下に70px オフセット
-      transition: opacity 0.6s ease, transform 0.6s ease, visibility 0s 0.6s; // visibilityは0.6秒後に変更
-      &.visible {
-        opacity: 1;
-        visibility: visible;
-        transform: translateY(0);
-        transition: opacity 0.6s ease, transform 0.6s ease, visibility 0s 0s;
-      }
       .header_logo {
         margin-bottom: 50px;
         h1 {
@@ -101,7 +90,6 @@
             img {
               border-radius: 10px;
               margin-bottom: 15px;
-              aspect-ratio: 5 / 3;
             }
           }
         }
@@ -150,18 +138,9 @@
       top: 50%;
       transform: translateY(-50%);
       z-index: 9999;
+      width: fit-content;
       // width: 18vw;
       min-width: 190px;
-      opacity: 0;
-      visibility: hidden; // display の代わりに visibility を使用
-      transform: translateY(70px); // 下に70px オフセット
-      transition: opacity 0.6s ease, transform 0.6s ease, visibility 0s 0.6s; // visibilityは0.6秒後に変更
-      &.visible {
-        opacity: 1;
-        visibility: visible;
-        transform: translateY(-50%);
-        transition: opacity 0.6s ease, transform 0.6s ease, visibility 0s 0s;
-      }
       .header_menuList_link {
         position: relative;
         svg.active_logo  {
@@ -214,22 +193,8 @@
           line-height: 1.3rem;
           text-align: left;
           color: #03581D;
-          font-size: 17px;
+          font-size: 15px;
           display: inline-block;
-          &:before {
-            content: '';
-            position: absolute;
-            bottom: -3px;
-            left: 0px;
-            width: 100%;
-            height: 3px;
-            background: url(../../assets/public/img/top/wave_green.svg) center center / contain;
-            background-repeat: repeat-x;
-            background-size: inherit;
-            @include mq(sp){
-              content: none;
-            }
-          }
         }
         svg {
           position: absolute;
@@ -247,7 +212,7 @@
           margin-bottom: 2.7vh;
           a {
             font-family: $sub_font;
-            font-size: 16px;
+            font-size: 15px;
             letter-spacing: .1rem;
             color: #03581D;
             line-height: 1;
@@ -277,15 +242,6 @@
               font-size: 15px;
               color: #03581D;
               letter-spacing: .13rem;
-              &:before {
-                content: "";
-                position: absolute;
-                bottom: -3px;
-                left: 0;
-                width: 100%;
-                height: 3px;
-                background: url(../../assets/public/img/top/wave_green.svg) repeat center center / contain;
-              }
               &:hover {
                 @include mq(md){
                   color: #F3FC85 !important;
@@ -294,9 +250,6 @@
                   transition: background-color 0.25s ease;
                   background: var(--submenuActiveBg, #03581D);
                   opacity: 1;
-                }
-                &::before {
-                  display: none;
                 }
               }
             }
@@ -312,8 +265,8 @@
             gap: 6px;
             li {
               a {
-                font-size: 12px;
-                font-weight: 600;
+                font-size: 11px;
+                font-weight: bold;
                 color: #03581D;
                 letter-spacing: 0.05rem;
                 &:hover {
@@ -407,15 +360,6 @@
             letter-spacing: .1rem;
             color: #03581D;
             line-height: 1.4rem;
-            &:before {
-              content: "";
-              position: absolute;
-              bottom: -3px;
-              left: 0;
-              width: 100%;
-              height: 3px;
-              background: url(../../assets/public/img/top/wave_green.svg) repeat center center / contain;
-            }
             &:hover {
               @include mq(md){
                 color: #F3FC85 !important;
@@ -424,9 +368,6 @@
                 transition: background-color 0.25s ease;
                 background: var(--submenuActiveBg, #03581D);
                 opacity: 1;
-              }
-              &::before {
-                display: none;
               }
             }
           }
@@ -450,7 +391,7 @@
           line-height: 1;
             a {
               font-family: $sub_font;
-              font-size: 14px;
+              font-size: 12px;
               letter-spacing: .1rem;
               color: #03581D;
               line-height: 1.4rem;
@@ -494,59 +435,53 @@
   }
 }
 
-// // ★ ホームページのFV表示時はヘッダーを非表示
-// body.home:not(.is-special) #header {
-//   opacity: 0;
-//   visibility: hidden;
-//   pointer-events: none;
-//   transition: opacity 2s ease-out, visibility 0s 2s; // visibilityは2秒後に変更
-// }
+body.home:not(.is-special) #header {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
 
-// // ★ feature-shell表示時、または通常ページではヘッダーを表示
-// body.is-special #header,
-// body.is-special .header,
-// body:not(.home) #header,
-// body:not(.home) .header {
-//   opacity: 1 !important;
-//   visibility: visible !important;
-//   pointer-events: auto !important;
-//   transition: opacity 2.5s ease-out 0.5s !important; // 0.5秒遅延でフェードイン
-// }
+body.is-special #header,
+body.is-special .header {
+  opacity: 1 !important;
+  visibility: visible !important;
+  pointer-events: auto !important;
+}
 
 
-// .header.hidden {
-//     animation: fade .3s ease-in-out forwards;
-//     pointer-events:none;/* 重要 */
-// }
-// @keyframes fade {
-//     from {
-//         opacity: 1;
-//     }
+.header.hidden {
+    animation: fade .3s ease-in-out forwards;
+    pointer-events:none;/* 重要 */
+}
+@keyframes fade {
+    from {
+        opacity: 1;
+    }
 
-//     to {
-//         opacity: 0;
-//     }
-// }
-// .header.visible {
-//     animation: fadeOut .3s ease-in-out forwards;
-//     pointer-events:all;/* 重要 */
-// }
-// @keyframes fadeOut {
-//     from {
-//         opacity: 0;
-//     }
-//     to {
-//         opacity: 1;
-//     }
-// }
+    to {
+        opacity: 0;
+    }
+}
+.header.visible {
+    animation: fadeOut .3s ease-in-out forwards;
+    pointer-events:all;/* 重要 */
+}
+@keyframes fadeOut {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
 
 
 @include mq(sp){
-  // body.home:not(.is-special) #header {
-  //   opacity: 1;
-  //   visibility: visible;
-  //   pointer-events: auto;
-  // }
+  body.home:not(.is-special) #header {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+  }
   .header {
     &.sp {
       .header_wrap {
@@ -612,8 +547,7 @@
           bottom: -120%;
           left: 50%;
           transform: translateX(-50%);
-          width: calc(100% - 50px);
-          max-width: 350px;
+          width: calc(100% - 74px);
           height: calc(100% - 85px);
           background: #fff;
           transition: all 0.6s;
@@ -648,7 +582,7 @@
                 }
                 span {
                   a {
-                    font-size: 15px;
+                    font-size: 14px;
                   }
                 }
                 ul {
@@ -657,7 +591,7 @@
                     gap: 3px;
                     li {
                       a {
-                        font-size: 11px;
+                        font-size: 10px;
                         letter-spacing: 0.05px;
                       }
                     }
@@ -712,7 +646,7 @@
           &_03 {
             li {
               a {
-                font-size: 12px;
+                font-size: 11px;
               }
             }
           }

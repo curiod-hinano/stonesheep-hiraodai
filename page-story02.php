@@ -1,6 +1,6 @@
 <?php
 /**
- * page-story.php
+ * page-story02.php
  */
 get_header(); ?>
 
@@ -23,7 +23,7 @@ get_header(); ?>
                     <li class="tategaki"><a href="#index01">1章：人と自然が、共作した風景</a></li>
                     <li class="tategaki"><a href="#index02">2章：継がれる火、受け継がれる想い</a></li>
                     <li class="tategaki"><a href="#index03">3章：開発と共生のはざまで</a></li>
-                    <li class="tategaki"><a href="#index04">終章：未来へ灯す、炎</a></li>
+                    <li class="tategaki"><a href="#index04">4章：未来へ灯す、炎</a></li>
                 </ul>
             </div>
         </div>
